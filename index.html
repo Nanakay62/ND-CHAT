@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nana Dickson (ND) Chat App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .chat-container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+        }
+        
+        .chat-header {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .chat-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .user-count {
+            background: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        
+        .messages-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f8f9ff;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+            line-height: 1.4;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.received {
+            align-self: flex-start;
+            background-color: #e9ecef;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message.sent {
+            align-self: flex-end;
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+        }
+        
+        .message-username {
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .message.sent .message-username {
+            color: #c5d1ff;
+        }
+        
+        .message-time {
+            color: #adb5bd;
+            font-size: 0.75rem;
+        }
+        
+        .message.sent .message-time {
+            color: #a3b1ff;
+        }
+        
+        .input-container {
+            padding: 15px;
+            border-top: 1px solid #e9ecef;
+            background-color: white;
+        }
+        
+        .input-form {
+            display: flex;
+            gap: 10px;
+        }
+        
+        #message-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        #message-input:focus {
+            border-color: #4b6cb7;
+            box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+        }
+        
+        #send-button {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(75, 108, 183, 0.3);
+        }
+        
+        #send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(75, 108, 183, 0.4);
+        }
+        
+        .system-message {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 8px 15px;
+            background-color: #f1f3f5;
+            border-radius: 12px;
+            align-self: center;
+            max-width: 85%;
+            font-size: 0.9rem;
+        }
+        
+        .username-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .username-input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border: 2px solid #ced4da;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .modal-button {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .typing-indicator {
+            align-self: flex-start;
+            background-color: #e9ecef;
+            padding: 8px 15px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #6c757d;
+            border-radius: 50%;
+            animation: typing 1.4s infinite both;
+        }
+        
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Nana Dickson (ND) Chat</h1>
+            <div class="user-count">Active users: <span id="user-count">0</span>/10</div>
+        </div>
+        <div class="messages-container" id="messages-container"></div>
+        <div class="input-container">
+            <form class="input-form" id="message-form">
+                <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" required>
+                <button type="submit" id="send-button">Send</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="username-modal" id="username-modal">
+        <div class="modal-content">
+            <h2>Join ND Chat</h2>
+            <p>Enter your username to begin</p>
+            <input type="text" class="username-input" id="username-input" maxlength="15" placeholder="Your name" required>
+            <button class="modal-button" id="join-button">Join Chat</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+    <script>
+        // Your specific Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyALRm6h7k5hHZwwX6YkEPfxQ2HRFFsF99g",
+            authDomain: "nd-chat-app-d2f3d.firebaseapp.com",
+            databaseURL: "https://nd-chat-app-d2f3d-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "nd-chat-app-d2f3d",
+            storageBucket: "nd-chat-app-d2f3d.firebasestorage.app",
+            messagingSenderId: "846998717299",
+            appId: "1:846998717299:web:c0b616ecfe946bae05fb06",
+            measurementId: "G-53MJ2W7LJ2"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const messagesRef = database.ref('messages');
+        const usersRef = database.ref('users');
+        const typingRef = database.ref('typing');
+        
+        // DOM Elements
+        const messagesContainer = document.getElementById('messages-container');
+        const messageForm = document.getElementById('message-form');
+        const messageInput = document.getElementById('message-input');
+        const userCountElement = document.getElementById('user-count');
+        const usernameModal = document.getElementById('username-modal');
+        const usernameInput = document.getElementById('username-input');
+        const joinButton = document.getElementById('join-button');
+        
+        let username = '';
+        let userId = '';
+        let isTyping = false;
+        let typingTimeout = null;
+
+        function initChat() {
+            userId = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+            joinButton.addEventListener('click', joinChat);
+            usernameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') joinChat(); });
+        }
+        
+        function joinChat() {
+            const enteredUsername = usernameInput.value.trim();
+            if (!enteredUsername) return alert('Please enter a username');
+            
+            username = enteredUsername;
+            usernameModal.style.display = 'none';
+            
+            // Presence Logic
+            const userRef = usersRef.child(userId);
+            userRef.set({ username: username, timestamp: firebase.database.ServerValue.TIMESTAMP });
+            userRef.onDisconnect().remove();
+            
+            // Listen for data
+            messagesRef.limitToLast(50).on('child_added', addMessageToUI);
+            usersRef.on('value', (snapshot) => {
+                userCountElement.textContent = snapshot.numChildren();
+            });
+            typingRef.on('value', updateTypingIndicators);
+            
+            messageForm.addEventListener('submit', sendMessage);
+            messageInput.addEventListener('input', handleTyping);
+            addSystemMessage(`Welcome to ND Chat, ${username}!`);
+        }
+        
+        function sendMessage(e) {
+            e.preventDefault();
+            const text = messageInput.value.trim();
+            if (!text) return;
+            
+            messagesRef.push({
+                username: username,
+                text: text,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                userId: userId
+            });
+            
+            messageInput.value = '';
+            stopTyping();
+        }
+        
+        function addMessageToUI(data) {
+            const msg = data.val();
+            const el = document.createElement('div');
+            const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            el.classList.add('message', msg.userId === userId ? 'sent' : 'received');
+            el.innerHTML = `
+                <div class="message-header">
+                    <span class="message-username">${escapeHtml(msg.username)}</span>
+                    <span class="message-time">${time}</span>
+                </div>
+                <div>${escapeHtml(msg.text)}</div>
+            `;
+            messagesContainer.appendChild(el);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addSystemMessage(text) {
+            const el = document.createElement('div');
+            el.classList.add('system-message');
+            el.textContent = text;
+            messagesContainer.appendChild(el);
+        }
+
+        function handleTyping() {
+            if (!isTyping) {
+                isTyping = true;
+                typingRef.child(userId).set({ username: username, timestamp: Date.now() });
+            }
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(stopTyping, 2000);
+        }
+
+        function stopTyping() {
+            isTyping = false;
+            typingRef.child(userId).remove();
+        }
+
+        function updateTypingIndicators(snapshot) {
+            document.querySelectorAll('.typing-indicator').forEach(el => el.remove());
+            const typers = snapshot.val();
+            if (!typers) return;
+
+            const otherTypers = Object.keys(typers)
+                .filter(id => id !== userId)
+                .map(id => typers[id].username);
+
+            if (otherTypers.length > 0) {
+                const el = document.createElement('div');
+                el.classList.add('typing-indicator');
+                el.innerHTML = `${otherTypers.join(', ')} is typing... <span class="typing-dot"></span><span class="typing-dot"></span>`;
+                messagesContainer.appendChild(el);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
+
+        function escapeHtml(unsafe) {
+            return unsafe.replace(/[&<"']/g, m => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;', "'": '&#039;' }[m]));
+        }
+
+        initChat();
+    </script>
+</body>
+</html>
