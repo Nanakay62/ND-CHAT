@@ -19,7 +19,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            padding: 0;
+            margin: 0;
         }
         
         .chat-container {
@@ -33,6 +34,7 @@
             display: flex;
             flex-direction: column;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            overflow: hidden;
         }
         
         .chat-header {
@@ -47,6 +49,8 @@
             min-height: 60px;
             flex-shrink: 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            z-index: 10;
+            position: relative;
         }
         
         .header-info {
@@ -190,7 +194,7 @@
         }
         
         .input-container {
-            padding: 12px;
+            padding: 10px 12px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -199,14 +203,19 @@
             flex-direction: column;
             gap: 8px;
             flex-shrink: 0;
+            min-height: 80px;
+            z-index: 10;
+            position: relative;
         }
 
         .typing-indicator {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.8);
             font-style: italic;
-            padding: 0 4px;
-            min-height: 18px;
+            padding: 4px 8px;
+            min-height: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
         }
         
         .input-form {
@@ -713,12 +722,14 @@
             userRef.set({ username: username, lastSeen: firebase.database.ServerValue.TIMESTAMP });
             userRef.onDisconnect().remove();
             
-            // Listen for cleared chat
+            // Listen for cleared chat - but don't show message if already empty
+            let wasEmpty = false;
             messagesRef.on('value', (snapshot) => {
-                if (!snapshot.exists()) {
+                const isEmpty = !snapshot.exists();
+                if (isEmpty && !wasEmpty) {
                     messagesContainer.innerHTML = '';
-                    addSystemMessage("Chat was cleared");
                 }
+                wasEmpty = isEmpty;
             });
 
             messagesRef.limitToLast(50).on('child_added', addMessageToUI);
@@ -778,7 +789,6 @@
             const pass = prompt("Enter Admin Password:");
             if (pass === 'ND2026') { 
                 await messagesRef.set(null);
-                addSystemMessage("Chat cleared by admin");
             } else {
                 alert("Wrong password!");
             }
