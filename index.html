@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ND Chat - WhatsApp Style</title>
+    <title>ND Chat</title>
     <style>
         * {
             margin: 0;
@@ -14,37 +14,39 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #111b21;
-            height: 100vh;
-            height: 100dvh; /* Dynamic viewport height for mobile */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            position: fixed;
-            width: 100%;
         }
         
         .chat-container {
             width: 100%;
             max-width: 600px;
             height: 100vh;
-            height: 100dvh;
-            background: #0b141a;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             display: flex;
             flex-direction: column;
-            position: relative;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
         
         .chat-header {
-            background: #202c33;
-            color: #e9edef;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff;
             padding: 10px 16px;
             display: flex;
             align-items: center;
             gap: 12px;
             min-height: 60px;
             flex-shrink: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
         }
         
         .header-info {
@@ -53,35 +55,37 @@
         }
         
         .chat-header h1 {
-            font-size: 16px;
-            font-weight: 400;
+            font-size: 18px;
+            font-weight: 600;
             margin-bottom: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .user-count {
             font-size: 13px;
-            color: #8696a0;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        #clear-btn {
-            background: transparent;
-            border: 1px solid #8696a0;
-            color: #8696a0;
+        #clear-btn, #logout-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
             padding: 8px 14px;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 13px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s ease;
+            min-height: 44px;
             white-space: nowrap;
-            flex-shrink: 0;
-            min-height: 44px; /* Better touch target */
         }
 
-        #clear-btn:active {
-            background: #2a3942;
+        #clear-btn:active, #logout-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.95);
         }
         
         .messages-container {
@@ -89,16 +93,7 @@
             padding: 12px 5%;
             overflow-y: auto;
             overflow-x: hidden;
-            background: #0b141a;
-            background-image: 
-                repeating-linear-gradient(
-                    45deg,
-                    transparent,
-                    transparent 10px,
-                    rgba(255, 255, 255, 0.02) 10px,
-                    rgba(255, 255, 255, 0.02) 20px
-                );
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            -webkit-overflow-scrolling: touch;
         }
         
         .messages-container::-webkit-scrollbar {
@@ -106,135 +101,164 @@
         }
         
         .messages-container::-webkit-scrollbar-thumb {
-            background: #374045;
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 3px;
+        }
+
+        .messages-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
         }
         
         .message {
             max-width: 75%;
-            padding: 6px 7px 8px 9px;
-            margin-bottom: 8px;
-            border-radius: 7.5px;
-            position: relative;
-            animation: slideIn 0.2s ease-out;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            border-radius: 18px;
+            animation: slideIn 0.3s ease-out;
             word-wrap: break-word;
             word-break: break-word;
-            box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
             display: inline-block;
         }
         
         @keyframes slideIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .message.received {
-            background-color: #202c33;
-            color: #e9edef;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
             float: left;
             clear: both;
-            border-radius: 0 7.5px 7.5px 7.5px;
+            border-bottom-left-radius: 6px;
         }
         
         .message.sent {
-            background: #005c4b;
-            color: #e9edef;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.4) 0%, rgba(99, 102, 241, 0.4) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
             float: right;
             clear: both;
-            border-radius: 7.5px 0 7.5px 7.5px;
+            border-bottom-right-radius: 6px;
         }
         
         .message-username {
-            font-weight: 500;
-            font-size: 12.8px;
-            color: #06cf9c;
-            margin-bottom: 3px;
+            font-weight: 600;
+            font-size: 13px;
+            background: linear-gradient(135deg, #a78bfa 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
         }
         
         .message.sent .message-username {
-            color: #8ddbcf;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .message-text {
-            font-size: 14.2px;
-            line-height: 19px;
-            margin-bottom: 2px;
+            font-size: 14.5px;
+            line-height: 20px;
+            margin-bottom: 4px;
+            color: rgba(255, 255, 255, 0.95);
         }
         
         .message-time {
             font-size: 11px;
-            color: #8696a0;
+            color: rgba(255, 255, 255, 0.6);
             text-align: right;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         .message-image {
             max-width: 100%;
             max-height: 300px;
-            border-radius: 5px;
-            margin-bottom: 5px;
+            border-radius: 12px;
+            margin-bottom: 8px;
             cursor: pointer;
             display: block;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .input-container {
-            padding: 8px;
-            background-color: #202c33;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
             display: flex;
-            align-items: flex-end;
-            gap: 6px;
+            flex-direction: column;
+            gap: 8px;
             flex-shrink: 0;
-            padding-bottom: max(8px, env(safe-area-inset-bottom)); /* iOS safe area */
+        }
+
+        .typing-indicator {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            padding: 0 4px;
+            min-height: 18px;
         }
         
         .input-form {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             flex: 1;
             align-items: center;
+            width: 100%;
         }
         
         #message-input {
             flex: 1;
-            padding: 10px 12px;
+            padding: 12px 16px;
             border: none;
-            border-radius: 21px;
+            border-radius: 24px;
             outline: none;
-            background: #2a3942;
-            color: #e9edef;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
             font-size: 15px;
-            resize: none;
-            max-height: 100px;
-            min-height: 42px;
             font-family: inherit;
         }
 
         #message-input::placeholder {
-            color: #8696a0;
+            color: rgba(255, 255, 255, 0.6);
         }
         
         .attach-btn, #send-button {
-            background: transparent;
-            border: none;
-            color: #8696a0;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
             cursor: pointer;
             padding: 10px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.2s;
-            min-width: 44px; /* Better touch target */
+            transition: all 0.3s ease;
+            min-width: 44px;
             min-height: 44px;
-            flex-shrink: 0;
         }
 
         .attach-btn:active, #send-button:active {
-            background: #2a3942;
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0.9);
         }
 
         #send-button {
-            color: #00a884;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.6) 0%, rgba(99, 102, 241, 0.6) 100%);
         }
 
         .attach-btn svg, #send-button svg {
@@ -244,21 +268,28 @@
         
         .system-message {
             text-align: center;
-            color: #8696a0;
-            padding: 8px 12px;
-            background-color: #182229;
-            border-radius: 7.5px;
-            margin: 12px auto;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            margin: 16px auto;
             max-width: 90%;
-            font-size: 12.5px;
+            font-size: 13px;
             clear: both;
         }
         
-        /* Auth Modal */
         .auth-modal {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -267,97 +298,126 @@
         }
         
         .modal-content {
-            background: #202c33;
-            padding: 24px;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 32px;
+            border-radius: 24px;
             width: 100%;
             max-width: 400px;
-            color: #e9edef;
+            color: #ffffff;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
 
         .modal-content h2 {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             text-align: center;
-            font-size: 22px;
-            font-weight: 400;
+            font-size: 26px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .tab-buttons {
             display: flex;
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .tab-btn {
             flex: 1;
             padding: 12px;
-            background: #2a3942;
-            border: none;
-            color: #8696a0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 14px;
-            transition: 0.2s;
-            min-height: 44px; /* Better touch target */
+            transition: all 0.3s ease;
+            min-height: 44px;
         }
 
         .tab-btn.active {
-            background: #005c4b;
-            color: #e9edef;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.5) 0%, rgba(99, 102, 241, 0.5) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #ffffff;
         }
         
         .auth-input {
             width: 100%;
-            padding: 14px;
-            margin-bottom: 12px;
-            border: 1px solid #2a3942;
-            border-radius: 8px;
-            background: #2a3942;
-            color: #e9edef;
-            font-size: 16px; /* Prevents zoom on iOS */
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff;
+            font-size: 16px;
             outline: none;
+            transition: all 0.3s ease;
         }
 
         .auth-input:focus {
-            border-color: #00a884;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .auth-input::placeholder {
-            color: #8696a0;
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .auth-button {
             width: 100%;
             padding: 14px;
-            background: #00a884;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.6) 0%, rgba(99, 102, 241, 0.6) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            border-radius: 12px;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
-            min-height: 48px; /* Better touch target */
+            transition: all 0.3s ease;
+            min-height: 48px;
         }
 
         .auth-button:active {
-            background: #06cf9c;
+            transform: scale(0.98);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.7) 0%, rgba(99, 102, 241, 0.7) 100%);
         }
 
         .error-message {
-            color: #ff6b6b;
+            color: #fca5a5;
             font-size: 13px;
             margin-top: 12px;
             text-align: center;
+            background: rgba(239, 68, 68, 0.2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            display: none;
         }
 
-        /* Image Preview */
+        .error-message.show {
+            display: block;
+        }
+
         .image-preview-modal {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -365,26 +425,37 @@
             padding: 20px;
         }
 
+        .image-preview-modal.show {
+            display: flex;
+        }
+
         .image-preview-modal img {
             max-width: 100%;
             max-height: 100%;
-            border-radius: 8px;
+            border-radius: 12px;
             object-fit: contain;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.5);
         }
 
         .close-preview {
             position: absolute;
             top: 20px;
             right: 20px;
-            background: #202c33;
-            color: #e9edef;
-            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
             padding: 12px 20px;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 16px;
             min-height: 44px;
             z-index: 2001;
+            transition: all 0.3s ease;
+        }
+
+        .close-preview:active {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         #image-input {
@@ -393,66 +464,52 @@
 
         .loading {
             text-align: center;
-            color: #8696a0;
+            color: rgba(255, 255, 255, 0.8);
             font-size: 13px;
-            padding: 8px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            margin: 8px auto;
+            display: inline-block;
             clear: both;
         }
 
-        /* Mobile-specific improvements */
         @media (max-width: 600px) {
             .chat-container {
                 max-width: 100%;
                 border-radius: 0;
-            }
-
-            .messages-container {
-                padding: 12px 4%;
+                border: none;
             }
 
             .message {
                 max-width: 85%;
             }
 
-            .modal-content {
-                padding: 20px;
-            }
-
-            .modal-content h2 {
-                font-size: 20px;
-            }
-
-            #clear-btn {
+            #clear-btn, #logout-btn {
                 padding: 6px 10px;
-                font-size: 12px;
+                font-size: 11px;
+                min-height: 38px;
             }
-        }
 
-        /* Landscape mobile */
-        @media (max-height: 500px) and (orientation: landscape) {
             .chat-header {
-                min-height: 50px;
-                padding: 8px 12px;
+                gap: 6px;
             }
 
-            .modal-content {
-                padding: 16px;
+            .input-form {
+                flex-wrap: nowrap;
             }
 
-            .modal-content h2 {
-                font-size: 18px;
-                margin-bottom: 16px;
+            .attach-btn, #send-button {
+                min-width: 40px;
+                min-height: 40px;
+                padding: 8px;
+                flex-shrink: 0;
             }
 
-            .auth-input, .auth-button, .tab-btn {
-                padding: 10px;
-            }
-        }
-
-        /* Prevent zoom on iOS input focus */
-        @media screen and (max-width: 767px) {
-            input, textarea {
-                font-size: 16px !important;
+            #message-input {
+                min-width: 0;
+                flex: 1;
             }
         }
     </style>
@@ -466,12 +523,14 @@
                     <span id="user-count">0</span> online
                 </div>
             </div>
+            <button id="logout-btn">Logout</button>
             <button id="clear-btn">Clear</button>
         </div>
         
         <div class="messages-container" id="messages-container"></div>
         
         <div class="input-container">
+            <div class="typing-indicator" id="typing-indicator"></div>
             <form class="input-form" id="message-form">
                 <button type="button" class="attach-btn" id="attach-btn">
                     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -489,7 +548,6 @@
         </div>
     </div>
     
-    <!-- Auth Modal -->
     <div class="auth-modal" id="auth-modal">
         <div class="modal-content">
             <h2>Welcome to ND Chat</h2>
@@ -500,15 +558,15 @@
             </div>
 
             <div id="login-form">
-                <input type="email" class="auth-input" id="login-email" placeholder="Email" required>
-                <input type="password" class="auth-input" id="login-password" placeholder="Password" required>
+                <input type="email" class="auth-input" id="login-email" placeholder="Email">
+                <input type="password" class="auth-input" id="login-password" placeholder="Password">
                 <button class="auth-button" id="login-button">Login</button>
             </div>
 
             <div id="signup-form" style="display: none;">
-                <input type="text" class="auth-input" id="signup-username" placeholder="Username" maxlength="20" required>
-                <input type="email" class="auth-input" id="signup-email" placeholder="Email" required>
-                <input type="password" class="auth-input" id="signup-password" placeholder="Password (min 6 characters)" required>
+                <input type="text" class="auth-input" id="signup-username" placeholder="Username" maxlength="20">
+                <input type="email" class="auth-input" id="signup-email" placeholder="Email">
+                <input type="password" class="auth-input" id="signup-password" placeholder="Password (min 6 characters)">
                 <button class="auth-button" id="signup-button">Create Account</button>
             </div>
 
@@ -516,7 +574,6 @@
         </div>
     </div>
 
-    <!-- Image Preview Modal -->
     <div class="image-preview-modal" id="image-preview-modal">
         <button class="close-preview" id="close-preview">Close</button>
         <img id="preview-image" src="" alt="Preview">
@@ -551,15 +608,18 @@
         const userCountElement = document.getElementById('user-count');
         const authModal = document.getElementById('auth-modal');
         const clearBtn = document.getElementById('clear-btn');
+        const logoutBtn = document.getElementById('logout-btn');
         const attachBtn = document.getElementById('attach-btn');
         const imageInput = document.getElementById('image-input');
         const imagePreviewModal = document.getElementById('image-preview-modal');
         const previewImage = document.getElementById('preview-image');
         const closePreview = document.getElementById('close-preview');
+        const typingIndicator = document.getElementById('typing-indicator');
         
         let currentUser = null;
         let username = '';
         let userId = '';
+        let typingTimeout = null;
 
         // Tab switching
         document.getElementById('login-tab').addEventListener('click', () => {
@@ -567,7 +627,7 @@
             document.getElementById('signup-tab').classList.remove('active');
             document.getElementById('login-form').style.display = 'block';
             document.getElementById('signup-form').style.display = 'none';
-            document.getElementById('error-message').textContent = '';
+            hideError();
         });
 
         document.getElementById('signup-tab').addEventListener('click', () => {
@@ -575,7 +635,7 @@
             document.getElementById('login-tab').classList.remove('active');
             document.getElementById('signup-form').style.display = 'block';
             document.getElementById('login-form').style.display = 'none';
-            document.getElementById('error-message').textContent = '';
+            hideError();
         });
 
         // Login
@@ -598,11 +658,11 @@
 
         // Sign Up
         document.getElementById('signup-button').addEventListener('click', async () => {
-            const username = document.getElementById('signup-username').value.trim();
+            const usernameVal = document.getElementById('signup-username').value.trim();
             const email = document.getElementById('signup-email').value.trim();
             const password = document.getElementById('signup-password').value;
             
-            if (!username || !email || !password) {
+            if (!usernameVal || !email || !password) {
                 showError('Please fill in all fields');
                 return;
             }
@@ -614,11 +674,11 @@
 
             try {
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                await userCredential.user.updateProfile({ displayName: username });
+                await userCredential.user.updateProfile({ displayName: usernameVal });
                 
                 // Store username in database
                 await database.ref('usernames/' + userCredential.user.uid).set({
-                    username: username,
+                    username: usernameVal,
                     email: email
                 });
             } catch (error) {
@@ -664,10 +724,56 @@
             messagesRef.limitToLast(50).on('child_added', addMessageToUI);
             usersRef.on('value', s => userCountElement.textContent = s.numChildren());
             
+            // Typing indicator
+            const typingRef = database.ref('typing');
+            
+            // Listen for typing users
+            typingRef.on('value', (snapshot) => {
+                const typingUsers = [];
+                snapshot.forEach((child) => {
+                    if (child.key !== userId && child.val().username) {
+                        typingUsers.push(child.val().username);
+                    }
+                });
+                
+                if (typingUsers.length > 0) {
+                    if (typingUsers.length === 1) {
+                        typingIndicator.textContent = `${typingUsers[0]} is typing...`;
+                    } else if (typingUsers.length === 2) {
+                        typingIndicator.textContent = `${typingUsers[0]} and ${typingUsers[1]} are typing...`;
+                    } else {
+                        typingIndicator.textContent = `${typingUsers.length} people are typing...`;
+                    }
+                } else {
+                    typingIndicator.textContent = '';
+                }
+            });
+            
+            // Handle user typing
+            messageInput.addEventListener('input', () => {
+                const typingUserRef = typingRef.child(userId);
+                typingUserRef.set({ username: username });
+                
+                clearTimeout(typingTimeout);
+                typingTimeout = setTimeout(() => {
+                    typingUserRef.remove();
+                }, 2000);
+            });
+            
+            // Remove typing status on disconnect
+            typingRef.child(userId).onDisconnect().remove();
+            
             messageForm.onsubmit = sendMessage;
         }
 
-        // Clear chat (admin only)
+        // Logout button
+        logoutBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to logout?')) {
+                auth.signOut();
+            }
+        });
+
+        // Clear chat
         clearBtn.addEventListener('click', async () => {
             const pass = prompt("Enter Admin Password:");
             if (pass === 'ND2026') { 
@@ -684,6 +790,10 @@
             const text = messageInput.value.trim();
             if (!text) return;
             
+            // Clear typing indicator
+            database.ref('typing/' + userId).remove();
+            clearTimeout(typingTimeout);
+            
             await messagesRef.push({
                 username: username,
                 text: text,
@@ -694,30 +804,26 @@
             messageInput.value = '';
         }
 
-        // Image upload (using base64 instead of Firebase Storage)
+        // Image upload
         attachBtn.onclick = () => imageInput.click();
         
         imageInput.onchange = async (e) => {
             const file = e.target.files[0];
             if (!file) return;
 
-            // Check file size (max 500KB for database storage)
             if (file.size > 500 * 1024) {
-                alert('Image too large. Max size is 500KB for now');
+                alert('Image too large. Max size is 500KB');
                 return;
             }
 
-            // Check if it's an image
             if (!file.type.startsWith('image/')) {
                 alert('Please select an image file');
                 return;
             }
 
             try {
-                // Show loading
                 const loadingMsg = addLoadingMessage();
 
-                // Convert to base64
                 const base64String = await new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.onload = () => resolve(reader.result);
@@ -725,10 +831,8 @@
                     reader.readAsDataURL(file);
                 });
 
-                // Remove loading message
                 messagesContainer.removeChild(loadingMsg);
 
-                // Send image message with base64 data
                 await messagesRef.push({
                     username: username,
                     imageData: base64String,
@@ -758,12 +862,12 @@
             el.classList.add('message', msg.userId === userId ? 'sent' : 'received');
             
             let content = '';
-            if (msg.userId !== userId) {
+            if (msg.userId !== userId && msg.username) {
                 content += `<div class="message-username">${escapeHtml(msg.username)}</div>`;
             }
             
             if (msg.imageData) {
-                content += `<img src="${msg.imageData}" class="message-image" onclick="showImagePreview('${msg.imageData}')">`;
+                content += `<img src="${msg.imageData}" class="message-image" onclick="showImagePreview('${msg.imageData.replace(/'/g, "\\'")}')">`;
             }
             
             if (msg.text) {
@@ -787,11 +891,11 @@
 
         function showImagePreview(url) {
             previewImage.src = url;
-            imagePreviewModal.style.display = 'flex';
+            imagePreviewModal.classList.add('show');
         }
 
         closePreview.onclick = () => {
-            imagePreviewModal.style.display = 'none';
+            imagePreviewModal.classList.remove('show');
         };
 
         function formatTime(timestamp) {
@@ -807,7 +911,14 @@
         }
 
         function showError(message) {
-            document.getElementById('error-message').textContent = message;
+            const errorEl = document.getElementById('error-message');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+        }
+
+        function hideError() {
+            const errorEl = document.getElementById('error-message');
+            errorEl.classList.remove('show');
         }
 
         function getErrorMessage(code) {
@@ -822,7 +933,6 @@
             return messages[code] || 'An error occurred. Please try again';
         }
 
-        // Logout functionality (optional - can add button later)
         window.logout = () => {
             auth.signOut();
         };
