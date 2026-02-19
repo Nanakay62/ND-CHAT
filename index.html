@@ -871,6 +871,169 @@
             opacity: 0.5;
         }
 
+        /* === SWIPE TO REPLY === */
+        .msg-row {
+            position: relative;
+            touch-action: pan-y;
+            user-select: none;
+        }
+
+        .msg-bubble {
+            transition: transform 0.15s ease;
+            will-change: transform;
+        }
+
+        .reply-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%) scale(0.6);
+            opacity: 0;
+            transition: opacity 0.15s, transform 0.15s;
+            font-size: 20px;
+            pointer-events: none;
+        }
+        .msg-row.sent .reply-icon { left: -38px; }
+        .msg-row.received .reply-icon { right: -38px; }
+        .reply-icon.show {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+
+        /* === REPLY PREVIEW BAR === */
+        .reply-preview {
+            display: none;
+            background: var(--surface2);
+            border-left: 3px solid var(--accent);
+            border-radius: 10px 10px 0 0;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: var(--text-dim);
+            position: relative;
+            animation: msgIn 0.2s ease;
+        }
+        .reply-preview.show { display: flex; align-items: flex-start; gap: 8px; }
+        .reply-preview-text {
+            flex: 1;
+            overflow: hidden;
+        }
+        .reply-preview-label {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 2px;
+            font-family: 'Space Mono', monospace;
+        }
+        .reply-preview-body {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text);
+            font-size: 13px;
+        }
+        .reply-cancel {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 0 2px;
+            flex-shrink: 0;
+        }
+        .reply-cancel:hover { color: var(--text); }
+
+        /* === QUOTED REPLY IN MESSAGE === */
+        .msg-quote {
+            background: rgba(255,255,255,0.07);
+            border-left: 3px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            padding: 6px 10px;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+        .msg-row.sent .msg-quote { border-left-color: rgba(255,255,255,0.5); }
+        .msg-quote-author { font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 2px; font-size: 11px; }
+        .msg-quote-text { color: rgba(255,255,255,0.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* === TIMER PICKER === */
+        .timer-picker {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 0 6px;
+        }
+        .timer-label {
+            font-size: 11px;
+            color: var(--text-dim);
+            white-space: nowrap;
+            font-family: 'Space Mono', monospace;
+        }
+        .timer-chips {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .timer-chip {
+            padding: 4px 10px;
+            border-radius: 99px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: var(--text-dim);
+            font-size: 11px;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .timer-chip:hover { border-color: var(--accent); color: var(--text); }
+        .timer-chip.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* === CONTACT DELETE === */
+        .contact-item {
+            overflow: hidden;
+        }
+        .contact-delete-btn {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            border: 1px solid rgba(248,113,113,0.3);
+            background: rgba(248,113,113,0.1);
+            color: var(--danger);
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 14px;
+            margin-left: auto;
+        }
+        .contact-delete-btn:hover { background: rgba(248,113,113,0.25); }
+        .contact-item:hover .contact-delete-btn { display: flex; }
+
+        /* Confirm delete dialog */
+        .confirm-modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+        }
+        .confirm-modal h3 { font-size: 18px; margin-bottom: 8px; }
+        .confirm-modal p { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
+        .confirm-btns { display: flex; gap: 10px; }
+        .confirm-btns button { flex: 1; padding: 12px; border-radius: 12px; border: none; cursor: pointer; font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 500; transition: all 0.2s; }
+        .btn-cancel-del { background: var(--surface2); color: var(--text); border: 1px solid var(--border) !important; }
+        .btn-confirm-del { background: var(--danger); color: white; }
+        .btn-confirm-del:hover { background: #ef4444; }
+
         audio { display: none; }
     </style>
 </head>
@@ -929,6 +1092,25 @@
     <div id="messages-area" class="messages-area" style="display:none"></div>
 
     <div class="input-area" id="input-area" style="display:none">
+        <!-- Reply preview bar -->
+        <div class="reply-preview" id="reply-preview">
+            <div class="reply-preview-text">
+                <div class="reply-preview-label" id="reply-preview-label">Replying to</div>
+                <div class="reply-preview-body" id="reply-preview-body"></div>
+            </div>
+            <button class="reply-cancel" id="reply-cancel" title="Cancel reply">×</button>
+        </div>
+        <!-- Timer picker -->
+        <div class="timer-picker">
+            <span class="timer-label">⏱</span>
+            <div class="timer-chips" id="timer-chips">
+                <button class="timer-chip active" data-mins="5">5m</button>
+                <button class="timer-chip" data-mins="10">10m</button>
+                <button class="timer-chip" data-mins="15">15m</button>
+                <button class="timer-chip" data-mins="20">20m</button>
+                <button class="timer-chip" data-mins="30">30m</button>
+            </div>
+        </div>
         <div class="typing-bar" id="typing-bar"></div>
         <div class="input-row">
             <button class="icon-btn" id="attach-btn" title="Send image">
@@ -1025,6 +1207,31 @@
     <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFb" type="audio/wav">
 </audio>
 
+
+<!-- CONFIRM DELETE CONTACT MODAL -->
+<div class="overlay" id="confirm-delete-overlay" style="display:none">
+    <div class="confirm-modal">
+        <h3>Remove Contact</h3>
+        <p id="confirm-delete-text">Are you sure you want to remove this contact?</p>
+        <div class="confirm-btns">
+            <button class="btn-cancel-del" id="confirm-delete-cancel">Cancel</button>
+            <button class="btn-confirm-del" id="confirm-delete-ok">Remove</button>
+        </div>
+    </div>
+</div>
+
+<!-- LOGOUT CONFIRM MODAL -->
+<div class="overlay" id="logout-overlay" style="display:none">
+    <div class="confirm-modal">
+        <h3>Log Out</h3>
+        <p>Are you sure you want to log out of Nana Dickson's Chat?</p>
+        <div class="confirm-btns">
+            <button class="btn-cancel-del" id="logout-cancel">Stay</button>
+            <button class="btn-confirm-del" style="background:var(--accent)" id="logout-confirm">Log Out</button>
+        </div>
+    </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -1044,13 +1251,18 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const auth = firebase.auth();
 
-const MSG_TTL = 5 * 60 * 1000; // 5 minutes in ms
+// TTL is now per-message (selectedTTL), default 5 min
 
 let currentUser = null, myUsername = '', myUid = '';
 let activeContactUid = null, activeContactName = '';
 let msgListeners = {};
 let typingTimeout = null;
 let contactsData = {}; // uid -> {username, email, online}
+
+// Timer & reply state
+let selectedTTL = 5 * 60 * 1000; // default 5 min in ms
+let replyingTo = null; // { key, senderName, text }
+let pendingDeleteUid = null;
 
 // WebRTC
 let pc = null, localStream = null;
@@ -1120,7 +1332,7 @@ auth.onAuthStateChanged(async user => {
 });
 
 document.getElementById('logout-btn').onclick = () => {
-    if(confirm('Logout?')) auth.signOut();
+    document.getElementById('logout-overlay').style.display = 'flex';
 };
 
 // ===================== INIT =====================
@@ -1202,6 +1414,7 @@ function renderContactsList() {
         const isActive = uid === activeContactUid;
         const div = document.createElement('div');
         div.className = 'contact-item' + (isActive?' active':'');
+        div.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;position:relative;';
         div.innerHTML = `
             <div class="avatar">
                 <span class="avatar-initials">${initials}</span>
@@ -1210,8 +1423,26 @@ function renderContactsList() {
             <div class="contact-info">
                 <div class="contact-name">${escHtml(c.username)}</div>
                 <div class="contact-preview">${c.online ? '● Online' : 'Offline'}</div>
-            </div>`;
-        div.onclick = () => openChat(uid, c.username);
+            </div>
+            <button class="contact-delete-btn" title="Remove contact">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            </button>`;
+
+        // Click on contact (not delete btn) opens chat
+        div.onclick = (e) => {
+            if (e.target.closest('.contact-delete-btn')) return;
+            openChat(uid, c.username);
+        };
+
+        // Delete button
+        div.querySelector('.contact-delete-btn').onclick = (e) => {
+            e.stopPropagation();
+            pendingDeleteUid = uid;
+            document.getElementById('confirm-delete-text').textContent =
+                `Remove ${c.username} from your contacts?`;
+            document.getElementById('confirm-delete-overlay').style.display = 'flex';
+        };
+
         list.appendChild(div);
     });
 }
@@ -1308,6 +1539,9 @@ document.getElementById('confirm-add-contact').onclick = async () => {
     }
 };
 
+// ===================== DELETE CONTACT =====================
+// Handlers moved to event delegation block at bottom of file
+
 // ===================== OPEN CHAT =====================
 
 function openChat(uid, uname) {
@@ -1363,41 +1597,62 @@ function loadMessages(contactUid) {
 
     const ref = db.ref('conversations/'+convoId+'/messages');
 
-    // Auto-expire: periodically clean old messages
+    // Auto-expire: clean on open and every 30s
     cleanExpiredMessages(convoId);
-    setInterval(() => cleanExpiredMessages(convoId), 30000);
+    const cleanInterval = setInterval(() => cleanExpiredMessages(convoId), 30000);
 
-    const listener = ref.orderByChild('timestamp').limitToLast(100).on('child_added', snap => {
+    ref.orderByChild('timestamp').limitToLast(100).on('child_added', snap => {
         const msg = snap.val();
         const now = Date.now();
         const age = now - msg.timestamp;
-        if (age >= MSG_TTL) return; // Already expired, skip
+        const ttl = msg.ttl || 5 * 60 * 1000; // fallback 5 min
+        if (age >= ttl) return; // Already expired, skip
         renderMessage(snap.key, msg);
         // Schedule visual removal
-        const remaining = MSG_TTL - age;
+        const remaining = ttl - age;
         setTimeout(() => {
             const el = document.getElementById('msg-'+snap.key);
-            if (el) el.remove();
+            if (el) {
+                el.style.transition = 'opacity 0.4s, transform 0.4s';
+                el.style.opacity = '0';
+                el.style.transform = 'scale(0.9)';
+                setTimeout(() => el.remove(), 400);
+            }
         }, remaining);
     });
 
-    // Listen for child_removed (cleared messages)
+    // Listen for child_removed
     ref.on('child_removed', snap => {
         const el = document.getElementById('msg-'+snap.key);
-        if (el) el.style.animation = 'msgIn 0.2s reverse forwards';
+        if (el) {
+            el.style.transition = 'opacity 0.3s, transform 0.3s';
+            el.style.opacity = '0';
+            el.style.transform = 'scale(0.85)';
+            setTimeout(() => el.remove(), 300);
+        }
     });
 
-    msgListeners[convoId] = () => ref.off();
+    msgListeners[convoId] = () => { ref.off(); clearInterval(cleanInterval); };
 }
 
 async function cleanExpiredMessages(convoId) {
-    const cutoff = Date.now() - MSG_TTL;
+    // Each message has its own ttl stored, so we can't use a single cutoff.
+    // We fetch recent messages and check individually.
     const snap = await db.ref('conversations/'+convoId+'/messages')
-        .orderByChild('timestamp').endAt(cutoff).once('value');
+        .orderByChild('timestamp').limitToLast(200).once('value');
     if (!snap.exists()) return;
+    const now = Date.now();
     const updates = {};
-    snap.forEach(child => { updates[child.key] = null; });
-    await db.ref('conversations/'+convoId+'/messages').update(updates);
+    snap.forEach(child => {
+        const msg = child.val();
+        const ttl = msg.ttl || 5 * 60 * 1000;
+        if (now - msg.timestamp >= ttl) {
+            updates[child.key] = null;
+        }
+    });
+    if (Object.keys(updates).length > 0) {
+        await db.ref('conversations/'+convoId+'/messages').update(updates);
+    }
 }
 
 function renderMessage(key, msg) {
@@ -1405,7 +1660,8 @@ function renderMessage(key, msg) {
     const isSent = msg.senderId === myUid;
     const now = Date.now();
     const age = now - msg.timestamp;
-    const remaining = MSG_TTL - age;
+    const ttl = msg.ttl || 5 * 60 * 1000;
+    const remaining = ttl - age;
     const remainSec = Math.max(0, Math.floor(remaining/1000));
 
     const row = document.createElement('div');
@@ -1415,9 +1671,18 @@ function renderMessage(key, msg) {
     const initials = getInitials(msg.senderName || '?');
     const timeStr = formatTime(msg.timestamp);
 
-    let innerContent = '';
+    // Build quote block if reply
+    let quoteHtml = '';
+    if (msg.replyTo) {
+        quoteHtml = `<div class="msg-quote">
+            <div class="msg-quote-author">${escHtml(msg.replyTo.senderName)}</div>
+            <div class="msg-quote-text">${escHtml(msg.replyTo.text || '📷 Image')}</div>
+        </div>`;
+    }
+
+    let innerContent = quoteHtml;
     if (msg.imageData) {
-        innerContent += `<img src="${msg.imageData}" class="msg-image" onclick="showImgPreview('${msg.imageData.replace(/'/g,"\\'")}')">`;
+        innerContent += `<img src="${msg.imageData}" class="msg-image" onclick="showImgPreview('${msg.imageData.replace(/'/g, "\\'")}')">`;
     }
     if (msg.text) {
         innerContent += `<div>${escHtml(msg.text)}</div>`;
@@ -1429,13 +1694,14 @@ function renderMessage(key, msg) {
 
     row.innerHTML = `
         ${!isSent ? `<div class="avatar" style="width:28px;height:28px;border-radius:9px"><span class="avatar-initials" style="font-size:11px">${initials}</span></div>` : ''}
+        <div class="reply-icon">↩</div>
         <div class="msg-bubble">
             ${innerContent}
             <div class="msg-meta">
                 <span class="msg-time">${timeStr}</span>
-                <span class="msg-expires">⏱ ${expireStr}</span>
+                <span class="msg-expires" style="font-size:10px;opacity:0.55;font-family:'Space Mono',monospace">⏱ ${expireStr}</span>
             </div>
-            <div class="timer-bar" id="timerbar-${key}" style="width:${(remaining/MSG_TTL)*100}%"></div>
+            <div class="timer-bar" id="timerbar-${key}" style="width:${(remaining/ttl)*100}%"></div>
         </div>
         ${isSent ? `<div class="avatar" style="width:28px;height:28px;border-radius:9px"><span class="avatar-initials" style="font-size:11px">${getInitials(myUsername)}</span></div>` : ''}
     `;
@@ -1450,18 +1716,87 @@ function renderMessage(key, msg) {
         requestAnimationFrame(() => { bar.style.width = '0%'; });
     }
 
-    // Update expire countdown
+    // Live expire countdown
     const expEl = row.querySelector('.msg-expires');
     if (expEl) {
         const iv = setInterval(() => {
-            const left = Math.max(0, MSG_TTL - (Date.now() - msg.timestamp));
+            const left = Math.max(0, ttl - (Date.now() - msg.timestamp));
             const m = Math.floor(left/60000), s = Math.floor((left%60000)/1000);
-            expEl.textContent = `⏱ ${m}:${s.toString().padStart(2,'0')}`;
+            expEl.textContent = '⏱ ' + m + ':' + String(s).padStart(2,'0');
             if (left <= 0) clearInterval(iv);
         }, 1000);
     }
+
+    // Swipe to reply
+    addSwipeToReply(row, key, msg);
 }
 
+function addSwipeToReply(row, key, msg) {
+    const bubble = row.querySelector('.msg-bubble');
+    const icon = row.querySelector('.reply-icon');
+    const isSent = row.classList.contains('sent');
+    let startX = 0, startY = 0, dx = 0;
+    let swiping = false;
+    const THRESHOLD = 60;
+
+    function onStart(e) {
+        const touch = e.touches ? e.touches[0] : e;
+        startX = touch.clientX;
+        startY = touch.clientY;
+        dx = 0;
+        swiping = true;
+        bubble.style.transition = 'none';
+    }
+
+    function onMove(e) {
+        if (!swiping) return;
+        const touch = e.touches ? e.touches[0] : e;
+        const diffX = touch.clientX - startX;
+        const diffY = touch.clientY - startY;
+        if (Math.abs(diffX) < Math.abs(diffY) && Math.abs(diffX) < 10) return;
+        if (isSent && diffX > 0) return;
+        if (!isSent && diffX < 0) return;
+        dx = diffX;
+        const maxDrag = THRESHOLD * 1.2;
+        const clamped = Math.max(-maxDrag, Math.min(maxDrag, dx));
+        bubble.style.transform = 'translateX(' + clamped + 'px)';
+        const progress = Math.min(1, Math.abs(clamped) / THRESHOLD);
+        icon.style.opacity = progress;
+        icon.style.transform = 'translateY(-50%) scale(' + (0.6 + 0.4 * progress) + ')';
+        if (progress >= 1) icon.classList.add('show'); else icon.classList.remove('show');
+        if (e.cancelable) e.preventDefault();
+    }
+
+    function onEnd() {
+        if (!swiping) return;
+        swiping = false;
+        bubble.style.transition = 'transform 0.25s ease';
+        bubble.style.transform = '';
+        icon.style.opacity = '0';
+        icon.style.transform = 'translateY(-50%) scale(0.6)';
+        icon.classList.remove('show');
+        if (Math.abs(dx) >= THRESHOLD) triggerReply(key, msg);
+    }
+
+    row.addEventListener('touchstart', onStart, {passive: true});
+    row.addEventListener('touchmove', onMove, {passive: false});
+    row.addEventListener('touchend', onEnd);
+    row.addEventListener('mousedown', onStart);
+    window.addEventListener('mousemove', function(e) { if (swiping) onMove(e); });
+    window.addEventListener('mouseup', function() { if (swiping) onEnd(); });
+}
+
+function triggerReply(key, msg) {
+    replyingTo = {
+        key,
+        senderName: msg.senderName || 'Unknown',
+        text: msg.text || (msg.imageData ? '📷 Image' : '')
+    };
+    document.getElementById('reply-preview-label').textContent = 'Replying to ' + replyingTo.senderName;
+    document.getElementById('reply-preview-body').textContent = replyingTo.text;
+    document.getElementById('reply-preview').classList.add('show');
+    document.getElementById('message-input').focus();
+}
 // Send message
 document.getElementById('send-btn').onclick = sendMessage;
 document.getElementById('message-input').onkeydown = e => { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();} };
@@ -1476,13 +1811,26 @@ async function sendMessage() {
     db.ref('typing/'+myUid).remove();
     clearTimeout(typingTimeout);
 
-    const convoId = getConvoId(myUid, activeContactUid);
-    await db.ref('conversations/'+convoId+'/messages').push({
+    const msgData = {
         senderId: myUid,
         senderName: myUsername,
         text,
+        ttl: selectedTTL,
         timestamp: firebase.database.ServerValue.TIMESTAMP
-    });
+    };
+
+    if (replyingTo) {
+        msgData.replyTo = {
+            key: replyingTo.key,
+            senderName: replyingTo.senderName,
+            text: replyingTo.text
+        };
+        replyingTo = null;
+        document.getElementById('reply-preview').classList.remove('show');
+    }
+
+    const convoId = getConvoId(myUid, activeContactUid);
+    await db.ref('conversations/'+convoId+'/messages').push(msgData);
 }
 
 // Image upload
@@ -1498,6 +1846,7 @@ document.getElementById('image-input').onchange = async e => {
             senderId: myUid,
             senderName: myUsername,
             imageData: base64,
+            ttl: selectedTTL,
             timestamp: firebase.database.ServerValue.TIMESTAMP
         });
     } catch(err) { alert('Failed to upload image'); }
@@ -1787,6 +2136,61 @@ function firebaseErrMsg(code) {
     };
     return m[code] || 'An error occurred';
 }
+</script>
+
+
+<script>
+// ── Modal event delegation (runs after DOM is complete) ──
+document.addEventListener('click', function(e) {
+    // Logout modal
+    if (e.target.id === 'logout-cancel' || (e.target.closest && e.target.closest('#logout-cancel'))) {
+        document.getElementById('logout-overlay').style.display = 'none';
+    }
+    if (e.target.id === 'logout-confirm' || (e.target.closest && e.target.closest('#logout-confirm'))) {
+        document.getElementById('logout-overlay').style.display = 'none';
+        auth.signOut();
+    }
+    // Delete contact modal
+    if (e.target.id === 'confirm-delete-cancel' || (e.target.closest && e.target.closest('#confirm-delete-cancel'))) {
+        document.getElementById('confirm-delete-overlay').style.display = 'none';
+        pendingDeleteUid = null;
+    }
+    if (e.target.id === 'confirm-delete-ok' || (e.target.closest && e.target.closest('#confirm-delete-ok'))) {
+        const uid = pendingDeleteUid;
+        if (!uid) return;
+        pendingDeleteUid = null;
+        document.getElementById('confirm-delete-overlay').style.display = 'none';
+        // Remove from both sides
+        Promise.all([
+            db.ref('contacts/'+myUid+'/'+uid).remove(),
+            db.ref('contacts/'+uid+'/'+myUid).remove()
+        ]).then(() => {
+            // If this was the active chat, close it
+            if (activeContactUid === uid) {
+                activeContactUid = null;
+                activeContactName = '';
+                document.getElementById('toolbar-avatar').style.display = 'none';
+                document.getElementById('toolbar-info').style.display = 'none';
+                document.getElementById('toolbar-empty').style.display = '';
+                document.getElementById('call-btn').style.display = 'none';
+                document.getElementById('messages-area').style.display = 'none';
+                document.getElementById('input-area').style.display = 'none';
+                document.getElementById('main-content').style.display = 'flex';
+            }
+            delete contactsData[uid];
+            renderContactsList();
+            showNotif('Contact removed');
+        });
+    }
+    // Overlay backdrop clicks
+    if (e.target.id === 'logout-overlay') {
+        document.getElementById('logout-overlay').style.display = 'none';
+    }
+    if (e.target.id === 'confirm-delete-overlay') {
+        document.getElementById('confirm-delete-overlay').style.display = 'none';
+        pendingDeleteUid = null;
+    }
+});
 </script>
 
 <script>
