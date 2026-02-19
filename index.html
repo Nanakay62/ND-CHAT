@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0d0f14">
     <title>ND Chat</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
@@ -24,13 +27,28 @@
             --danger: #f87171;
         }
 
+        html {
+            height: 100%;
+            height: 100dvh;
+        }
+
+        :root {
+            --app-height: 100dvh;
+        }
+
         body {
             font-family: 'DM Sans', sans-serif;
             background: var(--bg);
-            min-height: 100vh;
+            height: 100%;
+            height: var(--app-height, 100dvh);
             display: flex;
             color: var(--text);
             overflow: hidden;
+            /* Safe area insets for notch/home bar devices */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
 
         /* === SIDEBAR === */
@@ -41,7 +59,7 @@
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100%;
             transition: transform 0.3s ease;
         }
 
@@ -234,9 +252,11 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100%;
+            min-height: 0;
             background: var(--bg);
             position: relative;
+            overflow: hidden;
         }
 
         .chat-toolbar {
@@ -704,15 +724,100 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .mobile-back { display: none; }
+
         /* === MOBILE === */
         @media (max-width: 700px) {
-            .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 200; transform: translateX(-100%); }
-            .sidebar.mobile-open { transform: translateX(0); }
-            .chat-main { width: 100%; }
-            .mobile-back { display: flex !important; }
-        }
+            html, body {
+                height: 100%;
+                height: 100dvh;
+                overflow: hidden;
+                padding: 0;
+            }
 
-        .mobile-back { display: none; }
+            body {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0; top: 0; bottom: 0;
+                padding-left: env(safe-area-inset-left);
+                z-index: 300;
+                width: 85vw;
+                min-width: unset;
+                max-width: 320px;
+                transform: translateX(-105%);
+                box-shadow: none;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+                box-shadow: 4px 0 32px rgba(0,0,0,0.5);
+            }
+
+            .sidebar-backdrop {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 299;
+                backdrop-filter: blur(2px);
+            }
+            .sidebar-backdrop.show { display: block; }
+
+            .chat-main {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .mobile-back { display: flex !important; }
+
+            .chat-toolbar {
+                padding: 10px 12px;
+                min-height: 56px;
+            }
+
+            .toolbar-name { font-size: 14px; }
+            .toolbar-status { font-size: 11px; }
+
+            #my-username-display {
+                max-width: 70px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 11px;
+            }
+
+            .messages-area {
+                padding: 12px;
+                flex: 1;
+                min-height: 0;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .input-area {
+                padding: 8px 12px;
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+                flex-shrink: 0;
+            }
+
+            .msg-input {
+                font-size: 16px;
+            }
+
+            .msg-bubble { max-width: 82%; }
+
+            .notif {
+                bottom: max(16px, env(safe-area-inset-bottom));
+                right: 12px;
+                left: 12px;
+                max-width: unset;
+                font-size: 13px;
+            }
+        }
 
         /* === NO CHAT SELECTED === */
         .no-chat {
@@ -772,6 +877,7 @@
 <body>
 
 <!-- SIDEBAR -->
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
         <div class="logo">ND Chat</div>
@@ -1134,6 +1240,7 @@ function openChat(uid, uname) {
 
     // Sidebar mobile close
     document.getElementById('sidebar').classList.remove('mobile-open');
+    document.getElementById('sidebar-backdrop').classList.remove('show');
 
     // Update toolbar
     document.getElementById('toolbar-avatar').style.display = 'flex';
@@ -1539,6 +1646,12 @@ function toggleMute() {
 
 document.getElementById('mobile-back').onclick = () => {
     document.getElementById('sidebar').classList.toggle('mobile-open');
+    document.getElementById('sidebar-backdrop').classList.toggle('show');
+};
+
+document.getElementById('sidebar-backdrop').onclick = () => {
+    document.getElementById('sidebar').classList.remove('mobile-open');
+    document.getElementById('sidebar-backdrop').classList.remove('show');
 };
 
 document.getElementById('img-preview-close').onclick = () => {
@@ -1597,6 +1710,21 @@ function firebaseErrMsg(code) {
         'auth/network-request-failed': 'Network error'
     };
     return m[code] || 'An error occurred';
+}
+</script>
+
+<script>
+// Mobile keyboard / viewport fix
+// When virtual keyboard opens, shrink the layout to fit visual viewport
+if (window.visualViewport) {
+    function handleViewport() {
+        const vv = window.visualViewport;
+        // Set app height to actual visible area
+        document.documentElement.style.setProperty('--app-height', vv.height + 'px');
+    }
+    window.visualViewport.addEventListener('resize', handleViewport);
+    window.visualViewport.addEventListener('scroll', handleViewport);
+    handleViewport();
 }
 </script>
 </body>
