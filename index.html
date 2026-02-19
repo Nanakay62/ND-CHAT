@@ -1045,6 +1045,9 @@
     <div class="sidebar-header">
         <div class="logo">ND Chat</div>
         <div class="sidebar-actions">
+            <button class="icon-btn" id="fix-accounts-btn" title="Fix / sync accounts" style="color:#f59e0b;border-color:rgba(245,158,11,0.3)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"/><path d="M12 8v4l3 3"/><path d="M18 14v4h4"/><path d="M18 18a6 6 0 1 0-3.5-10.8"/></svg>
+            </button>
             <button class="icon-btn" id="add-contact-btn" title="Add contact">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
             </button>
@@ -1224,7 +1227,7 @@
 <div class="overlay" id="logout-overlay" style="display:none">
     <div class="confirm-modal">
         <h3>Log Out</h3>
-        <p>Are you sure you want to log out of Nana Dickson's Chat?</p>
+        <p>Are you sure you want to log out of ND Chat?</p>
         <div class="confirm-btns">
             <button class="btn-cancel-del" id="logout-cancel">Stay</button>
             <button class="btn-confirm-del" style="background:var(--accent)" id="logout-confirm">Log Out</button>
@@ -1232,9 +1235,22 @@
     </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<!-- MIGRATION / FIX ACCOUNTS MODAL -->
+<div class="overlay" id="migration-overlay" style="display:none">
+    <div class="modal" style="max-width:460px">
+        <div class="modal-logo" style="font-size:20px;margin-bottom:4px">🔧 Fix Accounts</div>
+        <div class="modal-sub" style="margin-bottom:20px">Sync all existing accounts so they can be found by username or email.</div>
+        <div id="migration-status" style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--text-dim);min-height:60px;margin-bottom:16px;font-family:'Space Mono',monospace;line-height:1.7"></div>
+        <div style="display:flex;gap:10px">
+            <button class="submit-btn" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);flex:1" id="migration-close">Close</button>
+            <button class="submit-btn" style="flex:1;background:#f59e0b;color:#000" id="migration-run">Run Fix Now</button>
+        </div>
+        <p style="font-size:11px;color:var(--text-dim);margin-top:12px;text-align:center">Safe to run multiple times. Does not delete any data.</p>
+    </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 
 <script>
 const firebaseConfig = {
@@ -1252,6 +1268,158 @@ const db = firebase.database();
 const auth = firebase.auth();
 
 // TTL is now per-message (selectedTTL), default 5 min
+
+// ── Read a user profile from ANY node structure in the database ──
+// Supports: userProfiles (new), usernames (old), users (legacy), presence
+async function readProfileFromAnyNode(uid) {
+    // Try all possible node locations
+    const nodes = ['userProfiles', 'usernames', 'users'];
+    for (const node of nodes) {
+        const snap = await db.ref(node + '/' + uid).once('value');
+        if (snap.exists()) {
+            const val = snap.val();
+            // Normalise into consistent {username, email} shape
+            const username = val.username || val.displayName || val.name || null;
+            const email    = (val.email || '').toLowerCase() || null;
+            return { username, email, raw: val, node };
+        }
+    }
+    return null;
+}
+
+// ── Backfill/repair all lookup indexes for a uid ──
+async function backfillUserIndexes(uid) {
+    const prof = await readProfileFromAnyNode(uid);
+    if (!prof) return;
+
+    const writes = {};
+    // Normalise userProfiles entry
+    writes['userProfiles/' + uid + '/uid'] = uid;
+    if (prof.username) {
+        const uLower = prof.username.toLowerCase();
+        writes['userProfiles/' + uid + '/username']      = prof.username;
+        writes['userProfiles/' + uid + '/usernameLower'] = uLower;
+        writes['usernameLookup/' + uLower]               = uid;
+    }
+    if (prof.email) {
+        const emailKey = prof.email.replace(/\./g, '_');
+        writes['userProfiles/' + uid + '/email'] = prof.email;
+        writes['emailLookup/' + emailKey]         = uid;
+    }
+    try { await db.ref().update(writes); } catch(e) { /* ignore permission errors */ }
+}
+
+// ── Find user by email — tries index, then scans ALL known nodes ──
+async function findUserByEmail(email) {
+    const emailNorm = email.trim().toLowerCase();
+    const emailKey  = emailNorm.replace(/\./g, '_');
+
+    // 1. Fast index path
+    const idxSnap = await db.ref('emailLookup/' + emailKey).once('value');
+    if (idxSnap.exists()) {
+        const uid      = idxSnap.val();
+        const profSnap = await db.ref('userProfiles/' + uid).once('value');
+        const prof     = profSnap.val() || {};
+        return { uid, username: prof.username || uid, email: prof.email || emailNorm };
+    }
+
+    // 2. Scan every known node
+    const nodesToScan = ['userProfiles', 'usernames', 'users'];
+    for (const node of nodesToScan) {
+        const allSnap = await db.ref(node).once('value');
+        if (!allSnap.exists()) continue;
+        let foundUid = null, foundProf = null;
+        allSnap.forEach(child => {
+            const p = child.val();
+            const storedEmail = (p.email || '').toLowerCase();
+            if (storedEmail === emailNorm) { foundUid = child.key; foundProf = p; }
+        });
+        if (foundUid) {
+            backfillUserIndexes(foundUid).catch(() => {});
+            return {
+                uid: foundUid,
+                username: foundProf.username || foundProf.displayName || foundUid,
+                email: emailNorm
+            };
+        }
+    }
+
+    // 3. Scan presence node (sometimes the only place email is stored)
+    const presSnap = await db.ref('presence').once('value');
+    if (presSnap.exists()) {
+        let foundUid = null, foundProf = null;
+        presSnap.forEach(child => {
+            const p = child.val();
+            if ((p.email || '').toLowerCase() === emailNorm) { foundUid = child.key; foundProf = p; }
+        });
+        if (foundUid) {
+            backfillUserIndexes(foundUid).catch(() => {});
+            return { uid: foundUid, username: foundProf.username || foundUid, email: emailNorm };
+        }
+    }
+
+    return null;
+}
+
+// ── Find user by username — tries index, then scans ALL known nodes ──
+async function findUserByUsername(username) {
+    const lower = username.trim().toLowerCase();
+
+    // 1. Fast index path
+    const idxSnap = await db.ref('usernameLookup/' + lower).once('value');
+    if (idxSnap.exists()) {
+        const uid      = idxSnap.val();
+        const profSnap = await db.ref('userProfiles/' + uid).once('value');
+        const prof     = profSnap.val() || {};
+        return { uid, username: prof.username || username, email: prof.email || '' };
+    }
+
+    // 2. Scan every known node
+    const nodesToScan = ['userProfiles', 'usernames', 'users'];
+    for (const node of nodesToScan) {
+        const allSnap = await db.ref(node).once('value');
+        if (!allSnap.exists()) continue;
+        let foundUid = null, foundProf = null;
+        allSnap.forEach(child => {
+            const p = child.val();
+            const uname = (p.username || p.displayName || p.name || '').toLowerCase();
+            if (uname === lower) { foundUid = child.key; foundProf = p; }
+        });
+        if (foundUid) {
+            backfillUserIndexes(foundUid).catch(() => {});
+            return {
+                uid: foundUid,
+                username: foundProf.username || foundProf.displayName || username,
+                email: (foundProf.email || '').toLowerCase()
+            };
+        }
+    }
+    return null;
+}
+
+// ── Admin: migrate ALL existing users from old nodes into new structure ──
+// Call migrateAllUsers() from browser console to one-time fix legacy data
+window.migrateAllUsers = async function() {
+    console.log('[ND Chat] Starting migration...');
+    let count = 0;
+    const nodesToScan = ['userProfiles', 'usernames', 'users'];
+    const seenUids = new Set();
+
+    for (const node of nodesToScan) {
+        const snap = await db.ref(node).once('value');
+        if (!snap.exists()) continue;
+        const promises = [];
+        snap.forEach(child => {
+            if (seenUids.has(child.key)) return;
+            seenUids.add(child.key);
+            promises.push(backfillUserIndexes(child.key).then(() => count++));
+        });
+        await Promise.all(promises);
+    }
+    console.log('[ND Chat] Migration complete. Processed:', count, 'users.');
+    return count;
+};
+
 
 let currentUser = null, myUsername = '', myUid = '';
 let activeContactUid = null, activeContactName = '';
@@ -1321,7 +1489,25 @@ auth.onAuthStateChanged(async user => {
     if (user) {
         currentUser = user;
         myUid = user.uid;
-        myUsername = user.displayName || 'User';
+
+        // Ensure userProfiles row exists (handles accounts created before profiles were added)
+        const profSnap = await db.ref('userProfiles/'+user.uid).once('value');
+        if (!profSnap.exists() || !profSnap.val().email) {
+            const uname = user.displayName || ('User_'+user.uid.substring(0,4));
+            await db.ref('userProfiles/'+user.uid).set({
+                username: uname,
+                usernameLower: uname.toLowerCase(),
+                email: (user.email || '').toLowerCase()
+            }).catch(() => {});
+        }
+
+        // Silently backfill lookup indexes (no-op if already present)
+        backfillUserIndexes(user.uid).catch(() => {});
+
+        myUsername = user.displayName ||
+            (profSnap.exists() && profSnap.val().username) ||
+            ('User_'+user.uid.substring(0,4));
+
         document.getElementById('auth-overlay').style.display = 'none';
         document.getElementById('my-username-display').textContent = myUsername;
         await initApp();
@@ -1333,6 +1519,60 @@ auth.onAuthStateChanged(async user => {
 
 document.getElementById('logout-btn').onclick = () => {
     document.getElementById('logout-overlay').style.display = 'flex';
+};
+
+document.getElementById('fix-accounts-btn').onclick = () => {
+    document.getElementById('migration-status').innerHTML = 'Click "Run Fix Now" to scan all database nodes<br>and rebuild the username/email search indexes.<br><br>This fixes the "account not found" problem for<br>all users who signed up before the index was created.';
+    document.getElementById('migration-overlay').style.display = 'flex';
+};
+
+document.getElementById('migration-close').onclick = () => {
+    document.getElementById('migration-overlay').style.display = 'none';
+};
+
+document.getElementById('migration-run').onclick = async () => {
+    const btn = document.getElementById('migration-run');
+    const statusEl = document.getElementById('migration-status');
+    btn.disabled = true;
+    btn.textContent = 'Running...';
+    statusEl.innerHTML = '⏳ Scanning database nodes...<br>(userProfiles, usernames, users)';
+
+    try {
+        let count = 0;
+        const nodesToScan = ['userProfiles', 'usernames', 'users'];
+        const seenUids = new Set();
+        const log = [];
+
+        for (const node of nodesToScan) {
+            statusEl.innerHTML += '<br>📂 Checking node: <b>' + node + '</b>...';
+            const snap = await db.ref(node).once('value');
+            if (!snap.exists()) {
+                log.push('  └ ' + node + ': empty / not found');
+                continue;
+            }
+            const uids = [];
+            snap.forEach(child => {
+                if (!seenUids.has(child.key)) {
+                    seenUids.add(child.key);
+                    uids.push(child.key);
+                }
+            });
+            log.push('  └ ' + node + ': found ' + uids.length + ' entries');
+            for (const uid of uids) {
+                await backfillUserIndexes(uid);
+                count++;
+            }
+        }
+
+        statusEl.innerHTML = '✅ Done! Fixed <b>' + count + '</b> accounts.<br><br>' +
+            log.map(l => l.replace(/</g,'&lt;')).join('<br>') +
+            '<br><br>Users can now be found by username or email.';
+        btn.textContent = '✓ Complete';
+    } catch(err) {
+        statusEl.innerHTML = '❌ Error: ' + err.message + '<br><br>Check Firebase Database Rules — you may need to allow reads temporarily.';
+        btn.disabled = false;
+        btn.textContent = 'Retry';
+    }
 };
 
 // ===================== INIT =====================
@@ -1496,30 +1736,25 @@ document.getElementById('confirm-add-contact').onclick = async () => {
         if (addContactMode === 'username') {
             const raw = document.getElementById('contact-username-input').value.trim().replace(/^@/, '');
             if (!raw) { showContactError('Enter a username'); return; }
-            const lower = raw.toLowerCase();
-            if (lower === myUsername.toLowerCase()) { showContactError("That's your own username!"); return; }
-
-            // Look up via usernameLookup index (O(1), no scan needed)
-            const snap = await db.ref('usernameLookup/'+lower).once('value');
-            if (!snap.exists()) { showContactError('No account found with that username'); return; }
-            foundUid = snap.val();
-            const profSnap = await db.ref('userProfiles/'+foundUid).once('value');
-            foundData = profSnap.val() || {};
+            if (raw.toLowerCase() === myUsername.toLowerCase()) {
+                showContactError("That's your own username!"); return;
+            }
+            const result = await findUserByUsername(raw);
+            if (!result) { showContactError('No account found with that username'); return; }
+            foundUid = result.uid;
+            foundData = result.profile || {};
 
         } else {
-            const email = document.getElementById('contact-email-input').value.trim().toLowerCase();
+            const email = document.getElementById('contact-email-input').value.trim();
             if (!email) { showContactError('Enter an email'); return; }
-            if (email === currentUser.email.toLowerCase()) { showContactError("That's your own email!"); return; }
-
-            // Look up via emailLookup index (O(1), avoids orderByChild scan)
-            const emailKey = email.replace(/\./g, '_');
-            const snap = await db.ref('emailLookup/'+emailKey).once('value');
-            if (!snap.exists()) { showContactError('No account found with that email'); return; }
-            foundUid = snap.val();
-            const profSnap = await db.ref('userProfiles/'+foundUid).once('value');
-            foundData = profSnap.val() || {};
+            if (email.toLowerCase() === (currentUser.email || '').toLowerCase()) {
+                showContactError("That's your own email!"); return;
+            }
+            const result = await findUserByEmail(email);
+            if (!result) { showContactError('No account found with that email'); return; }
+            foundUid = result.uid;
+            foundData = result.profile || {};
         }
-
         if (!foundUid || foundUid === myUid) { showContactError("That's your own account!"); return; }
 
         // Check not already a contact
@@ -2127,14 +2362,18 @@ function hideContactError() { document.getElementById('contact-error').classList
 
 function firebaseErrMsg(code) {
     const m = {
-        'auth/email-already-in-use': 'Email already in use',
-        'auth/invalid-email': 'Invalid email',
-        'auth/user-not-found': 'No account with that email',
-        'auth/wrong-password': 'Wrong password',
-        'auth/weak-password': 'Password too short',
-        'auth/network-request-failed': 'Network error'
+        'auth/email-already-in-use': 'Email already in use — try logging in instead',
+        'auth/invalid-email': 'Invalid email address',
+        'auth/user-not-found': 'Incorrect email or password',
+        'auth/wrong-password': 'Incorrect email or password',
+        'auth/invalid-credential': 'Incorrect email or password',
+        'auth/invalid-login-credentials': 'Incorrect email or password',
+        'auth/weak-password': 'Password must be at least 6 characters',
+        'auth/too-many-requests': 'Too many attempts — please try again later',
+        'auth/network-request-failed': 'Network error — check your connection',
+        'auth/user-disabled': 'This account has been disabled'
     };
-    return m[code] || 'An error occurred';
+    return m[code] || ('Sign-in error: ' + code);
 }
 </script>
 
