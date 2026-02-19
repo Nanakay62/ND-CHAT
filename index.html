@@ -971,8 +971,15 @@
 <div class="overlay" id="add-contact-overlay" style="display:none">
     <div class="add-contact-modal">
         <h3>Add Contact</h3>
-        <p>Enter the email address of someone to add as a contact. They must have an account.</p>
-        <div class="form-group"><input type="email" class="form-input" id="contact-email-input" placeholder="friend@email.com"></div>
+        <p>Search by <b id="search-mode-label" style="color:var(--accent)">username</b> or switch to email.</p>
+        <div style="display:flex;background:var(--surface2);border-radius:10px;padding:3px;margin-bottom:14px;gap:3px">
+            <button class="tab active" id="mode-username" style="flex:1;padding:8px;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.3)">Username</button>
+            <button class="tab" id="mode-email" style="flex:1;padding:8px;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;background:transparent;color:var(--text-dim)">Email</button>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-input" id="contact-username-input" placeholder="@username">
+            <input type="email" class="form-input" id="contact-email-input" placeholder="friend@email.com" style="display:none">
+        </div>
         <div style="display:flex;gap:8px;margin-top:8px">
             <button class="submit-btn" style="background:var(--surface2);color:var(--text);border:1px solid var(--border)" id="cancel-add-contact">Cancel</button>
             <button class="submit-btn" id="confirm-add-contact">Add Contact</button>
@@ -1074,14 +1081,27 @@ document.getElementById('login-btn').onclick = async () => {
 
 document.getElementById('signup-btn').onclick = async () => {
     const uname = document.getElementById('signup-username').value.trim();
-    const email = document.getElementById('signup-email').value.trim();
+    const email = document.getElementById('signup-email').value.trim().toLowerCase();
     const pass = document.getElementById('signup-password').value;
+    const unameLower = uname.toLowerCase();
+
     if (!uname||!email||!pass) return showAuthError('Fill all fields');
     if (pass.length < 6) return showAuthError('Password must be at least 6 characters');
+    if (!/^[a-zA-Z0-9_]+$/.test(uname)) return showAuthError('Username can only contain letters, numbers, and underscores');
+
+    // Check username uniqueness (case-insensitive via lowercase index)
+    const usnap = await db.ref('usernameLookup/'+unameLower).once('value');
+    if (usnap.exists()) return showAuthError('That username is already taken — try another');
+
     try {
         const cred = await auth.createUserWithEmailAndPassword(email, pass);
         await cred.user.updateProfile({displayName: uname});
-        await db.ref('userProfiles/'+cred.user.uid).set({username: uname, email});
+        // Write profile: always store email lowercase so search is reliable
+        await db.ref('userProfiles/'+cred.user.uid).set({username: uname, usernameLower, email});
+        // Write username lookup index (usernameLower -> uid) for uniqueness + search
+        await db.ref('usernameLookup/'+unameLower).set(cred.user.uid);
+        // Write email lookup index (email -> uid) for add-by-email
+        await db.ref('emailLookup/'+email.replace(/\./g,'_')).set(cred.user.uid);
     } catch(e) { showAuthError(firebaseErrMsg(e.code)); }
 };
 
@@ -1200,8 +1220,31 @@ document.getElementById('search-contacts').oninput = renderContactsList;
 
 // ===================== ADD CONTACT =====================
 
+let addContactMode = 'username'; // 'username' or 'email'
+
+document.getElementById('mode-username').onclick = () => {
+    addContactMode = 'username';
+    document.getElementById('mode-username').style.cssText += ';background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.3)';
+    document.getElementById('mode-email').style.cssText += ';background:transparent;color:var(--text-dim);box-shadow:none';
+    document.getElementById('contact-username-input').style.display = '';
+    document.getElementById('contact-email-input').style.display = 'none';
+    document.getElementById('search-mode-label').textContent = 'username';
+    hideContactError();
+};
+
+document.getElementById('mode-email').onclick = () => {
+    addContactMode = 'email';
+    document.getElementById('mode-email').style.cssText += ';background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.3)';
+    document.getElementById('mode-username').style.cssText += ';background:transparent;color:var(--text-dim);box-shadow:none';
+    document.getElementById('contact-email-input').style.display = '';
+    document.getElementById('contact-username-input').style.display = 'none';
+    document.getElementById('search-mode-label').textContent = 'email';
+    hideContactError();
+};
+
 document.getElementById('add-contact-btn').onclick = () => {
     document.getElementById('add-contact-overlay').style.display = 'flex';
+    document.getElementById('contact-username-input').value = '';
     document.getElementById('contact-email-input').value = '';
     hideContactError();
 };
@@ -1211,25 +1254,58 @@ document.getElementById('cancel-add-contact').onclick = () => {
 };
 
 document.getElementById('confirm-add-contact').onclick = async () => {
-    const email = document.getElementById('contact-email-input').value.trim().toLowerCase();
-    if (!email) return showContactError('Enter an email');
-    if (email === currentUser.email) return showContactError("That's your own email!");
+    hideContactError();
+    const btn = document.getElementById('confirm-add-contact');
+    btn.disabled = true;
+    btn.textContent = 'Searching...';
 
-    // Find user by email
-    const snap = await db.ref('userProfiles').orderByChild('email').equalTo(email).once('value');
-    if (!snap.exists()) return showContactError('No account found with that email');
+    try {
+        let foundUid = null, foundData = null;
 
-    let foundUid = null, foundData = null;
-    snap.forEach(child => { foundUid = child.key; foundData = child.val(); });
+        if (addContactMode === 'username') {
+            const raw = document.getElementById('contact-username-input').value.trim().replace(/^@/, '');
+            if (!raw) { showContactError('Enter a username'); return; }
+            const lower = raw.toLowerCase();
+            if (lower === myUsername.toLowerCase()) { showContactError("That's your own username!"); return; }
 
-    if (foundUid === myUid) return showContactError("That's your own account!");
+            // Look up via usernameLookup index (O(1), no scan needed)
+            const snap = await db.ref('usernameLookup/'+lower).once('value');
+            if (!snap.exists()) { showContactError('No account found with that username'); return; }
+            foundUid = snap.val();
+            const profSnap = await db.ref('userProfiles/'+foundUid).once('value');
+            foundData = profSnap.val() || {};
 
-    // Add mutually
-    await db.ref('contacts/'+myUid+'/'+foundUid).set(true);
-    await db.ref('contacts/'+foundUid+'/'+myUid).set(true);
+        } else {
+            const email = document.getElementById('contact-email-input').value.trim().toLowerCase();
+            if (!email) { showContactError('Enter an email'); return; }
+            if (email === currentUser.email.toLowerCase()) { showContactError("That's your own email!"); return; }
 
-    document.getElementById('add-contact-overlay').style.display = 'none';
-    showNotif(`Added ${foundData.username} as a contact!`);
+            // Look up via emailLookup index (O(1), avoids orderByChild scan)
+            const emailKey = email.replace(/\./g, '_');
+            const snap = await db.ref('emailLookup/'+emailKey).once('value');
+            if (!snap.exists()) { showContactError('No account found with that email'); return; }
+            foundUid = snap.val();
+            const profSnap = await db.ref('userProfiles/'+foundUid).once('value');
+            foundData = profSnap.val() || {};
+        }
+
+        if (!foundUid || foundUid === myUid) { showContactError("That's your own account!"); return; }
+
+        // Check not already a contact
+        const existing = await db.ref('contacts/'+myUid+'/'+foundUid).once('value');
+        if (existing.exists()) { showContactError('Already in your contacts!'); return; }
+
+        // Add mutually
+        await db.ref('contacts/'+myUid+'/'+foundUid).set(true);
+        await db.ref('contacts/'+foundUid+'/'+myUid).set(true);
+
+        document.getElementById('add-contact-overlay').style.display = 'none';
+        showNotif('Added ' + (foundData.username || 'contact') + '!');
+
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Add Contact';
+    }
 };
 
 // ===================== OPEN CHAT =====================
