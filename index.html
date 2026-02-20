@@ -1035,6 +1035,171 @@
         .btn-confirm-del:hover { background: #ef4444; }
 
         audio { display: none; }
+
+        /* === ATTACH MENU === */
+        .attach-menu {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            animation: msgIn 0.15s ease;
+            min-width: 130px;
+        }
+        .input-row { position: relative; }
+        .attach-opt {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border: none;
+            background: transparent;
+            color: var(--text);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            transition: background 0.15s;
+        }
+        .attach-opt:hover { background: var(--surface2); }
+        .attach-opt svg { flex-shrink: 0; color: var(--accent); }
+
+        /* === VOICE RECORDING BAR === */
+        .voice-recording-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 4px;
+            animation: msgIn 0.2s ease;
+        }
+        .voice-rec-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--danger);
+            animation: recPulse 1s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes recPulse {
+            0%,100% { opacity: 1; } 50% { opacity: 0.3; }
+        }
+        .voice-rec-time {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            color: var(--text);
+            flex-shrink: 0;
+            min-width: 36px;
+        }
+        .voice-rec-wave {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 28px;
+        }
+        .voice-rec-wave span {
+            display: block;
+            width: 3px;
+            border-radius: 99px;
+            background: var(--accent);
+            animation: wave 0.8s ease-in-out infinite;
+        }
+        .voice-rec-wave span:nth-child(1) { animation-delay: 0s; }
+        .voice-rec-wave span:nth-child(2) { animation-delay: 0.1s; }
+        .voice-rec-wave span:nth-child(3) { animation-delay: 0.2s; }
+        .voice-rec-wave span:nth-child(4) { animation-delay: 0.1s; }
+        .voice-rec-wave span:nth-child(5) { animation-delay: 0s; }
+        @keyframes wave {
+            0%,100% { height: 6px; } 50% { height: 22px; }
+        }
+
+        /* === VOICE NOTE BUBBLE === */
+        .voice-note-player {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 180px;
+        }
+        .voice-play-btn {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .voice-play-btn:hover { background: rgba(255,255,255,0.35); }
+        .voice-progress {
+            flex: 1;
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 99px;
+            position: relative;
+            cursor: pointer;
+        }
+        .voice-progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 99px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        .voice-duration {
+            font-size: 11px;
+            opacity: 0.7;
+            font-family: 'Space Mono', monospace;
+            flex-shrink: 0;
+        }
+
+        /* === DOCUMENT BUBBLE === */
+        .doc-bubble {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 0;
+        }
+        .doc-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 18px;
+        }
+        .doc-info { flex: 1; min-width: 0; }
+        .doc-name {
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .doc-size { font-size: 11px; opacity: 0.6; margin-top: 1px; }
+        .doc-dl-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .doc-dl-btn:hover { background: rgba(255,255,255,0.25); }
     </style>
 </head>
 <body>
@@ -1107,22 +1272,50 @@
         <div class="timer-picker">
             <span class="timer-label">⏱</span>
             <div class="timer-chips" id="timer-chips">
-                <button class="timer-chip active" data-mins="5">5m</button>
+                <button class="timer-chip" data-mins="5">5m</button>
                 <button class="timer-chip" data-mins="10">10m</button>
                 <button class="timer-chip" data-mins="15">15m</button>
-                <button class="timer-chip" data-mins="20">20m</button>
                 <button class="timer-chip" data-mins="30">30m</button>
+                <button class="timer-chip" data-mins="60">1h</button>
+                <button class="timer-chip active" data-mins="1440">24h</button>
             </div>
         </div>
         <div class="typing-bar" id="typing-bar"></div>
         <div class="input-row">
-            <button class="icon-btn" id="attach-btn" title="Send image">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <button class="icon-btn attach-menu-btn" id="attach-menu-btn" title="Attach">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
             </button>
-            <input type="file" id="image-input" accept="image/*">
+            <!-- Attach popup menu -->
+            <div class="attach-menu" id="attach-menu" style="display:none">
+                <button class="attach-opt" id="img-attach-btn" title="Photo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <span>Photo</span>
+                </button>
+                <button class="attach-opt" id="doc-attach-btn" title="Document">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <span>File</span>
+                </button>
+            </div>
+            <input type="file" id="image-input" accept="image/*" style="display:none">
+            <input type="file" id="doc-input" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.csv" style="display:none">
             <input type="text" class="msg-input" id="message-input" placeholder="Message..." autocomplete="off">
+            <button class="icon-btn voice-btn" id="voice-btn" title="Voice note">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </button>
             <button class="send-btn" id="send-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+        </div>
+        <!-- Voice recording UI -->
+        <div class="voice-recording-bar" id="voice-recording-bar" style="display:none">
+            <div class="voice-rec-dot"></div>
+            <span class="voice-rec-time" id="voice-rec-time">0:00</span>
+            <div class="voice-rec-wave">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <button class="icon-btn" id="voice-cancel-btn" style="color:var(--danger)">✕</button>
+            <button class="send-btn" id="voice-send-btn" style="background:var(--online)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
         </div>
     </div>
@@ -1428,7 +1621,7 @@ let typingTimeout = null;
 let contactsData = {}; // uid -> {username, email, online}
 
 // Timer & reply state
-let selectedTTL = 5 * 60 * 1000; // default 5 min in ms
+let selectedTTL = 24 * 60 * 60 * 1000; // default 24 hours in ms
 let replyingTo = null; // { key, senderName, text }
 let pendingDeleteUid = null;
 
@@ -1836,13 +2029,22 @@ function loadMessages(contactUid) {
     cleanExpiredMessages(convoId);
     const cleanInterval = setInterval(() => cleanExpiredMessages(convoId), 30000);
 
+    let firstLoad = true;
+    // Small delay so initial messages don't trigger notifications on load
+    setTimeout(() => { firstLoad = false; }, 2000);
+
     ref.orderByChild('timestamp').limitToLast(100).on('child_added', snap => {
         const msg = snap.val();
         const now = Date.now();
         const age = now - msg.timestamp;
-        const ttl = msg.ttl || 5 * 60 * 1000; // fallback 5 min
+        const ttl = msg.ttl || 24 * 60 * 60 * 1000; // fallback 24h
         if (age >= ttl) return; // Already expired, skip
         renderMessage(snap.key, msg);
+        // Fire push notification for incoming messages
+        if (!firstLoad && msg.senderId !== myUid && age < 10000) {
+            const body = msg.text || (msg.imageData ? '📷 Sent a photo' : msg.voiceData ? '🎤 Voice note' : msg.docData ? ('📎 ' + (msg.docName||'File')) : '');
+            showPushNotif(msg.senderName || 'New message', body);
+        }
         // Schedule visual removal
         const remaining = ttl - age;
         setTimeout(() => {
@@ -1880,7 +2082,7 @@ async function cleanExpiredMessages(convoId) {
     const updates = {};
     snap.forEach(child => {
         const msg = child.val();
-        const ttl = msg.ttl || 5 * 60 * 1000;
+        const ttl = msg.ttl || 24 * 60 * 60 * 1000;
         if (now - msg.timestamp >= ttl) {
             updates[child.key] = null;
         }
@@ -1895,7 +2097,7 @@ function renderMessage(key, msg) {
     const isSent = msg.senderId === myUid;
     const now = Date.now();
     const age = now - msg.timestamp;
-    const ttl = msg.ttl || 5 * 60 * 1000;
+    const ttl = msg.ttl || 24 * 60 * 60 * 1000;
     const remaining = ttl - age;
     const remainSec = Math.max(0, Math.floor(remaining/1000));
 
@@ -1918,6 +2120,33 @@ function renderMessage(key, msg) {
     let innerContent = quoteHtml;
     if (msg.imageData) {
         innerContent += `<img src="${msg.imageData}" class="msg-image" onclick="showImgPreview('${msg.imageData.replace(/'/g, "\\'")}')">`;
+    }
+    if (msg.voiceData) {
+        const dur = msg.voiceDuration || 0;
+        const durStr = Math.floor(dur/60) + ':' + String(dur%60).padStart(2,'0');
+        const uid = 'vn-' + key;
+        innerContent += `<div class="voice-note-player">
+            <button class="voice-play-btn" onclick="toggleVoice('${uid}','${msg.voiceData.replace(/'/g,"\\'")}',this)">▶</button>
+            <div class="voice-progress" id="vp-${uid}"><div class="voice-progress-fill" id="vpf-${uid}"></div></div>
+            <span class="voice-duration">${durStr}</span>
+        </div>`;
+    }
+    if (msg.docData) {
+        const sizeKB = msg.docSize ? (msg.docSize/1024).toFixed(0)+'KB' : '';
+        const ext = (msg.docName||'').split('.').pop().toUpperCase();
+        const icons = {PDF:'📄',DOC:'📝',DOCX:'📝',XLS:'📊',XLSX:'📊',PPT:'📋',PPTX:'📋',ZIP:'🗜️',TXT:'📃',CSV:'📊'};
+        const icon = icons[ext] || '📎';
+        innerContent += `<div class="doc-bubble">
+            <div class="doc-icon">${icon}</div>
+            <div class="doc-info">
+                <div class="doc-name">${escHtml(msg.docName||'File')}</div>
+                <div class="doc-size">${ext}${sizeKB ? ' · '+sizeKB : ''}</div>
+            </div>
+            <button class="doc-dl-btn" onclick="downloadDoc('${key}')">↓</button>
+        </div>`;
+        // Store doc data for download
+        window._docStore = window._docStore || {};
+        window._docStore[key] = { data: msg.docData, name: msg.docName || 'file' };
     }
     if (msg.text) {
         innerContent += `<div>${escHtml(msg.text)}</div>`;
@@ -2022,11 +2251,8 @@ function addSwipeToReply(row, key, msg) {
 }
 
 function triggerReply(key, msg) {
-    replyingTo = {
-        key,
-        senderName: msg.senderName || 'Unknown',
-        text: msg.text || (msg.imageData ? '📷 Image' : '')
-    };
+    const previewText = msg.text || (msg.imageData ? '📷 Image' : msg.voiceData ? '🎤 Voice note' : msg.docData ? ('📎 ' + (msg.docName||'File')) : '');
+    replyingTo = { key, senderName: msg.senderName || 'Unknown', text: previewText };
     document.getElementById('reply-preview-label').textContent = 'Replying to ' + replyingTo.senderName;
     document.getElementById('reply-preview-body').textContent = replyingTo.text;
     document.getElementById('reply-preview').classList.add('show');
@@ -2068,14 +2294,74 @@ async function sendMessage() {
     await db.ref('conversations/'+convoId+'/messages').push(msgData);
 }
 
-// Image upload
-document.getElementById('attach-btn').onclick = () => document.getElementById('image-input').click();
+// ── Voice note playback ──
+const _voicePlayers = {};
+function toggleVoice(uid, src, btn) {
+    if (_voicePlayers[uid]) {
+        const audio = _voicePlayers[uid];
+        if (audio.paused) { audio.play(); btn.textContent = '⏸'; }
+        else { audio.pause(); btn.textContent = '▶'; }
+        return;
+    }
+    const audio = new Audio(src);
+    _voicePlayers[uid] = audio;
+    audio.onended = () => {
+        btn.textContent = '▶';
+        const fill = document.getElementById('vpf-'+uid);
+        if (fill) fill.style.width = '0%';
+    };
+    audio.ontimeupdate = () => {
+        const fill = document.getElementById('vpf-'+uid);
+        if (fill && audio.duration) fill.style.width = (audio.currentTime/audio.duration*100)+'%';
+    };
+    audio.play();
+    btn.textContent = '⏸';
+}
+
+// ── Document download ──
+function downloadDoc(key) {
+    const doc = (window._docStore || {})[key];
+    if (!doc) return;
+    const a = document.createElement('a');
+    a.href = doc.data;
+    a.download = doc.name;
+    a.click();
+}
+
+// ── Timer chips ──
+document.getElementById('timer-chips').addEventListener('click', e => {
+    const chip = e.target.closest('.timer-chip');
+    if (!chip) return;
+    document.querySelectorAll('.timer-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    selectedTTL = parseInt(chip.dataset.mins) * 60 * 1000;
+});
+
+// ── Attach menu toggle ──
+document.getElementById('attach-menu-btn').onclick = e => {
+    e.stopPropagation();
+    const menu = document.getElementById('attach-menu');
+    menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+    if (menu.style.display === 'flex') menu.style.flexDirection = 'column';
+};
+document.addEventListener('click', () => {
+    const menu = document.getElementById('attach-menu');
+    if (menu) menu.style.display = 'none';
+});
+
+// ── Image attach ──
+document.getElementById('img-attach-btn').onclick = e => {
+    e.stopPropagation();
+    document.getElementById('attach-menu').style.display = 'none';
+    document.getElementById('image-input').click();
+};
+
 document.getElementById('image-input').onchange = async e => {
     const file = e.target.files[0];
     if (!file || !activeContactUid) return;
-    if (file.size > 500*1024) return alert('Image too large (max 500KB)');
     try {
-        const base64 = await fileToBase64(file);
+        showNotif('Compressing image...');
+        const base64 = await compressImage(file, 480);  // auto-compress to <500KB
         const convoId = getConvoId(myUid, activeContactUid);
         await db.ref('conversations/'+convoId+'/messages').push({
             senderId: myUid,
@@ -2084,7 +2370,75 @@ document.getElementById('image-input').onchange = async e => {
             ttl: selectedTTL,
             timestamp: firebase.database.ServerValue.TIMESTAMP
         });
-    } catch(err) { alert('Failed to upload image'); }
+    } catch(err) { showNotif('Failed to send image'); }
+    e.target.value = '';
+};
+
+// ── Auto-compress image to <500KB ──
+function compressImage(file, maxDim = 1280, maxBytes = 490000) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+            URL.revokeObjectURL(url);
+            let { width, height } = img;
+            // Scale down if needed
+            if (width > maxDim || height > maxDim) {
+                if (width > height) { height = Math.round(height * maxDim / width); width = maxDim; }
+                else { width = Math.round(width * maxDim / height); height = maxDim; }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width; canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            // Binary search for quality that fits under maxBytes
+            let lo = 0.1, hi = 0.95, best = '';
+            for (let i = 0; i < 8; i++) {
+                const mid = (lo + hi) / 2;
+                const data = canvas.toDataURL('image/jpeg', mid);
+                const bytes = Math.round((data.length - 22) * 3 / 4);
+                if (bytes <= maxBytes) { best = data; lo = mid; }
+                else { hi = mid; }
+            }
+            if (!best) best = canvas.toDataURL('image/jpeg', 0.1);
+            resolve(best);
+        };
+        img.onerror = reject;
+        img.src = url;
+    });
+}
+
+// ── Document attach ──
+document.getElementById('doc-attach-btn').onclick = e => {
+    e.stopPropagation();
+    document.getElementById('attach-menu').style.display = 'none';
+    document.getElementById('doc-input').click();
+};
+
+document.getElementById('doc-input').onchange = async e => {
+    const file = e.target.files[0];
+    if (!file || !activeContactUid) return;
+    const maxDocSize = 2 * 1024 * 1024; // 2MB limit for docs stored as base64
+    if (file.size > maxDocSize) {
+        showNotif('File too large (max 2MB)');
+        e.target.value = '';
+        return;
+    }
+    try {
+        showNotif('Attaching file...');
+        const base64 = await fileToBase64(file);
+        const convoId = getConvoId(myUid, activeContactUid);
+        await db.ref('conversations/'+convoId+'/messages').push({
+            senderId: myUid,
+            senderName: myUsername,
+            docData: base64,
+            docName: file.name,
+            docSize: file.size,
+            docType: file.type,
+            ttl: selectedTTL,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+    } catch(err) { showNotif('Failed to send file'); }
     e.target.value = '';
 };
 
@@ -2095,6 +2449,83 @@ function fileToBase64(file) {
         r.onerror = rej;
         r.readAsDataURL(file);
     });
+}
+
+// ── Voice notes ──
+let mediaRecorder = null, audioChunks = [], voiceTimer = null, voiceSeconds = 0;
+
+document.getElementById('voice-btn').onmousedown = startVoiceRecording;
+document.getElementById('voice-btn').ontouchstart = e => { e.preventDefault(); startVoiceRecording(); };
+
+async function startVoiceRecording() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioChunks = [];
+        voiceSeconds = 0;
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+        mediaRecorder.start(100);
+
+        document.getElementById('voice-btn').style.display = 'none';
+        document.getElementById('voice-recording-bar').style.display = 'flex';
+        document.getElementById('send-btn').style.display = 'none';
+
+        voiceTimer = setInterval(() => {
+            voiceSeconds++;
+            const m = Math.floor(voiceSeconds / 60), s = voiceSeconds % 60;
+            document.getElementById('voice-rec-time').textContent = m + ':' + String(s).padStart(2, '0');
+        }, 1000);
+    } catch(err) { showNotif('Microphone access denied'); }
+}
+
+function stopVoiceRecording() {
+    if (!mediaRecorder) return;
+    clearInterval(voiceTimer);
+    mediaRecorder.stream.getTracks().forEach(t => t.stop());
+    mediaRecorder.stop();
+    document.getElementById('voice-recording-bar').style.display = 'none';
+    document.getElementById('voice-btn').style.display = 'flex';
+    document.getElementById('send-btn').style.display = 'flex';
+    mediaRecorder = null;
+}
+
+document.getElementById('voice-cancel-btn').onclick = () => { stopVoiceRecording(); audioChunks = []; };
+
+document.getElementById('voice-send-btn').onclick = async () => {
+    if (!mediaRecorder || !activeContactUid) return;
+    const duration = voiceSeconds;
+    stopVoiceRecording();
+    await new Promise(r => setTimeout(r, 200)); // let ondataavailable flush
+    if (audioChunks.length === 0) return;
+    const blob = new Blob(audioChunks, { type: 'audio/webm' });
+    if (blob.size > 1.5 * 1024 * 1024) { showNotif('Voice note too long (max ~3 min)'); return; }
+    const reader = new FileReader();
+    reader.onload = async () => {
+        const convoId = getConvoId(myUid, activeContactUid);
+        await db.ref('conversations/'+convoId+'/messages').push({
+            senderId: myUid,
+            senderName: myUsername,
+            voiceData: reader.result,
+            voiceDuration: duration,
+            ttl: selectedTTL,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+    };
+    reader.readAsDataURL(blob);
+};
+
+// ── Push Notifications ──
+let notifPermission = 'default';
+async function requestNotifications() {
+    if (!('Notification' in window)) return;
+    notifPermission = await Notification.requestPermission();
+}
+requestNotifications();
+
+function showPushNotif(title, body) {
+    if (notifPermission !== 'granted') return;
+    if (document.visibilityState === 'visible') return; // only when tab is hidden
+    try { new Notification(title, { body, icon: '' }); } catch(e) {}
 }
 
 // ===================== TYPING =====================
