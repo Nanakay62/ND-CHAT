@@ -1480,6 +1480,41 @@ async function readProfileFromAnyNode(uid) {
     return null;
 }
 
+// ── Resolve the best available username for any uid across all nodes ──
+async function resolveUsername(uid) {
+    // 1. userProfiles (primary)
+    const profSnap = await db.ref('userProfiles/'+uid).once('value');
+    const prof = profSnap.val();
+    if (prof && prof.username) return prof.username;
+
+    // 2. Old 'usernames' node
+    try {
+        const unSnap = await db.ref('usernames/'+uid).once('value');
+        const un = unSnap.val();
+        if (un) {
+            const name = (typeof un === 'string') ? un : (un.username || un.displayName || un.name);
+            if (name) return name;
+        }
+    } catch(e) {}
+
+    // 3. presence node (sometimes has username)
+    try {
+        const presSnap = await db.ref('presence/'+uid).once('value');
+        const pres = presSnap.val();
+        if (pres && pres.username) return pres.username;
+    } catch(e) {}
+
+    // 4. Old 'users' node
+    try {
+        const usSnap = await db.ref('users/'+uid).once('value');
+        const us = usSnap.val();
+        if (us && (us.username || us.displayName)) return us.username || us.displayName;
+    } catch(e) {}
+
+    return null; // caller decides what to show
+}
+
+
 // ── Backfill/repair all lookup indexes for a uid ──
 async function backfillUserIndexes(uid) {
     const prof = await readProfileFromAnyNode(uid);
@@ -1683,23 +1718,33 @@ auth.onAuthStateChanged(async user => {
         currentUser = user;
         myUid = user.uid;
 
-        // Ensure userProfiles row exists (handles accounts created before profiles were added)
+        // Read existing profile — never overwrite a real username with a generated one
         const profSnap = await db.ref('userProfiles/'+user.uid).once('value');
-        if (!profSnap.exists() || !profSnap.val().email) {
-            const uname = user.displayName || ('User_'+user.uid.substring(0,4));
-            await db.ref('userProfiles/'+user.uid).set({
-                username: uname,
-                usernameLower: uname.toLowerCase(),
-                email: (user.email || '').toLowerCase()
-            }).catch(() => {});
+        const prof = profSnap.val() || {};
+
+        // Priority: database username → Firebase Auth displayName → nothing fake
+        const realUsername = prof.username || user.displayName || null;
+
+        if (!profSnap.exists() || !prof.username) {
+            // Profile is missing or has no username. Only write if we have a REAL name
+            // (displayName is set during signup via updateProfile).
+            if (realUsername) {
+                const unameLower = realUsername.toLowerCase();
+                await db.ref('userProfiles/'+user.uid).update({
+                    username: realUsername,
+                    usernameLower: unameLower,
+                    email: prof.email || (user.email || '').toLowerCase()
+                }).catch(() => {});
+            }
+            // If we have no real name either, leave the profile as-is and do NOT
+            // write a generated "User_XXXX" name that would corrupt their account.
         }
 
-        // Silently backfill lookup indexes (no-op if already present)
+        // Silently backfill lookup indexes
         backfillUserIndexes(user.uid).catch(() => {});
 
-        myUsername = user.displayName ||
-            (profSnap.exists() && profSnap.val().username) ||
-            ('User_'+user.uid.substring(0,4));
+        // Use real username or display name — never a generated fallback as the displayed name
+        myUsername = realUsername || 'Unknown';
 
         document.getElementById('auth-overlay').style.display = 'none';
         document.getElementById('my-username-display').textContent = myUsername;
@@ -1807,11 +1852,8 @@ function loadContacts() {
 
         let loaded = 0;
         uids.forEach(uid => {
-            // Get profile
-            db.ref('userProfiles/'+uid).once('value', ps => {
-                const profile = ps.val() || {};
-                contactsData[uid] = {username: profile.username || uid, email: profile.email || ''};
-                // Listen to presence
+            resolveUsername(uid).then(username => {
+                contactsData[uid] = { username, email: '' };
                 db.ref('presence/'+uid).on('value', psnap => {
                     const pres = psnap.val() || {};
                     if (!contactsData[uid]) contactsData[uid] = {};
