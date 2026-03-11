@@ -26,9 +26,10 @@
             --online: #34d399;
             --danger: #f87171;
             --shadow: rgba(0,0,0,0.3);
+            --app-height: 100dvh;
+            --chat-bg: var(--bg);
         }
 
-        /* ── Light / White-Blue theme ── */
         body.light {
             --bg: #f0f4ff;
             --surface: #ffffff;
@@ -45,65 +46,20 @@
             --shadow: rgba(99,120,255,0.12);
         }
 
-        /* body gradient background */
-        body.light {
-            background: linear-gradient(135deg, #f8faff 0%, #eef2ff 40%, #dde8ff 100%);
-        }
-        body.light .sidebar {
-            background: linear-gradient(180deg, #ffffff 0%, #f4f7ff 100%);
-            box-shadow: 2px 0 20px rgba(99,120,255,0.1);
-        }
-        body.light .chat-area {
-            background: linear-gradient(160deg, #f8faff 0%, #eef2ff 60%, #e0e9ff 100%);
-        }
-        body.light .toolbar {
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(99,120,255,0.12);
-            box-shadow: 0 2px 16px rgba(99,120,255,0.08);
-        }
-        body.light .input-area {
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(16px);
-            border-top: 1px solid rgba(99,120,255,0.12);
-        }
-        body.light .msg-bubble {
-            box-shadow: 0 2px 12px var(--shadow);
-        }
-        body.light .msg-row.received .msg-bubble {
-            background: #ffffff;
-            border: 1px solid rgba(99,120,255,0.1);
-        }
-        body.light .modal,
-        body.light .add-contact-modal,
-        body.light .confirm-modal,
-        body.light .incoming-call-modal {
-            background: #ffffff;
-            box-shadow: 0 20px 60px rgba(99,120,255,0.2);
-        }
-        body.light .overlay {
-            background: rgba(99,120,255,0.15);
-            backdrop-filter: blur(8px);
-        }
-        body.light .search-input,
-        body.light .form-input {
-            background: #f0f4ff;
-            border-color: rgba(99,120,255,0.2);
-            color: var(--text);
-        }
-        body.light .search-input:focus,
-        body.light .form-input:focus {
-            border-color: var(--accent);
-            background: #ffffff;
-        }
+        body.light { background: linear-gradient(135deg, #f8faff 0%, #eef2ff 40%, #dde8ff 100%); }
+        body.light .sidebar { background: linear-gradient(180deg, #ffffff 0%, #f4f7ff 100%); box-shadow: 2px 0 20px rgba(99,120,255,0.1); }
+        body.light .chat-area { background: linear-gradient(160deg, #f8faff 0%, #eef2ff 60%, #e0e9ff 100%); }
+        body.light .toolbar { background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(99,120,255,0.12); box-shadow: 0 2px 16px rgba(99,120,255,0.08); }
+        body.light .input-area { background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border-top: 1px solid rgba(99,120,255,0.12); }
+        body.light .msg-bubble { box-shadow: 0 2px 12px var(--shadow); }
+        body.light .msg-row.received .msg-bubble { background: #ffffff; border: 1px solid rgba(99,120,255,0.1); }
+        body.light .modal, body.light .add-contact-modal, body.light .confirm-modal, body.light .incoming-call-modal { background: #ffffff; box-shadow: 0 20px 60px rgba(99,120,255,0.2); }
+        body.light .overlay { background: rgba(99,120,255,0.15); backdrop-filter: blur(8px); }
+        body.light .search-input, body.light .form-input { background: #f0f4ff; border-color: rgba(99,120,255,0.2); color: var(--text); }
+        body.light .search-input:focus, body.light .form-input:focus { border-color: var(--accent); background: #ffffff; }
         body.light .contact-item:hover { background: rgba(99,120,255,0.06); }
         body.light .contact-item.active { background: rgba(79,70,229,0.1); }
-        body.light .icon-btn {
-            background: #f0f4ff;
-            border-color: rgba(99,120,255,0.2);
-            color: var(--text-dim);
-        }
+        body.light .icon-btn { background: #f0f4ff; border-color: rgba(99,120,255,0.2); color: var(--text-dim); }
         body.light .icon-btn:hover { background: #e0e9ff; border-color: var(--accent); color: var(--accent); }
         body.light .submit-btn { box-shadow: 0 4px 14px rgba(79,70,229,0.3); }
         body.light .timer-chip { background: #f0f4ff; border-color: rgba(99,120,255,0.2); color: var(--text-dim); }
@@ -118,43 +74,18 @@
         body.light .doc-dl-btn { background: rgba(79,70,229,0.1); color: var(--accent); }
         body.light .doc-dl-btn:hover { background: rgba(79,70,229,0.2); }
         body.light .no-chat { color: var(--text); }
-        body.light .no-chat-icon { filter: none; }
         body.light .sidebar-backdrop { background: rgba(99,120,255,0.2); }
+        body.light .edit-bubble-menu { background: #fff; box-shadow: 0 4px 20px rgba(99,120,255,0.2); }
 
-        /* smooth transition for all theme-changing elements */
-        body, .sidebar, .chat-area, .toolbar, .input-area,
-        .msg-bubble, .modal, .overlay, .contact-item,
-        .icon-btn, .search-input, .form-input, .timer-chip {
-            transition: background 0.3s ease, color 0.2s ease,
-                        border-color 0.2s ease, box-shadow 0.3s ease;
+        body, .sidebar, .chat-area, .toolbar, .input-area, .msg-bubble, .modal, .overlay, .contact-item, .icon-btn, .search-input, .form-input, .timer-chip {
+            transition: background 0.3s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.3s ease;
         }
 
-        /* Theme toggle button */
-        .theme-toggle {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            color: var(--text-dim);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            font-size: 16px;
-        }
+        .theme-toggle { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 16px; }
         .theme-toggle:hover { color: var(--text); border-color: var(--accent); }
         .theme-toggle:active { transform: scale(0.93); }
 
-        html {
-            height: 100%;
-            height: 100dvh;
-        }
-
-        :root {
-            --app-height: 100dvh;
-        }
+        html { height: 100%; height: 100dvh; }
 
         body {
             font-family: 'DM Sans', sans-serif;
@@ -164,7 +95,6 @@
             display: flex;
             color: var(--text);
             overflow: hidden;
-            /* Safe area insets for notch/home bar devices */
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
             padding-left: env(safe-area-inset-left);
@@ -172,980 +102,250 @@
         }
 
         /* === SIDEBAR === */
-        .sidebar {
-            width: 320px;
-            min-width: 320px;
-            background: var(--surface);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            transition: transform 0.3s ease;
-        }
+        .sidebar { width: 320px; min-width: 320px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100%; transition: transform 0.3s ease; }
+        .sidebar-header { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 
-        .sidebar-header {
-            padding: 20px 20px 16px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+        /* Logo area */
+        .logo-area { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-img { width: 36px; height: 36px; border-radius: 10px; object-fit: cover; display: none; }
+        .logo-img.visible { display: block; }
+        .logo-text { font-family: 'Space Mono', monospace; font-size: 20px; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .logo-upload-hint { font-size: 10px; color: var(--text-dim); margin-top: 2px; display: block; }
 
-        .logo {
-            font-family: 'Space Mono', monospace;
-            font-size: 20px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .sidebar-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .icon-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            color: var(--text-dim);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            font-size: 16px;
-        }
-
+        .sidebar-actions { display: flex; gap: 8px; }
+        .icon-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 16px; }
         .icon-btn:hover { color: var(--text); background: var(--surface2); border-color: var(--accent); }
         .icon-btn:active { transform: scale(0.93); }
 
-        .search-box {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .search-input {
-            width: 100%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px 14px;
-            color: var(--text);
-            font-size: 14px;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
+        .search-box { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+        .search-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; }
         .search-input::placeholder { color: var(--text-dim); }
         .search-input:focus { border-color: var(--accent); }
 
-        .contacts-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 8px 0;
-        }
-
+        .contacts-list { flex: 1; overflow-y: auto; padding: 8px 0; }
         .contacts-list::-webkit-scrollbar { width: 4px; }
         .contacts-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-        .section-label {
-            padding: 8px 16px 4px;
-            font-size: 11px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-dim);
-            font-family: 'Space Mono', monospace;
-        }
+        .section-label { padding: 8px 16px 4px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); font-family: 'Space Mono', monospace; }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            cursor: pointer;
-            transition: background 0.15s;
-            border-radius: 0;
-            position: relative;
-        }
-
+        .contact-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; transition: background 0.15s; border-radius: 0; position: relative; overflow: hidden; }
         .contact-item:hover { background: var(--surface2); }
         .contact-item.active { background: rgba(108,99,255,0.12); }
-        .contact-item.active::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 3px;
-            background: var(--accent);
-            border-radius: 0 2px 2px 0;
-        }
+        .contact-item.active::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); border-radius: 0 2px 2px 0; }
 
-        .avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
-            background: var(--surface2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 600;
-            flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-            color: var(--text);
-        }
-
-        .avatar-initials {
-            font-family: 'Space Mono', monospace;
-            font-size: 14px;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .online-dot {
-            position: absolute;
-            bottom: 2px; right: 2px;
-            width: 10px; height: 10px;
-            background: var(--online);
-            border-radius: 50%;
-            border: 2px solid var(--surface);
-        }
+        .avatar { width: 44px; height: 44px; border-radius: 14px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; flex-shrink: 0; position: relative; overflow: hidden; color: var(--text); }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+        .avatar-initials { font-family: 'Space Mono', monospace; font-size: 14px; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .online-dot { position: absolute; bottom: 2px; right: 2px; width: 10px; height: 10px; background: var(--online); border-radius: 50%; border: 2px solid var(--surface); }
 
         .contact-info { flex: 1; min-width: 0; }
+        .contact-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .contact-preview { font-size: 12px; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
-        .contact-name {
-            font-size: 14px;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .contact-preview {
-            font-size: 12px;
-            color: var(--text-dim);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-top: 2px;
-        }
-
-        .contact-meta {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 4px;
-            flex-shrink: 0;
-        }
-
+        .contact-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
         .contact-time { font-size: 11px; color: var(--text-dim); }
+        .unread-badge { background: var(--accent); color: white; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 99px; font-family: 'Space Mono', monospace; min-width: 20px; text-align: center; }
 
-        .unread-badge {
-            background: var(--accent);
-            color: white;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 2px 7px;
-            border-radius: 99px;
-            font-family: 'Space Mono', monospace;
-        }
-
-        .me-label {
-            background: rgba(108,99,255,0.2);
-            color: var(--accent);
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 6px;
-            border: 1px solid rgba(108,99,255,0.3);
-        }
+        .contact-delete-btn { flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px; border: 1px solid rgba(248,113,113,0.3); background: rgba(248,113,113,0.1); color: var(--danger); cursor: pointer; display: none; align-items: center; justify-content: center; transition: all 0.2s; font-size: 14px; margin-left: auto; }
+        .contact-delete-btn:hover { background: rgba(248,113,113,0.25); }
+        .contact-item:hover .contact-delete-btn { display: flex; }
 
         /* === MAIN CHAT === */
-        .chat-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            min-height: 0;
-            background: var(--bg);
-            position: relative;
-            overflow: hidden;
-        }
+        .chat-main { flex: 1; display: flex; flex-direction: column; height: 100%; min-height: 0; background: var(--bg); position: relative; overflow: hidden; }
 
-        .chat-toolbar {
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--surface);
-            min-height: 65px;
-            flex-shrink: 0;
-        }
-
+        .chat-toolbar { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; background: var(--surface); min-height: 65px; flex-shrink: 0; }
         .chat-toolbar .avatar { width: 38px; height: 38px; border-radius: 11px; }
 
         .toolbar-info { flex: 1; }
-
         .toolbar-name { font-size: 15px; font-weight: 600; }
-
-        .toolbar-status {
-            font-size: 12px;
-            color: var(--text-dim);
-            margin-top: 1px;
-        }
-
+        .toolbar-status { font-size: 12px; color: var(--text-dim); margin-top: 1px; }
         .toolbar-status.online { color: var(--online); }
 
-        .toolbar-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 11px;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            color: var(--text-dim);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
+        .toolbar-btn { width: 38px; height: 38px; border-radius: 11px; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .toolbar-btn:hover { color: var(--text); border-color: var(--accent); }
         .toolbar-btn:active { transform: scale(0.93); }
         .toolbar-btn.call-btn:hover { color: var(--online); border-color: var(--online); }
-        .toolbar-btn.end-call { color: var(--danger); border-color: var(--danger); background: rgba(248,113,113,0.1); }
-        .toolbar-btn.end-call:hover { background: rgba(248,113,113,0.2); }
 
         /* === MESSAGES === */
-        .messages-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
+        .messages-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 4px; background: var(--chat-bg); background-size: cover; background-position: center; }
         .messages-area::-webkit-scrollbar { width: 4px; }
         .messages-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-        .msg-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 8px;
-            animation: msgIn 0.25s ease-out;
-        }
-
-        @keyframes msgIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        .msg-row { display: flex; align-items: flex-end; gap: 8px; animation: msgIn 0.25s ease-out; position: relative; touch-action: pan-y; user-select: none; }
+        @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .msg-row.sent { flex-direction: row-reverse; }
-
         .msg-row .avatar { width: 28px; height: 28px; border-radius: 9px; font-size: 11px; flex-shrink: 0; align-self: flex-end; }
 
-        .msg-bubble {
-            max-width: 68%;
-            padding: 10px 14px;
-            border-radius: 18px;
-            font-size: 14px;
-            line-height: 1.5;
-            position: relative;
-            word-break: break-word;
-        }
+        .msg-bubble { max-width: 68%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; position: relative; word-break: break-word; transition: transform 0.15s ease; will-change: transform; }
+        .msg-row.sent .msg-bubble { background: var(--sent-bg); color: white; border-bottom-right-radius: 5px; }
+        .msg-row.received .msg-bubble { background: var(--recv-bg); color: var(--text); border-bottom-left-radius: 5px; border: 1px solid var(--border); }
 
-        .msg-row.sent .msg-bubble {
-            background: var(--sent-bg);
-            color: white;
-            border-bottom-right-radius: 5px;
-        }
-
-        .msg-row.received .msg-bubble {
-            background: var(--recv-bg);
-            color: var(--text);
-            border-bottom-left-radius: 5px;
-            border: 1px solid var(--border);
-        }
-
-        .msg-meta {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 5px;
-            justify-content: flex-end;
-        }
-
-        .msg-time {
-            font-size: 10px;
-            opacity: 0.6;
-            font-family: 'Space Mono', monospace;
-        }
-
-        .msg-expires {
-            font-size: 10px;
-            opacity: 0.5;
-            font-family: 'Space Mono', monospace;
-        }
-
+        .msg-meta { display: flex; align-items: center; gap: 6px; margin-top: 5px; justify-content: flex-end; }
+        .msg-time { font-size: 10px; opacity: 0.6; font-family: 'Space Mono', monospace; }
+        .msg-expires { font-size: 10px; opacity: 0.55; font-family: 'Space Mono', monospace; }
+        .msg-edited { font-size: 10px; opacity: 0.5; font-style: italic; }
         .msg-row.received .msg-meta { justify-content: flex-start; }
 
-        .msg-image {
-            max-width: 100%;
-            max-height: 250px;
-            border-radius: 12px;
-            cursor: pointer;
-            display: block;
-            margin-bottom: 4px;
-        }
+        .msg-image { max-width: 100%; max-height: 250px; border-radius: 12px; cursor: pointer; display: block; margin-bottom: 4px; }
 
-        .date-divider {
-            text-align: center;
-            padding: 12px 0;
-            font-size: 11px;
-            color: var(--text-dim);
-            font-family: 'Space Mono', monospace;
-            letter-spacing: 0.05em;
-        }
+        .date-divider { text-align: center; padding: 12px 0; font-size: 11px; color: var(--text-dim); font-family: 'Space Mono', monospace; letter-spacing: 0.05em; }
 
-        .empty-state {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-dim);
-            gap: 12px;
-            padding: 40px;
-            text-align: center;
-        }
+        /* === EDIT BUBBLE MENU === */
+        .edit-bubble-menu { position: absolute; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 6px; display: flex; flex-direction: column; gap: 2px; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.4); animation: msgIn 0.15s ease; min-width: 140px; }
+        .edit-bubble-menu button { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: none; background: transparent; color: var(--text); border-radius: 8px; cursor: pointer; font-size: 13px; font-family: 'DM Sans', sans-serif; transition: background 0.15s; white-space: nowrap; }
+        .edit-bubble-menu button:hover { background: var(--surface2); }
+        .edit-bubble-menu button.danger { color: var(--danger); }
+        .edit-bubble-menu button.danger:hover { background: rgba(248,113,113,0.1); }
 
-        .empty-icon { font-size: 48px; opacity: 0.4; }
-        .empty-title { font-size: 18px; font-weight: 500; color: var(--text); }
-        .empty-sub { font-size: 13px; max-width: 280px; }
+        /* Inline edit */
+        .msg-edit-input { width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 6px 10px; color: inherit; font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; resize: none; margin-top: 4px; }
+        .msg-row.received .msg-edit-input { background: var(--surface); border-color: var(--border); color: var(--text); }
+        .edit-actions { display: flex; gap: 6px; margin-top: 6px; }
+        .edit-actions button { padding: 5px 12px; border-radius: 8px; border: none; cursor: pointer; font-size: 12px; font-family: 'DM Sans', sans-serif; font-weight: 500; transition: all 0.15s; }
+        .edit-save-btn { background: var(--accent); color: white; }
+        .edit-cancel-btn { background: rgba(255,255,255,0.15); color: inherit; }
 
         /* === INPUT === */
-        .input-area {
-            padding: 12px 16px;
-            border-top: 1px solid var(--border);
-            background: var(--surface);
-            flex-shrink: 0;
-        }
+        .input-area { padding: 12px 16px; border-top: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+        .typing-bar { font-size: 12px; color: var(--accent); min-height: 18px; margin-bottom: 8px; font-style: italic; }
+        .input-row { display: flex; align-items: center; gap: 8px; }
 
-        .typing-bar {
-            font-size: 12px;
-            color: var(--accent);
-            min-height: 18px;
-            margin-bottom: 8px;
-            font-style: italic;
-        }
-
-        .input-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .msg-input {
-            flex: 1;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 11px 16px;
-            color: var(--text);
-            font-size: 14px;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: border-color 0.2s;
-            resize: none;
-        }
-
+        .msg-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 16px; padding: 11px 16px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; resize: none; }
         .msg-input::placeholder { color: var(--text-dim); }
         .msg-input:focus { border-color: rgba(108,99,255,0.4); }
 
-        .send-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 13px;
-            border: none;
-            background: var(--accent);
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
+        .send-btn { width: 42px; height: 42px; border-radius: 13px; border: none; background: var(--accent); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
         .send-btn:hover { background: #5a52e0; }
         .send-btn:active { transform: scale(0.9); }
 
         /* === AUTH MODAL === */
-        .overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(12px);
-            z-index: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(12px); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 36px; width: 100%; max-width: 400px; box-shadow: 0 24px 80px rgba(0,0,0,0.5); }
+        .modal-logo { font-family: 'Space Mono', monospace; font-size: 28px; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align: center; margin-bottom: 6px; }
+        .modal-sub { text-align: center; font-size: 13px; color: var(--text-dim); margin-bottom: 28px; }
 
-        .modal {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 36px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 24px 80px rgba(0,0,0,0.5);
-        }
-
-        .modal-logo {
-            font-family: 'Space Mono', monospace;
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-align: center;
-            margin-bottom: 6px;
-        }
-
-        .modal-sub {
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-dim);
-            margin-bottom: 28px;
-        }
-
-        .tabs {
-            display: flex;
-            background: var(--surface2);
-            border-radius: 12px;
-            padding: 3px;
-            margin-bottom: 24px;
-            gap: 3px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 9px;
-            border: none;
-            border-radius: 10px;
-            background: transparent;
-            color: var(--text-dim);
-            font-size: 14px;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
+        .tabs { display: flex; background: var(--surface2); border-radius: 12px; padding: 3px; margin-bottom: 24px; gap: 3px; }
+        .tab { flex: 1; padding: 9px; border: none; border-radius: 10px; background: transparent; color: var(--text-dim); font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; transition: all 0.2s; }
         .tab.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 6px rgba(0,0,0,0.3); }
 
         .form-group { margin-bottom: 14px; }
-
-        .form-input {
-            width: 100%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 13px 16px;
-            color: var(--text);
-            font-size: 15px;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
+        .form-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 16px; color: var(--text); font-size: 15px; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; }
         .form-input::placeholder { color: var(--text-dim); }
         .form-input:focus { border-color: var(--accent); }
 
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            background: var(--accent);
-            color: white;
-            font-size: 15px;
-            font-weight: 600;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 4px;
-        }
-
+        .submit-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; background: var(--accent); color: white; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.2s; margin-top: 4px; }
         .submit-btn:hover { background: #5a52e0; }
         .submit-btn:active { transform: scale(0.98); }
 
-        .error-box {
-            background: rgba(248,113,113,0.1);
-            border: 1px solid rgba(248,113,113,0.3);
-            color: #fca5a5;
-            font-size: 13px;
-            padding: 10px 14px;
-            border-radius: 10px;
-            margin-top: 14px;
-            display: none;
-        }
-
+        .error-box { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: #fca5a5; font-size: 13px; padding: 10px 14px; border-radius: 10px; margin-top: 14px; display: none; }
         .error-box.show { display: block; }
 
         /* === ADD CONTACT MODAL === */
-        .add-contact-modal {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 28px;
-            width: 100%;
-            max-width: 360px;
-        }
-
-        .add-contact-modal h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .add-contact-modal p {
-            font-size: 13px;
-            color: var(--text-dim);
-            margin-bottom: 20px;
-        }
+        .add-contact-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px; width: 100%; max-width: 360px; }
+        .add-contact-modal h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+        .add-contact-modal p { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; }
 
         /* === CALL UI === */
-        .call-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 24px;
-        }
-
+        .call-overlay { position: fixed; inset: 0; background: rgba(13,15,20,0.97); backdrop-filter: blur(20px); z-index: 1000; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
         .call-overlay.active { display: flex; }
 
-        .call-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 28px;
-            background: var(--surface2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Space Mono', monospace;
-            font-size: 36px;
-            position: relative;
-        }
-
-        .call-avatar::before {
-            content: '';
-            position: absolute;
-            inset: -8px;
-            border-radius: 36px;
-            border: 2px solid var(--accent);
-            opacity: 0;
-            animation: callPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes callPulse {
-            0%, 100% { opacity: 0; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.05); }
-        }
+        .call-avatar { width: 100px; height: 100px; border-radius: 28px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 36px; position: relative; overflow: hidden; }
+        .call-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .call-avatar::before { content: ''; position: absolute; inset: -8px; border-radius: 36px; border: 2px solid var(--accent); opacity: 0; animation: callPulse 1.5s ease-in-out infinite; pointer-events: none; }
+        @keyframes callPulse { 0%, 100% { opacity: 0; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.05); } }
 
         .call-name { font-size: 22px; font-weight: 600; }
-
         .call-status { font-size: 14px; color: var(--text-dim); font-family: 'Space Mono', monospace; }
+        .call-timer { font-size: 18px; font-family: 'Space Mono', monospace; color: var(--online); }
 
-        .call-controls {
-            display: flex;
-            gap: 20px;
-            margin-top: 16px;
-        }
-
-        .call-ctrl {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            transition: all 0.2s;
-        }
-
+        .call-controls { display: flex; gap: 20px; margin-top: 16px; }
+        .call-ctrl { width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-direction: column; gap: 2px; }
+        .call-ctrl svg { width: 26px; height: 26px; }
         .call-ctrl:active { transform: scale(0.9); }
+        .call-ctrl span { font-size: 10px; color: inherit; opacity: 0.8; }
         .call-ctrl.mute { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
         .call-ctrl.mute.active { background: var(--danger); color: white; border-color: var(--danger); }
         .call-ctrl.hangup { background: var(--danger); color: white; }
         .call-ctrl.answer { background: var(--online); color: white; }
+        .call-ctrl.speaker { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+        .call-ctrl.speaker.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-        .incoming-call-modal {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 36px;
-            width: 100%;
-            max-width: 320px;
-            text-align: center;
-        }
-
-        .incoming-call-modal .call-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 22px;
-            margin: 0 auto 16px;
-            font-size: 28px;
-        }
-
+        .incoming-call-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 36px; width: 100%; max-width: 320px; text-align: center; }
         .incoming-title { font-size: 13px; color: var(--text-dim); margin-bottom: 6px; font-family: 'Space Mono', monospace; }
         .incoming-name { font-size: 22px; font-weight: 600; margin-bottom: 24px; }
-
-        .incoming-btns { display: flex; justify-content: center; gap: 24px; }
+        .incoming-btns { display: flex; justify-content: center; gap: 32px; }
 
         /* === NOTIFICATION === */
-        .notif {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 14px 18px;
-            font-size: 13px;
-            z-index: 2000;
-            animation: notifIn 0.3s ease;
-            max-width: 280px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-        }
-
-        @keyframes notifIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .notif { position: fixed; bottom: 20px; right: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px; font-size: 13px; z-index: 2000; animation: notifIn 0.3s ease; max-width: 280px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        @keyframes notifIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .mobile-back { display: none; }
 
-        /* === MOBILE === */
         @media (max-width: 700px) {
-            html, body {
-                height: 100%;
-                height: 100dvh;
-                overflow: hidden;
-                padding: 0;
-            }
-
-            body {
-                padding-top: env(safe-area-inset-top);
-                padding-bottom: env(safe-area-inset-bottom);
-            }
-
-            .sidebar {
-                position: fixed;
-                left: 0; top: 0; bottom: 0;
-                padding-left: env(safe-area-inset-left);
-                z-index: 300;
-                width: 85vw;
-                min-width: unset;
-                max-width: 320px;
-                transform: translateX(-105%);
-                box-shadow: none;
-            }
-
-            .sidebar.mobile-open {
-                transform: translateX(0);
-                box-shadow: 4px 0 32px rgba(0,0,0,0.5);
-            }
-
-            .sidebar-backdrop {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.5);
-                z-index: 299;
-                backdrop-filter: blur(2px);
-            }
+            html, body { height: 100%; height: 100dvh; overflow: hidden; padding: 0; }
+            body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+            .sidebar { position: fixed; left: 0; top: 0; bottom: 0; padding-left: env(safe-area-inset-left); z-index: 300; width: 85vw; min-width: unset; max-width: 320px; transform: translateX(-105%); box-shadow: none; }
+            .sidebar.mobile-open { transform: translateX(0); box-shadow: 4px 0 32px rgba(0,0,0,0.5); }
+            .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 299; backdrop-filter: blur(2px); }
             .sidebar-backdrop.show { display: block; }
-
-            .chat-main {
-                width: 100%;
-                min-width: 0;
-            }
-
+            .chat-main { width: 100%; min-width: 0; }
             .mobile-back { display: flex !important; }
-
-            .chat-toolbar {
-                padding: 10px 12px;
-                min-height: 56px;
-            }
-
+            .chat-toolbar { padding: 10px 12px; min-height: 56px; }
             .toolbar-name { font-size: 14px; }
             .toolbar-status { font-size: 11px; }
-
-            #my-username-display {
-                max-width: 70px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                font-size: 11px;
-            }
-
-            .messages-area {
-                padding: 12px;
-                flex: 1;
-                min-height: 0;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .input-area {
-                padding: 8px 12px;
-                padding-bottom: max(12px, env(safe-area-inset-bottom));
-                flex-shrink: 0;
-            }
-
-            .msg-input {
-                font-size: 16px;
-            }
-
+            #my-username-display { max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
+            .messages-area { padding: 12px; flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+            .input-area { padding: 8px 12px; padding-bottom: max(12px, env(safe-area-inset-bottom)); flex-shrink: 0; }
+            .msg-input { font-size: 16px; }
             .msg-bubble { max-width: 82%; }
-
-            .notif {
-                bottom: max(16px, env(safe-area-inset-bottom));
-                right: 12px;
-                left: 12px;
-                max-width: unset;
-                font-size: 13px;
-            }
+            .notif { bottom: max(16px, env(safe-area-inset-bottom)); right: 12px; left: 12px; max-width: unset; font-size: 13px; }
         }
 
-        /* === NO CHAT SELECTED === */
-        .no-chat {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            color: var(--text-dim);
-            text-align: center;
-            padding: 40px;
-        }
-
+        .no-chat { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; color: var(--text-dim); text-align: center; padding: 40px; }
         .no-chat-icon { font-size: 64px; opacity: 0.2; }
         .no-chat-title { font-size: 20px; font-weight: 500; color: var(--text); opacity: 0.5; }
         .no-chat-sub { font-size: 13px; max-width: 260px; }
 
         #image-input { display: none; }
 
-        .img-preview-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.95);
-            z-index: 3000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
+        .img-preview-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; }
         .img-preview-overlay.show { display: flex; }
         .img-preview-overlay img { max-width: 95%; max-height: 95%; border-radius: 12px; }
-        .img-preview-close {
-            position: absolute;
-            top: 16px; right: 16px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 10px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+        .img-preview-close { position: absolute; top: 16px; right: 16px; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 18px; border-radius: 10px; cursor: pointer; font-size: 14px; }
 
-        .timer-bar {
-            height: 2px;
-            background: var(--accent);
-            border-radius: 1px;
-            margin-top: 6px;
-            transition: width linear;
-            opacity: 0.5;
-        }
+        .timer-bar { height: 2px; background: var(--accent); border-radius: 1px; margin-top: 6px; transition: width linear; opacity: 0.5; }
 
         /* === SWIPE TO REPLY === */
-        .msg-row {
-            position: relative;
-            touch-action: pan-y;
-            user-select: none;
-        }
-
-        .msg-bubble {
-            transition: transform 0.15s ease;
-            will-change: transform;
-        }
-
-        .reply-icon {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%) scale(0.6);
-            opacity: 0;
-            transition: opacity 0.15s, transform 0.15s;
-            font-size: 20px;
-            pointer-events: none;
-        }
+        .reply-icon { position: absolute; top: 50%; transform: translateY(-50%) scale(0.6); opacity: 0; transition: opacity 0.15s, transform 0.15s; font-size: 20px; pointer-events: none; }
         .msg-row.sent .reply-icon { left: -38px; }
         .msg-row.received .reply-icon { right: -38px; }
-        .reply-icon.show {
-            opacity: 1;
-            transform: translateY(-50%) scale(1);
-        }
+        .reply-icon.show { opacity: 1; transform: translateY(-50%) scale(1); }
 
         /* === REPLY PREVIEW BAR === */
-        .reply-preview {
-            display: none;
-            background: var(--surface2);
-            border-left: 3px solid var(--accent);
-            border-radius: 10px 10px 0 0;
-            padding: 8px 12px;
-            margin-bottom: 6px;
-            font-size: 12px;
-            color: var(--text-dim);
-            position: relative;
-            animation: msgIn 0.2s ease;
-        }
+        .reply-preview { display: none; background: var(--surface2); border-left: 3px solid var(--accent); border-radius: 10px 10px 0 0; padding: 8px 12px; margin-bottom: 6px; font-size: 12px; color: var(--text-dim); position: relative; animation: msgIn 0.2s ease; }
         .reply-preview.show { display: flex; align-items: flex-start; gap: 8px; }
-        .reply-preview-text {
-            flex: 1;
-            overflow: hidden;
-        }
-        .reply-preview-label {
-            font-size: 11px;
-            color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 2px;
-            font-family: 'Space Mono', monospace;
-        }
-        .reply-preview-body {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: var(--text);
-            font-size: 13px;
-        }
-        .reply-cancel {
-            background: none;
-            border: none;
-            color: var(--text-dim);
-            cursor: pointer;
-            font-size: 18px;
-            line-height: 1;
-            padding: 0 2px;
-            flex-shrink: 0;
-        }
+        .reply-preview-text { flex: 1; overflow: hidden; }
+        .reply-preview-label { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 2px; font-family: 'Space Mono', monospace; }
+        .reply-preview-body { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); font-size: 13px; }
+        .reply-cancel { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 18px; line-height: 1; padding: 0 2px; flex-shrink: 0; }
         .reply-cancel:hover { color: var(--text); }
 
         /* === QUOTED REPLY IN MESSAGE === */
-        .msg-quote {
-            background: rgba(255,255,255,0.07);
-            border-left: 3px solid rgba(255,255,255,0.3);
-            border-radius: 8px;
-            padding: 6px 10px;
-            margin-bottom: 6px;
-            font-size: 12px;
-        }
+        .msg-quote { background: rgba(255,255,255,0.07); border-left: 3px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 6px 10px; margin-bottom: 6px; font-size: 12px; }
         .msg-row.sent .msg-quote { border-left-color: rgba(255,255,255,0.5); }
         .msg-quote-author { font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 2px; font-size: 11px; }
         .msg-quote-text { color: rgba(255,255,255,0.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         /* === TIMER PICKER === */
-        .timer-picker {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 0 6px;
-        }
-        .timer-label {
-            font-size: 11px;
-            color: var(--text-dim);
-            white-space: nowrap;
-            font-family: 'Space Mono', monospace;
-        }
-        .timer-chips {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-        .timer-chip {
-            padding: 4px 10px;
-            border-radius: 99px;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            color: var(--text-dim);
-            font-size: 11px;
-            cursor: pointer;
-            font-family: 'Space Mono', monospace;
-            transition: all 0.15s;
-            white-space: nowrap;
-        }
+        .timer-picker { display: flex; align-items: center; gap: 6px; padding: 4px 0 6px; flex-wrap: wrap; }
+        .timer-label { font-size: 11px; color: var(--text-dim); white-space: nowrap; font-family: 'Space Mono', monospace; }
+        .timer-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+        .timer-chip { padding: 4px 10px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); font-size: 11px; cursor: pointer; font-family: 'Space Mono', monospace; transition: all 0.15s; white-space: nowrap; }
         .timer-chip:hover { border-color: var(--accent); color: var(--text); }
-        .timer-chip.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: white;
-        }
+        .timer-chip.active { background: var(--accent); border-color: var(--accent); color: white; }
 
-        /* === CONTACT DELETE === */
-        .contact-item {
-            overflow: hidden;
-        }
-        .contact-delete-btn {
-            flex-shrink: 0;
-            width: 32px;
-            height: 32px;
-            border-radius: 9px;
-            border: 1px solid rgba(248,113,113,0.3);
-            background: rgba(248,113,113,0.1);
-            color: var(--danger);
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            font-size: 14px;
-            margin-left: auto;
-        }
-        .contact-delete-btn:hover { background: rgba(248,113,113,0.25); }
-        .contact-item:hover .contact-delete-btn { display: flex; }
-
-        /* Confirm delete dialog */
-        .confirm-modal {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 28px;
-            width: 100%;
-            max-width: 340px;
-            text-align: center;
-        }
+        /* === CONFIRM MODALS === */
+        .confirm-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px; width: 100%; max-width: 340px; text-align: center; }
         .confirm-modal h3 { font-size: 18px; margin-bottom: 8px; }
         .confirm-modal p { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
         .confirm-btns { display: flex; gap: 10px; }
@@ -1157,189 +357,113 @@
         audio { display: none; }
 
         /* === ATTACH MENU === */
-        .attach-menu {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            z-index: 100;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            animation: msgIn 0.15s ease;
-            min-width: 130px;
-        }
+        .attach-menu { position: absolute; bottom: 100%; left: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 8px; display: flex; flex-direction: column; gap: 4px; z-index: 100; box-shadow: 0 8px 32px rgba(0,0,0,0.4); animation: msgIn 0.15s ease; min-width: 130px; }
         .input-row { position: relative; }
-        .attach-opt {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            border: none;
-            background: transparent;
-            color: var(--text);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 13px;
-            font-family: 'DM Sans', sans-serif;
-            transition: background 0.15s;
-        }
+        .attach-opt { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: none; background: transparent; color: var(--text); border-radius: 10px; cursor: pointer; font-size: 13px; font-family: 'DM Sans', sans-serif; transition: background 0.15s; }
         .attach-opt:hover { background: var(--surface2); }
         .attach-opt svg { flex-shrink: 0; color: var(--accent); }
 
         /* === VOICE RECORDING BAR === */
-        .voice-recording-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 4px;
-            animation: msgIn 0.2s ease;
-        }
-        .voice-rec-dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            background: var(--danger);
-            animation: recPulse 1s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-        @keyframes recPulse {
-            0%,100% { opacity: 1; } 50% { opacity: 0.3; }
-        }
-        .voice-rec-time {
-            font-family: 'Space Mono', monospace;
-            font-size: 13px;
-            color: var(--text);
-            flex-shrink: 0;
-            min-width: 36px;
-        }
-        .voice-rec-wave {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            height: 28px;
-        }
-        .voice-rec-wave span {
-            display: block;
-            width: 3px;
-            border-radius: 99px;
-            background: var(--accent);
-            animation: wave 0.8s ease-in-out infinite;
-        }
+        .voice-recording-bar { display: flex; align-items: center; gap: 10px; padding: 8px 4px; animation: msgIn 0.2s ease; }
+        .voice-rec-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--danger); animation: recPulse 1s ease-in-out infinite; flex-shrink: 0; }
+        @keyframes recPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .voice-rec-time { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--text); flex-shrink: 0; min-width: 36px; }
+        .voice-rec-wave { flex: 1; display: flex; align-items: center; gap: 3px; height: 28px; }
+        .voice-rec-wave span { display: block; width: 3px; border-radius: 99px; background: var(--accent); animation: wave 0.8s ease-in-out infinite; }
         .voice-rec-wave span:nth-child(1) { animation-delay: 0s; }
         .voice-rec-wave span:nth-child(2) { animation-delay: 0.1s; }
         .voice-rec-wave span:nth-child(3) { animation-delay: 0.2s; }
         .voice-rec-wave span:nth-child(4) { animation-delay: 0.1s; }
         .voice-rec-wave span:nth-child(5) { animation-delay: 0s; }
-        @keyframes wave {
-            0%,100% { height: 6px; } 50% { height: 22px; }
-        }
+        @keyframes wave { 0%,100% { height: 6px; } 50% { height: 22px; } }
 
         /* === VOICE NOTE BUBBLE === */
-        .voice-note-player {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-width: 180px;
-        }
-        .voice-play-btn {
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: background 0.2s;
-        }
+        .voice-note-player { display: flex; align-items: center; gap: 8px; min-width: 180px; }
+        .voice-play-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(255,255,255,0.2); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
         .voice-play-btn:hover { background: rgba(255,255,255,0.35); }
-        .voice-progress {
-            flex: 1;
-            height: 3px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 99px;
-            position: relative;
-            cursor: pointer;
-        }
-        .voice-progress-fill {
-            height: 100%;
-            background: white;
-            border-radius: 99px;
-            width: 0%;
-            transition: width 0.1s linear;
-        }
-        .voice-duration {
-            font-size: 11px;
-            opacity: 0.7;
-            font-family: 'Space Mono', monospace;
-            flex-shrink: 0;
-        }
+        .voice-progress { flex: 1; height: 3px; background: rgba(255,255,255,0.2); border-radius: 99px; position: relative; cursor: pointer; }
+        .voice-progress-fill { height: 100%; background: white; border-radius: 99px; width: 0%; transition: width 0.1s linear; }
+        .voice-duration { font-size: 11px; opacity: 0.7; font-family: 'Space Mono', monospace; flex-shrink: 0; }
 
         /* === DOCUMENT BUBBLE === */
-        .doc-bubble {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 4px 0;
-        }
-        .doc-icon {
-            width: 36px; height: 36px;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 18px;
-        }
+        .doc-bubble { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+        .doc-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
         .doc-info { flex: 1; min-width: 0; }
-        .doc-name {
-            font-size: 13px;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+        .doc-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .doc-size { font-size: 11px; opacity: 0.6; margin-top: 1px; }
-        .doc-dl-btn {
-            background: rgba(255,255,255,0.15);
-            border: none;
-            color: white;
-            border-radius: 8px;
-            padding: 6px 10px;
-            font-size: 12px;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: background 0.2s;
-        }
+        .doc-dl-btn { background: rgba(255,255,255,0.15); border: none; color: white; border-radius: 8px; padding: 6px 10px; font-size: 12px; cursor: pointer; flex-shrink: 0; transition: background 0.2s; }
         .doc-dl-btn:hover { background: rgba(255,255,255,0.25); }
+
+        /* === PROFILE PICTURE AREA === */
+        .profile-pic-wrapper { position: relative; display: inline-block; cursor: pointer; }
+        .profile-pic-wrapper:hover .avatar-edit-hint { opacity: 1; }
+        .avatar-edit-hint { position: absolute; inset: 0; border-radius: inherit; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; font-size: 16px; }
+
+        /* === SETTINGS / WALLPAPER MODAL === */
+        .settings-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px; width: 100%; max-width: 400px; max-height: 80vh; overflow-y: auto; }
+        .settings-modal h3 { font-size: 18px; font-weight: 600; margin-bottom: 20px; }
+        .settings-section { margin-bottom: 20px; }
+        .settings-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Space Mono', monospace; margin-bottom: 10px; }
+        .wallpaper-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+        .wallpaper-opt { aspect-ratio: 16/9; border-radius: 10px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; overflow: hidden; position: relative; }
+        .wallpaper-opt:hover { transform: scale(1.03); }
+        .wallpaper-opt.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+        .wallpaper-opt span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; color: white; text-shadow: 0 1px 4px rgba(0,0,0,0.7); font-family: 'Space Mono', monospace; }
+        .clear-wallpaper-btn { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); cursor: pointer; font-size: 13px; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 8px; }
+        .clear-wallpaper-btn:hover { border-color: var(--accent); color: var(--text); }
+
+        /* Sidebar me section */
+        .me-section { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .me-avatar { width: 36px; height: 36px; border-radius: 10px; }
+        .me-info { flex: 1; min-width: 0; }
+        .me-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .me-sub { font-size: 11px; color: var(--text-dim); }
     </style>
 </head>
 <body>
+
+<!-- Hidden file inputs -->
+<input type="file" id="logo-upload-input" accept="image/*" style="display:none">
+<input type="file" id="profile-pic-input" accept="image/*" style="display:none">
+<input type="file" id="wallpaper-input" accept="image/*" style="display:none">
+<input type="file" id="image-input" accept="image/*" style="display:none">
+<input type="file" id="doc-input" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.csv" style="display:none">
 
 <!-- SIDEBAR -->
 <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-        <div class="logo">ND Chat</div>
+        <div class="logo-area" id="logo-area" title="Click to change logo">
+            <img class="logo-img" id="logo-img" src="" alt="Logo">
+            <span class="logo-text" id="logo-text">ND Chat</span>
+        </div>
         <div class="sidebar-actions">
             <button class="icon-btn" id="fix-accounts-btn" title="Fix / sync accounts" style="color:#f59e0b;border-color:rgba(245,158,11,0.3)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"/><path d="M12 8v4l3 3"/><path d="M18 14v4h4"/><path d="M18 18a6 6 0 1 0-3.5-10.8"/></svg>
             </button>
             <button class="theme-toggle" id="theme-toggle-btn" title="Toggle light/dark">🌙</button>
+            <button class="icon-btn" id="settings-btn" title="Settings & wallpaper">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </button>
             <button class="icon-btn" id="add-contact-btn" title="Add contact">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
             </button>
             <button class="icon-btn" id="logout-btn" title="Logout">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             </button>
+        </div>
+    </div>
+    <!-- Me section -->
+    <div class="me-section" id="me-section">
+        <div class="profile-pic-wrapper" id="profile-pic-wrapper" title="Change profile picture">
+            <div class="avatar me-avatar" id="me-avatar">
+                <span class="avatar-initials" id="me-initials">?</span>
+            </div>
+            <div class="avatar-edit-hint">📷</div>
+        </div>
+        <div class="me-info">
+            <div class="me-name" id="me-name-display">Loading...</div>
+            <div class="me-sub">● You</div>
         </div>
     </div>
     <div class="search-box">
@@ -1356,13 +480,19 @@
         <button class="toolbar-btn mobile-back" id="mobile-back">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <div class="avatar" id="toolbar-avatar" style="display:none"><span class="avatar-initials" id="toolbar-initials"></span></div>
+        <div class="avatar" id="toolbar-avatar" style="display:none">
+            <span class="avatar-initials" id="toolbar-initials"></span>
+        </div>
         <div class="toolbar-info" id="toolbar-info" style="display:none">
             <div class="toolbar-name" id="toolbar-name"></div>
             <div class="toolbar-status" id="toolbar-status">offline</div>
         </div>
         <button class="toolbar-btn call-btn" id="call-btn" style="display:none" title="Voice call">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.97-.97a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </button>
+        <!-- Clear messages button (visible when chat open) -->
+        <button class="toolbar-btn" id="clear-messages-btn" style="display:none" title="Clear messages">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
         </button>
         <div style="flex:1" id="toolbar-empty">
             <span style="font-size:15px;font-weight:500;color:var(--text-dim)">Select a conversation</span>
@@ -1381,7 +511,6 @@
     <div id="messages-area" class="messages-area" style="display:none"></div>
 
     <div class="input-area" id="input-area" style="display:none">
-        <!-- Reply preview bar -->
         <div class="reply-preview" id="reply-preview">
             <div class="reply-preview-text">
                 <div class="reply-preview-label" id="reply-preview-label">Replying to</div>
@@ -1389,7 +518,6 @@
             </div>
             <button class="reply-cancel" id="reply-cancel" title="Cancel reply">×</button>
         </div>
-        <!-- Timer picker -->
         <div class="timer-picker">
             <span class="timer-label">⏱</span>
             <div class="timer-chips" id="timer-chips">
@@ -1398,7 +526,8 @@
                 <button class="timer-chip" data-mins="15">15m</button>
                 <button class="timer-chip" data-mins="30">30m</button>
                 <button class="timer-chip" data-mins="60">1h</button>
-                <button class="timer-chip active" data-mins="1440">24h</button>
+                <button class="timer-chip" data-mins="1440">24h</button>
+                <button class="timer-chip active" data-mins="10080">1w</button>
             </div>
         </div>
         <div class="typing-bar" id="typing-bar"></div>
@@ -1406,7 +535,6 @@
             <button class="icon-btn attach-menu-btn" id="attach-menu-btn" title="Attach">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
             </button>
-            <!-- Attach popup menu -->
             <div class="attach-menu" id="attach-menu" style="display:none">
                 <button class="attach-opt" id="img-attach-btn" title="Photo">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -1417,8 +545,6 @@
                     <span>File</span>
                 </button>
             </div>
-            <input type="file" id="image-input" accept="image/*" style="display:none">
-            <input type="file" id="doc-input" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.csv" style="display:none">
             <input type="text" class="msg-input" id="message-input" placeholder="Message..." autocomplete="off">
             <button class="icon-btn voice-btn" id="voice-btn" title="Voice note">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
@@ -1427,7 +553,6 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
         </div>
-        <!-- Voice recording UI -->
         <div class="voice-recording-bar" id="voice-recording-bar" style="display:none">
             <div class="voice-rec-dot"></div>
             <span class="voice-rec-time" id="voice-rec-time">0:00</span>
@@ -1487,28 +612,102 @@
     </div>
 </div>
 
-<!-- CALL UI -->
-<div class="call-overlay" id="call-overlay">
-    <div class="call-avatar" id="call-avatar"><span id="call-initials"></span></div>
-    <div class="call-name" id="call-name"></div>
-    <div class="call-status" id="call-status">Calling...</div>
-    <div class="call-controls">
-        <button class="call-ctrl mute" id="mute-btn" title="Mute">🎤</button>
-        <button class="call-ctrl hangup" id="hangup-btn">📵</button>
+<!-- SETTINGS / WALLPAPER MODAL -->
+<div class="overlay" id="settings-overlay" style="display:none">
+    <div class="settings-modal">
+        <h3>Settings</h3>
+
+        <div class="settings-section">
+            <div class="settings-label">Profile Picture</div>
+            <div style="display:flex;align-items:center;gap:14px">
+                <div class="profile-pic-wrapper" id="settings-pic-wrapper" title="Change profile picture" style="cursor:pointer">
+                    <div class="avatar" id="settings-avatar" style="width:56px;height:56px;border-radius:16px">
+                        <span class="avatar-initials" id="settings-initials">?</span>
+                    </div>
+                    <div class="avatar-edit-hint" style="border-radius:16px">📷</div>
+                </div>
+                <div>
+                    <button class="submit-btn" style="width:auto;padding:10px 20px;font-size:13px" id="change-pfp-btn">Change Photo</button>
+                    <div style="font-size:12px;color:var(--text-dim);margin-top:4px">Tap to update your profile picture</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-label">Chat Wallpaper</div>
+            <div class="wallpaper-grid" id="wallpaper-grid">
+                <div class="wallpaper-opt" data-wallpaper="none" style="background:var(--surface2);border:1px solid var(--border)">
+                    <span>None</span>
+                </div>
+                <div class="wallpaper-opt" data-wallpaper="gradient1" style="background:linear-gradient(135deg,#667eea,#764ba2)"></div>
+                <div class="wallpaper-opt" data-wallpaper="gradient2" style="background:linear-gradient(135deg,#f093fb,#f5576c)"></div>
+                <div class="wallpaper-opt" data-wallpaper="gradient3" style="background:linear-gradient(135deg,#4facfe,#00f2fe)"></div>
+                <div class="wallpaper-opt" data-wallpaper="gradient4" style="background:linear-gradient(135deg,#43e97b,#38f9d7)"></div>
+                <div class="wallpaper-opt" data-wallpaper="gradient5" style="background:linear-gradient(135deg,#fa709a,#fee140)"></div>
+                <div class="wallpaper-opt" data-wallpaper="dots" style="background:#1a1a2e;background-image:radial-gradient(circle,rgba(108,99,255,0.4) 1px,transparent 1px);background-size:20px 20px"></div>
+                <div class="wallpaper-opt" data-wallpaper="grid" style="background:#0d0f14;background-image:linear-gradient(rgba(108,99,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(108,99,255,0.15) 1px,transparent 1px);background-size:30px 30px"></div>
+                <div class="wallpaper-opt" data-wallpaper="custom" style="background:var(--surface2);border:1px dashed var(--border);cursor:pointer">
+                    <span>📷 Custom</span>
+                </div>
+            </div>
+            <button class="clear-wallpaper-btn" id="clear-wallpaper-btn">Remove Wallpaper</button>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-label">App Logo</div>
+            <div style="display:flex;align-items:center;gap:14px">
+                <div class="avatar" id="settings-logo-preview" style="width:48px;height:48px;border-radius:12px;font-size:20px">
+                    <span>💬</span>
+                </div>
+                <button class="submit-btn" style="width:auto;padding:10px 20px;font-size:13px" id="change-logo-btn">Change Logo</button>
+            </div>
+        </div>
+
+        <button class="submit-btn" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);margin-top:8px" id="close-settings-btn">Close</button>
     </div>
 </div>
 
-<!-- INCOMING CALL -->
+<!-- CALL UI (improved) -->
+<div class="call-overlay" id="call-overlay">
+    <div class="call-avatar" id="call-avatar">
+        <span id="call-initials" style="font-size:36px;font-family:'Space Mono',monospace"></span>
+    </div>
+    <div class="call-name" id="call-name"></div>
+    <div class="call-status" id="call-status">Calling...</div>
+    <div class="call-timer" id="call-timer" style="display:none">0:00</div>
+    <div class="call-controls">
+        <button class="call-ctrl mute" id="mute-btn" title="Mute/Unmute">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+            <span>Mute</span>
+        </button>
+        <button class="call-ctrl speaker" id="speaker-btn" title="Speaker">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <span>Speaker</span>
+        </button>
+        <button class="call-ctrl hangup" id="hangup-btn" title="End call">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45c.93.37 1.9.63 2.92.76A2 2 0 0 1 22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 12 19 19.59 19.59 0 0 1 1.08 8.18 2 2 0 0 1 3.08 6h3a2 2 0 0 1 2 1.72 13 13 0 0 0 .77 3.01 2 2 0 0 1-.45 2.11l-1.27 1.27"/><line x1="23" y1="1" x2="1" y2="23"/></svg>
+            <span>End</span>
+        </button>
+    </div>
+</div>
+
+<!-- INCOMING CALL (improved) -->
 <div class="overlay" id="incoming-overlay" style="display:none">
     <div class="incoming-call-modal">
         <div class="call-avatar" style="width:80px;height:80px;border-radius:22px;margin:0 auto 16px">
             <span id="incoming-initials" style="font-size:28px;font-family:'Space Mono',monospace"></span>
         </div>
-        <div class="incoming-title">Incoming voice call</div>
+        <div class="incoming-title">📞 Incoming voice call</div>
         <div class="incoming-name" id="incoming-name"></div>
         <div class="incoming-btns">
-            <button class="call-ctrl hangup" id="decline-btn">📵</button>
-            <button class="call-ctrl answer" id="answer-btn">📞</button>
+            <button class="call-ctrl hangup" id="decline-btn" title="Decline" style="width:64px;height:64px;flex-direction:column;gap:4px;display:flex;align-items:center;justify-content:center">
+                <svg style="width:26px;height:26px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45c.93.37 1.9.63 2.92.76A2 2 0 0 1 22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 12 19 19.59 19.59 0 0 1 1.08 8.18 2 2 0 0 1 3.08 6h3a2 2 0 0 1 2 1.72 13 13 0 0 0 .77 3.01 2 2 0 0 1-.45 2.11l-1.27 1.27"/><line x1="23" y1="1" x2="1" y2="23"/></svg>
+                <span style="font-size:10px;color:white">Decline</span>
+            </button>
+            <button class="call-ctrl answer" id="answer-btn" title="Answer" style="width:64px;height:64px;flex-direction:column;gap:4px;display:flex;align-items:center;justify-content:center">
+                <svg style="width:26px;height:26px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.97-.97a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <span style="font-size:10px;color:white">Answer</span>
+            </button>
         </div>
     </div>
 </div>
@@ -1519,11 +718,7 @@
     <img id="img-preview-src" src="" alt="">
 </div>
 
-<audio id="remote-audio" autoplay></audio>
-<audio id="ring-audio" loop>
-    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFb" type="audio/wav">
-</audio>
-
+<audio id="remote-audio" autoplay playsinline></audio>
 
 <!-- CONFIRM DELETE CONTACT MODAL -->
 <div class="overlay" id="confirm-delete-overlay" style="display:none">
@@ -1533,6 +728,18 @@
         <div class="confirm-btns">
             <button class="btn-cancel-del" id="confirm-delete-cancel">Cancel</button>
             <button class="btn-confirm-del" id="confirm-delete-ok">Remove</button>
+        </div>
+    </div>
+</div>
+
+<!-- CLEAR MESSAGES MODAL -->
+<div class="overlay" id="clear-messages-overlay" style="display:none">
+    <div class="confirm-modal">
+        <h3>Clear Messages</h3>
+        <p>Delete all messages in this conversation? This cannot be undone.</p>
+        <div class="confirm-btns">
+            <button class="btn-cancel-del" id="clear-messages-cancel">Cancel</button>
+            <button class="btn-confirm-del" id="clear-messages-ok">Clear All</button>
         </div>
     </div>
 </div>
@@ -1562,6 +769,7 @@
         <p style="font-size:11px;color:var(--text-dim);margin-top:12px;text-align:center">Safe to run multiple times. Does not delete any data.</p>
     </div>
 </div>
+
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
@@ -1581,214 +789,159 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const auth = firebase.auth();
 
-// TTL is now per-message (selectedTTL), default 5 min
+// ── State ──
+let currentUser = null, myUsername = '', myUid = '';
+let activeContactUid = null, activeContactName = '';
+let msgListeners = {};
+let typingTimeout = null;
+let contactsData = {};
+let selectedTTL = 7 * 24 * 60 * 60 * 1000; // default 1 week
+let replyingTo = null;
+let pendingDeleteUid = null;
+let unreadCounts = {}; // uid -> count
+let lastSeenTimestamps = {}; // uid -> timestamp (when we last viewed that convo)
 
-// ── Read a user profile from ANY node structure in the database ──
-// Supports: userProfiles (new), usernames (old), users (legacy), presence
+// Edit state
+let editTapCount = {}; // msgKey -> count
+let editTapTimers = {}; // msgKey -> timeout
+
+// WebRTC
+let pc = null, localStream = null;
+let callType = null;
+let callContactUid = null;
+let isMuted = false;
+let isSpeaker = false;
+let callTimerInterval = null;
+let callStartTime = null;
+
+// Wallpaper
+const WALLPAPER_STYLES = {
+    gradient1: 'linear-gradient(135deg,#667eea,#764ba2)',
+    gradient2: 'linear-gradient(135deg,#f093fb,#f5576c)',
+    gradient3: 'linear-gradient(135deg,#4facfe,#00f2fe)',
+    gradient4: 'linear-gradient(135deg,#43e97b,#38f9d7)',
+    gradient5: 'linear-gradient(135deg,#fa709a,#fee140)',
+    dots: 'radial-gradient(circle,rgba(108,99,255,0.4) 1px,transparent 1px)',
+    grid: 'none',
+};
+
+// ─────────────────────────────────────────────
+//  PROFILE UTILITIES
+// ─────────────────────────────────────────────
 async function readProfileFromAnyNode(uid) {
-    // Try all possible node locations
     const nodes = ['userProfiles', 'usernames', 'users'];
     for (const node of nodes) {
         const snap = await db.ref(node + '/' + uid).once('value');
         if (snap.exists()) {
             const val = snap.val();
-            // Normalise into consistent {username, email} shape
-            const username = val.username || val.displayName || val.name || null;
-            const email    = (val.email || '').toLowerCase() || null;
-            return { username, email, raw: val, node };
+            return { username: val.username || val.displayName || val.name || null, email: (val.email || '').toLowerCase() || null, raw: val, node };
         }
     }
     return null;
 }
 
-// ── Resolve the best available username for any uid across all nodes ──
 async function resolveUsername(uid) {
-    // 1. userProfiles (primary)
     const profSnap = await db.ref('userProfiles/'+uid).once('value');
     const prof = profSnap.val();
     if (prof && prof.username) return prof.username;
-
-    // 2. Old 'usernames' node
-    try {
-        const unSnap = await db.ref('usernames/'+uid).once('value');
-        const un = unSnap.val();
-        if (un) {
-            const name = (typeof un === 'string') ? un : (un.username || un.displayName || un.name);
-            if (name) return name;
-        }
-    } catch(e) {}
-
-    // 3. presence node (sometimes has username)
-    try {
-        const presSnap = await db.ref('presence/'+uid).once('value');
-        const pres = presSnap.val();
-        if (pres && pres.username) return pres.username;
-    } catch(e) {}
-
-    // 4. Old 'users' node
-    try {
-        const usSnap = await db.ref('users/'+uid).once('value');
-        const us = usSnap.val();
-        if (us && (us.username || us.displayName)) return us.username || us.displayName;
-    } catch(e) {}
-
-    return null; // caller decides what to show
+    try { const unSnap = await db.ref('usernames/'+uid).once('value'); const un = unSnap.val(); if (un) { const name = (typeof un === 'string') ? un : (un.username || un.displayName || un.name); if (name) return name; } } catch(e) {}
+    try { const presSnap = await db.ref('presence/'+uid).once('value'); const pres = presSnap.val(); if (pres && pres.username) return pres.username; } catch(e) {}
+    try { const usSnap = await db.ref('users/'+uid).once('value'); const us = usSnap.val(); if (us && (us.username || us.displayName)) return us.username || us.displayName; } catch(e) {}
+    return null;
 }
 
+async function resolveProfilePic(uid) {
+    try {
+        const snap = await db.ref('userProfiles/'+uid+'/photoURL').once('value');
+        return snap.val() || null;
+    } catch(e) { return null; }
+}
 
-// ── Backfill/repair all lookup indexes for a uid ──
 async function backfillUserIndexes(uid) {
     const prof = await readProfileFromAnyNode(uid);
     if (!prof) return;
-
     const writes = {};
-    // Normalise userProfiles entry
     writes['userProfiles/' + uid + '/uid'] = uid;
     if (prof.username) {
         const uLower = prof.username.toLowerCase();
-        writes['userProfiles/' + uid + '/username']      = prof.username;
+        writes['userProfiles/' + uid + '/username'] = prof.username;
         writes['userProfiles/' + uid + '/usernameLower'] = uLower;
-        writes['usernameLookup/' + uLower]               = uid;
+        writes['usernameLookup/' + uLower] = uid;
     }
     if (prof.email) {
         const emailKey = prof.email.replace(/\./g, '_');
         writes['userProfiles/' + uid + '/email'] = prof.email;
-        writes['emailLookup/' + emailKey]         = uid;
+        writes['emailLookup/' + emailKey] = uid;
     }
-    try { await db.ref().update(writes); } catch(e) { /* ignore permission errors */ }
+    try { await db.ref().update(writes); } catch(e) {}
 }
 
-// ── Find user by email — tries index, then scans ALL known nodes ──
 async function findUserByEmail(email) {
     const emailNorm = email.trim().toLowerCase();
-    const emailKey  = emailNorm.replace(/\./g, '_');
-
-    // 1. Fast index path
+    const emailKey = emailNorm.replace(/\./g, '_');
     const idxSnap = await db.ref('emailLookup/' + emailKey).once('value');
     if (idxSnap.exists()) {
-        const uid      = idxSnap.val();
+        const uid = idxSnap.val();
         const profSnap = await db.ref('userProfiles/' + uid).once('value');
-        const prof     = profSnap.val() || {};
+        const prof = profSnap.val() || {};
         return { uid, username: prof.username || uid, email: prof.email || emailNorm };
     }
-
-    // 2. Scan every known node
     const nodesToScan = ['userProfiles', 'usernames', 'users'];
     for (const node of nodesToScan) {
         const allSnap = await db.ref(node).once('value');
         if (!allSnap.exists()) continue;
         let foundUid = null, foundProf = null;
-        allSnap.forEach(child => {
-            const p = child.val();
-            const storedEmail = (p.email || '').toLowerCase();
-            if (storedEmail === emailNorm) { foundUid = child.key; foundProf = p; }
-        });
-        if (foundUid) {
-            backfillUserIndexes(foundUid).catch(() => {});
-            return {
-                uid: foundUid,
-                username: foundProf.username || foundProf.displayName || foundUid,
-                email: emailNorm
-            };
-        }
+        allSnap.forEach(child => { const p = child.val(); if ((p.email || '').toLowerCase() === emailNorm) { foundUid = child.key; foundProf = p; } });
+        if (foundUid) { backfillUserIndexes(foundUid).catch(() => {}); return { uid: foundUid, username: foundProf.username || foundProf.displayName || foundUid, email: emailNorm }; }
     }
-
-    // 3. Scan presence node (sometimes the only place email is stored)
     const presSnap = await db.ref('presence').once('value');
     if (presSnap.exists()) {
         let foundUid = null, foundProf = null;
-        presSnap.forEach(child => {
-            const p = child.val();
-            if ((p.email || '').toLowerCase() === emailNorm) { foundUid = child.key; foundProf = p; }
-        });
-        if (foundUid) {
-            backfillUserIndexes(foundUid).catch(() => {});
-            return { uid: foundUid, username: foundProf.username || foundUid, email: emailNorm };
-        }
+        presSnap.forEach(child => { const p = child.val(); if ((p.email || '').toLowerCase() === emailNorm) { foundUid = child.key; foundProf = p; } });
+        if (foundUid) { backfillUserIndexes(foundUid).catch(() => {}); return { uid: foundUid, username: foundProf.username || foundUid, email: emailNorm }; }
     }
-
     return null;
 }
 
-// ── Find user by username — tries index, then scans ALL known nodes ──
 async function findUserByUsername(username) {
     const lower = username.trim().toLowerCase();
-
-    // 1. Fast index path
     const idxSnap = await db.ref('usernameLookup/' + lower).once('value');
     if (idxSnap.exists()) {
-        const uid      = idxSnap.val();
+        const uid = idxSnap.val();
         const profSnap = await db.ref('userProfiles/' + uid).once('value');
-        const prof     = profSnap.val() || {};
+        const prof = profSnap.val() || {};
         return { uid, username: prof.username || username, email: prof.email || '' };
     }
-
-    // 2. Scan every known node
     const nodesToScan = ['userProfiles', 'usernames', 'users'];
     for (const node of nodesToScan) {
         const allSnap = await db.ref(node).once('value');
         if (!allSnap.exists()) continue;
         let foundUid = null, foundProf = null;
-        allSnap.forEach(child => {
-            const p = child.val();
-            const uname = (p.username || p.displayName || p.name || '').toLowerCase();
-            if (uname === lower) { foundUid = child.key; foundProf = p; }
-        });
-        if (foundUid) {
-            backfillUserIndexes(foundUid).catch(() => {});
-            return {
-                uid: foundUid,
-                username: foundProf.username || foundProf.displayName || username,
-                email: (foundProf.email || '').toLowerCase()
-            };
-        }
+        allSnap.forEach(child => { const p = child.val(); const uname = (p.username || p.displayName || p.name || '').toLowerCase(); if (uname === lower) { foundUid = child.key; foundProf = p; } });
+        if (foundUid) { backfillUserIndexes(foundUid).catch(() => {}); return { uid: foundUid, username: foundProf.username || foundProf.displayName || username, email: (foundProf.email || '').toLowerCase() }; }
     }
     return null;
 }
 
-// ── Admin: migrate ALL existing users from old nodes into new structure ──
-// Call migrateAllUsers() from browser console to one-time fix legacy data
 window.migrateAllUsers = async function() {
     console.log('[ND Chat] Starting migration...');
     let count = 0;
     const nodesToScan = ['userProfiles', 'usernames', 'users'];
     const seenUids = new Set();
-
     for (const node of nodesToScan) {
         const snap = await db.ref(node).once('value');
         if (!snap.exists()) continue;
         const promises = [];
-        snap.forEach(child => {
-            if (seenUids.has(child.key)) return;
-            seenUids.add(child.key);
-            promises.push(backfillUserIndexes(child.key).then(() => count++));
-        });
+        snap.forEach(child => { if (seenUids.has(child.key)) return; seenUids.add(child.key); promises.push(backfillUserIndexes(child.key).then(() => count++)); });
         await Promise.all(promises);
     }
     console.log('[ND Chat] Migration complete. Processed:', count, 'users.');
     return count;
 };
 
-
-let currentUser = null, myUsername = '', myUid = '';
-let activeContactUid = null, activeContactName = '';
-let msgListeners = {};
-let typingTimeout = null;
-let contactsData = {}; // uid -> {username, email, online}
-
-// Timer & reply state
-let selectedTTL = 24 * 60 * 60 * 1000; // default 24 hours in ms
-let replyingTo = null; // { key, senderName, text }
-let pendingDeleteUid = null;
-
-// WebRTC
-let pc = null, localStream = null;
-let callType = null; // 'outgoing' | 'incoming'
-let callContactUid = null;
-let isMuted = false;
-
-// ===================== AUTH =====================
-
+// ─────────────────────────────────────────────
+//  AUTH
+// ─────────────────────────────────────────────
 document.getElementById('login-tab').onclick = () => switchTab('login');
 document.getElementById('signup-tab').onclick = () => switchTab('signup');
 
@@ -1813,23 +966,16 @@ document.getElementById('signup-btn').onclick = async () => {
     const email = document.getElementById('signup-email').value.trim().toLowerCase();
     const pass = document.getElementById('signup-password').value;
     const unameLower = uname.toLowerCase();
-
     if (!uname||!email||!pass) return showAuthError('Fill all fields');
     if (pass.length < 6) return showAuthError('Password must be at least 6 characters');
     if (!/^[a-zA-Z0-9_]+$/.test(uname)) return showAuthError('Username can only contain letters, numbers, and underscores');
-
-    // Check username uniqueness (case-insensitive via lowercase index)
     const usnap = await db.ref('usernameLookup/'+unameLower).once('value');
     if (usnap.exists()) return showAuthError('That username is already taken — try another');
-
     try {
         const cred = await auth.createUserWithEmailAndPassword(email, pass);
         await cred.user.updateProfile({displayName: uname});
-        // Write profile: always store email lowercase so search is reliable
         await db.ref('userProfiles/'+cred.user.uid).set({username: uname, usernameLower, email});
-        // Write username lookup index (usernameLower -> uid) for uniqueness + search
         await db.ref('usernameLookup/'+unameLower).set(cred.user.uid);
-        // Write email lookup index (email -> uid) for add-by-email
         await db.ref('emailLookup/'+email.replace(/\./g,'_')).set(cred.user.uid);
     } catch(e) { showAuthError(firebaseErrMsg(e.code)); }
 };
@@ -1838,37 +984,24 @@ auth.onAuthStateChanged(async user => {
     if (user) {
         currentUser = user;
         myUid = user.uid;
-
-        // Read existing profile — never overwrite a real username with a generated one
         const profSnap = await db.ref('userProfiles/'+user.uid).once('value');
         const prof = profSnap.val() || {};
-
-        // Priority: database username → Firebase Auth displayName → nothing fake
         const realUsername = prof.username || user.displayName || null;
-
         if (!profSnap.exists() || !prof.username) {
-            // Profile is missing or has no username. Only write if we have a REAL name
-            // (displayName is set during signup via updateProfile).
             if (realUsername) {
                 const unameLower = realUsername.toLowerCase();
-                await db.ref('userProfiles/'+user.uid).update({
-                    username: realUsername,
-                    usernameLower: unameLower,
-                    email: prof.email || (user.email || '').toLowerCase()
-                }).catch(() => {});
+                await db.ref('userProfiles/'+user.uid).update({ username: realUsername, usernameLower: unameLower, email: prof.email || (user.email || '').toLowerCase() }).catch(() => {});
             }
-            // If we have no real name either, leave the profile as-is and do NOT
-            // write a generated "User_XXXX" name that would corrupt their account.
         }
-
-        // Silently backfill lookup indexes
         backfillUserIndexes(user.uid).catch(() => {});
-
-        // Use real username or display name — never a generated fallback as the displayed name
         myUsername = realUsername || 'Unknown';
-
         document.getElementById('auth-overlay').style.display = 'none';
         document.getElementById('my-username-display').textContent = myUsername;
+        document.getElementById('me-name-display').textContent = myUsername;
+        document.getElementById('me-initials').textContent = getInitials(myUsername);
+        document.getElementById('settings-initials').textContent = getInitials(myUsername);
+        // Load profile pic
+        loadMyProfilePic();
         await initApp();
     } else {
         document.getElementById('auth-overlay').style.display = 'flex';
@@ -1876,10 +1009,166 @@ auth.onAuthStateChanged(async user => {
     }
 });
 
-// ── Theme toggle ──
+// ─────────────────────────────────────────────
+//  PROFILE PICTURE
+// ─────────────────────────────────────────────
+function loadMyProfilePic() {
+    db.ref('userProfiles/'+myUid+'/photoURL').once('value').then(snap => {
+        const url = snap.val();
+        if (url) setMyProfilePicUI(url);
+    });
+}
+
+function setMyProfilePicUI(url) {
+    const meAvatar = document.getElementById('me-avatar');
+    const settingsAvatar = document.getElementById('settings-avatar');
+    // Replace initials with image
+    [meAvatar, settingsAvatar].forEach(el => {
+        el.innerHTML = `<img src="${url}" alt="Profile" onerror="this.style.display='none'">`;
+    });
+}
+
+document.getElementById('profile-pic-wrapper').onclick = () => document.getElementById('profile-pic-input').click();
+document.getElementById('settings-pic-wrapper').onclick = () => document.getElementById('profile-pic-input').click();
+document.getElementById('change-pfp-btn').onclick = () => document.getElementById('profile-pic-input').click();
+
+document.getElementById('profile-pic-input').onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    showNotif('Updating profile picture...');
+    try {
+        const base64 = await compressImage(file, 300, 80000);
+        await db.ref('userProfiles/'+myUid+'/photoURL').set(base64);
+        setMyProfilePicUI(base64);
+        // Update presence so contacts see it
+        await db.ref('presence/'+myUid+'/photoURL').set(base64);
+        showNotif('Profile picture updated!');
+        // Refresh contact list to update their side
+        renderContactsList();
+    } catch(err) { showNotif('Failed to update picture'); }
+    e.target.value = '';
+};
+
+// ─────────────────────────────────────────────
+//  LOGO
+// ─────────────────────────────────────────────
+function loadSavedLogo() {
+    const saved = localStorage.getItem('nd-logo');
+    if (saved) {
+        document.getElementById('logo-img').src = saved;
+        document.getElementById('logo-img').classList.add('visible');
+        document.getElementById('logo-text').style.display = 'none';
+        const preview = document.getElementById('settings-logo-preview');
+        preview.innerHTML = `<img src="${saved}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`;
+    }
+}
+
+document.getElementById('logo-area').onclick = () => document.getElementById('logo-upload-input').click();
+document.getElementById('change-logo-btn').onclick = () => document.getElementById('logo-upload-input').click();
+
+document.getElementById('logo-upload-input').onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const base64 = await compressImage(file, 200, 50000);
+    localStorage.setItem('nd-logo', base64);
+    document.getElementById('logo-img').src = base64;
+    document.getElementById('logo-img').classList.add('visible');
+    document.getElementById('logo-text').style.display = 'none';
+    const preview = document.getElementById('settings-logo-preview');
+    preview.innerHTML = `<img src="${base64}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">`;
+    e.target.value = '';
+};
+
+// ─────────────────────────────────────────────
+//  WALLPAPER
+// ─────────────────────────────────────────────
+function applyWallpaper(type, customUrl) {
+    const area = document.getElementById('messages-area');
+    if (!area) return;
+    area.style.backgroundImage = '';
+    area.style.backgroundColor = '';
+    area.style.backgroundSize = '';
+    area.style.backgroundPosition = '';
+
+    if (!type || type === 'none') { area.style.background = ''; return; }
+    if (type === 'custom' && customUrl) {
+        area.style.backgroundImage = `url(${customUrl})`;
+        area.style.backgroundSize = 'cover';
+        area.style.backgroundPosition = 'center';
+        return;
+    }
+    if (type === 'dots') {
+        area.style.background = '#1a1a2e';
+        area.style.backgroundImage = 'radial-gradient(circle,rgba(108,99,255,0.4) 1px,transparent 1px)';
+        area.style.backgroundSize = '20px 20px';
+        return;
+    }
+    if (type === 'grid') {
+        area.style.background = '#0d0f14';
+        area.style.backgroundImage = "linear-gradient(rgba(108,99,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(108,99,255,0.15) 1px,transparent 1px)";
+        area.style.backgroundSize = '30px 30px';
+        return;
+    }
+    if (WALLPAPER_STYLES[type]) {
+        area.style.backgroundImage = WALLPAPER_STYLES[type];
+        return;
+    }
+}
+
+function loadSavedWallpaper() {
+    const type = localStorage.getItem('nd-wallpaper-type');
+    const custom = localStorage.getItem('nd-wallpaper-custom');
+    if (type) {
+        applyWallpaper(type, custom);
+        // Mark selected
+        document.querySelectorAll('.wallpaper-opt').forEach(opt => {
+            opt.classList.toggle('selected', opt.dataset.wallpaper === type);
+        });
+    }
+}
+
+document.getElementById('wallpaper-grid').addEventListener('click', async (e) => {
+    const opt = e.target.closest('.wallpaper-opt');
+    if (!opt) return;
+    const type = opt.dataset.wallpaper;
+    if (type === 'custom') {
+        document.getElementById('wallpaper-input').click();
+        return;
+    }
+    localStorage.setItem('nd-wallpaper-type', type);
+    localStorage.removeItem('nd-wallpaper-custom');
+    applyWallpaper(type, null);
+    document.querySelectorAll('.wallpaper-opt').forEach(o => o.classList.toggle('selected', o.dataset.wallpaper === type));
+});
+
+document.getElementById('wallpaper-input').onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    showNotif('Setting wallpaper...');
+    const base64 = await compressImage(file, 1080, 500000);
+    localStorage.setItem('nd-wallpaper-type', 'custom');
+    localStorage.setItem('nd-wallpaper-custom', base64);
+    applyWallpaper('custom', base64);
+    document.querySelectorAll('.wallpaper-opt').forEach(o => o.classList.toggle('selected', o.dataset.wallpaper === 'custom'));
+    e.target.value = '';
+};
+
+document.getElementById('clear-wallpaper-btn').onclick = () => {
+    localStorage.removeItem('nd-wallpaper-type');
+    localStorage.removeItem('nd-wallpaper-custom');
+    applyWallpaper('none');
+    document.querySelectorAll('.wallpaper-opt').forEach(o => o.classList.remove('selected'));
+    document.querySelector('.wallpaper-opt[data-wallpaper="none"]')?.classList.add('selected');
+};
+
+// ─────────────────────────────────────────────
+//  THEME
+// ─────────────────────────────────────────────
 (function() {
     const saved = localStorage.getItem('nd-theme');
     if (saved === 'light') document.body.classList.add('light');
+    const btn = document.getElementById('theme-toggle-btn');
+    if (document.body.classList.contains('light')) btn.textContent = '☀️';
 })();
 
 document.getElementById('theme-toggle-btn').addEventListener('click', () => {
@@ -1888,81 +1177,64 @@ document.getElementById('theme-toggle-btn').addEventListener('click', () => {
     document.getElementById('theme-toggle-btn').textContent = isLight ? '☀️' : '🌙';
 });
 
-// Sync icon on load
-(function() {
-    const btn = document.getElementById('theme-toggle-btn');
-    if (document.body.classList.contains('light')) btn.textContent = '☀️';
-})();
-
-document.getElementById('logout-btn').onclick = () => {
-    document.getElementById('logout-overlay').style.display = 'flex';
+// ─────────────────────────────────────────────
+//  SETTINGS MODAL
+// ─────────────────────────────────────────────
+document.getElementById('settings-btn').onclick = () => {
+    document.getElementById('settings-overlay').style.display = 'flex';
+    loadSavedWallpaper(); // refresh selection state
+};
+document.getElementById('close-settings-btn').onclick = () => {
+    document.getElementById('settings-overlay').style.display = 'none';
 };
 
+// ─────────────────────────────────────────────
+//  LOGOUT / MISC MODALS
+// ─────────────────────────────────────────────
+document.getElementById('logout-btn').onclick = () => { document.getElementById('logout-overlay').style.display = 'flex'; };
 document.getElementById('fix-accounts-btn').onclick = () => {
-    document.getElementById('migration-status').innerHTML = 'Click "Run Fix Now" to scan all database nodes<br>and rebuild the username/email search indexes.<br><br>This fixes the "account not found" problem for<br>all users who signed up before the index was created.';
+    document.getElementById('migration-status').innerHTML = 'Click "Run Fix Now" to scan all database nodes and rebuild indexes.';
     document.getElementById('migration-overlay').style.display = 'flex';
 };
-
-document.getElementById('migration-close').onclick = () => {
-    document.getElementById('migration-overlay').style.display = 'none';
-};
+document.getElementById('migration-close').onclick = () => { document.getElementById('migration-overlay').style.display = 'none'; };
 
 document.getElementById('migration-run').onclick = async () => {
     const btn = document.getElementById('migration-run');
     const statusEl = document.getElementById('migration-status');
-    btn.disabled = true;
-    btn.textContent = 'Running...';
-    statusEl.innerHTML = '⏳ Scanning database nodes...<br>(userProfiles, usernames, users)';
-
+    btn.disabled = true; btn.textContent = 'Running...';
+    statusEl.innerHTML = '⏳ Scanning database nodes...';
     try {
         let count = 0;
         const nodesToScan = ['userProfiles', 'usernames', 'users'];
         const seenUids = new Set();
         const log = [];
-
         for (const node of nodesToScan) {
-            statusEl.innerHTML += '<br>📂 Checking node: <b>' + node + '</b>...';
+            statusEl.innerHTML += '<br>📂 ' + node + '...';
             const snap = await db.ref(node).once('value');
-            if (!snap.exists()) {
-                log.push('  └ ' + node + ': empty / not found');
-                continue;
-            }
+            if (!snap.exists()) { log.push(node + ': empty'); continue; }
             const uids = [];
-            snap.forEach(child => {
-                if (!seenUids.has(child.key)) {
-                    seenUids.add(child.key);
-                    uids.push(child.key);
-                }
-            });
-            log.push('  └ ' + node + ': found ' + uids.length + ' entries');
-            for (const uid of uids) {
-                await backfillUserIndexes(uid);
-                count++;
-            }
+            snap.forEach(child => { if (!seenUids.has(child.key)) { seenUids.add(child.key); uids.push(child.key); } });
+            log.push(node + ': ' + uids.length + ' entries');
+            for (const uid of uids) { await backfillUserIndexes(uid); count++; }
         }
-
-        statusEl.innerHTML = '✅ Done! Fixed <b>' + count + '</b> accounts.<br><br>' +
-            log.map(l => l.replace(/</g,'&lt;')).join('<br>') +
-            '<br><br>Users can now be found by username or email.';
+        statusEl.innerHTML = '✅ Fixed <b>' + count + '</b> accounts.<br>' + log.join('<br>');
         btn.textContent = '✓ Complete';
     } catch(err) {
-        statusEl.innerHTML = '❌ Error: ' + err.message + '<br><br>Check Firebase Database Rules — you may need to allow reads temporarily.';
-        btn.disabled = false;
-        btn.textContent = 'Retry';
+        statusEl.innerHTML = '❌ Error: ' + err.message;
+        btn.disabled = false; btn.textContent = 'Retry';
     }
 };
 
-// ===================== INIT =====================
-
+// ─────────────────────────────────────────────
+//  INIT APP
+// ─────────────────────────────────────────────
 async function initApp() {
-    // Set online presence
     const presRef = db.ref('presence/'+myUid);
     presRef.set({username: myUsername, online: true, lastSeen: firebase.database.ServerValue.TIMESTAMP});
     presRef.onDisconnect().update({online: false, lastSeen: firebase.database.ServerValue.TIMESTAMP});
-
-    // Remove typing on disconnect
     db.ref('typing/'+myUid).onDisconnect().remove();
-
+    loadSavedLogo();
+    loadSavedWallpaper();
     loadContacts();
     listenForCalls();
 }
@@ -1974,33 +1246,33 @@ function cleanup() {
     msgListeners = {};
 }
 
-// ===================== CONTACTS =====================
-
+// ─────────────────────────────────────────────
+//  CONTACTS + UNREAD BADGES
+// ─────────────────────────────────────────────
 function loadContacts() {
     db.ref('contacts/'+myUid).on('value', snap => {
         const contacts = snap.val() || {};
         const uids = Object.keys(contacts);
-
-        // Clear old presence listeners
         contactsData = {};
-
-        if (uids.length === 0) {
-            renderContactsList();
-            return;
-        }
+        if (uids.length === 0) { renderContactsList(); return; }
 
         let loaded = 0;
         uids.forEach(uid => {
-            resolveUsername(uid).then(username => {
-                contactsData[uid] = { username, email: '' };
+            resolveUsername(uid).then(async username => {
+                const photoURL = await resolveProfilePic(uid);
+                contactsData[uid] = { username: username || uid, email: '', photoURL };
+                // Listen presence
                 db.ref('presence/'+uid).on('value', psnap => {
                     const pres = psnap.val() || {};
-                    if (!contactsData[uid]) contactsData[uid] = {};
+                    if (!contactsData[uid]) contactsData[uid] = { username: username || uid };
                     contactsData[uid].online = !!pres.online;
                     contactsData[uid].lastSeen = pres.lastSeen;
+                    if (pres.photoURL) contactsData[uid].photoURL = pres.photoURL;
                     renderContactsList();
                     if (uid === activeContactUid) updateToolbarStatus();
                 });
+                // Listen unread messages
+                listenUnread(uid);
                 loaded++;
                 if (loaded === uids.length) renderContactsList();
             });
@@ -2008,16 +1280,36 @@ function loadContacts() {
     });
 }
 
+function listenUnread(uid) {
+    if (uid === activeContactUid) return; // Don't count if currently viewing
+    const convoId = getConvoId(myUid, uid);
+    const lastSeen = lastSeenTimestamps[uid] || 0;
+
+    db.ref('conversations/'+convoId+'/messages')
+        .orderByChild('timestamp')
+        .startAt(lastSeen + 1)
+        .on('value', snap => {
+            let count = 0;
+            const now = Date.now();
+            snap.forEach(child => {
+                const msg = child.val();
+                const ttl = msg.ttl || 7 * 24 * 60 * 60 * 1000;
+                if (msg.senderId !== myUid && (now - msg.timestamp) < ttl) count++;
+            });
+            unreadCounts[uid] = count;
+            renderContactsList();
+        });
+}
+
 function renderContactsList() {
     const list = document.getElementById('contacts-list');
     const search = document.getElementById('search-contacts').value.toLowerCase();
     const uids = Object.keys(contactsData).filter(uid =>
-        !search || contactsData[uid].username.toLowerCase().includes(search)
+        !search || (contactsData[uid].username || '').toLowerCase().includes(search)
     );
 
     if (uids.length === 0) {
-        list.innerHTML = `<div style="padding:20px;text-align:center;color:var(--text-dim);font-size:13px">
-            ${search ? 'No contacts match.' : 'No contacts yet.<br>Click + to add someone.'}</div>`;
+        list.innerHTML = `<div style="padding:20px;text-align:center;color:var(--text-dim);font-size:13px">${search ? 'No contacts match.' : 'No contacts yet.<br>Click + to add someone.'}</div>`;
         return;
     }
 
@@ -2026,46 +1318,48 @@ function renderContactsList() {
         const c = contactsData[uid];
         const initials = getInitials(c.username);
         const isActive = uid === activeContactUid;
+        const unread = unreadCounts[uid] || 0;
         const div = document.createElement('div');
         div.className = 'contact-item' + (isActive?' active':'');
         div.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;position:relative;';
+
+        const avatarHTML = c.photoURL
+            ? `<div class="avatar"><img src="${c.photoURL}" alt="${escHtml(c.username)}" onerror="this.style.display='none'">${c.online ? '<div class="online-dot"></div>' : ''}</div>`
+            : `<div class="avatar"><span class="avatar-initials">${initials}</span>${c.online ? '<div class="online-dot"></div>' : ''}</div>`;
+
         div.innerHTML = `
-            <div class="avatar">
-                <span class="avatar-initials">${initials}</span>
-                ${c.online ? '<div class="online-dot"></div>' : ''}
-            </div>
+            ${avatarHTML}
             <div class="contact-info">
                 <div class="contact-name">${escHtml(c.username)}</div>
                 <div class="contact-preview">${c.online ? '● Online' : 'Offline'}</div>
+            </div>
+            <div class="contact-meta">
+                ${unread > 0 ? `<div class="unread-badge">${unread}</div>` : ''}
             </div>
             <button class="contact-delete-btn" title="Remove contact">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
             </button>`;
 
-        // Click on contact (not delete btn) opens chat
         div.onclick = (e) => {
             if (e.target.closest('.contact-delete-btn')) return;
             openChat(uid, c.username);
         };
-
-        // Delete button
         div.querySelector('.contact-delete-btn').onclick = (e) => {
             e.stopPropagation();
             pendingDeleteUid = uid;
-            document.getElementById('confirm-delete-text').textContent =
-                `Remove ${c.username} from your contacts?`;
+            document.getElementById('confirm-delete-text').textContent = `Remove ${c.username} from your contacts?`;
             document.getElementById('confirm-delete-overlay').style.display = 'flex';
         };
-
         list.appendChild(div);
     });
 }
 
 document.getElementById('search-contacts').oninput = renderContactsList;
 
-// ===================== ADD CONTACT =====================
-
-let addContactMode = 'username'; // 'username' or 'email'
+// ─────────────────────────────────────────────
+//  ADD CONTACT
+// ─────────────────────────────────────────────
+let addContactMode = 'username';
 
 document.getElementById('mode-username').onclick = () => {
     addContactMode = 'username';
@@ -2076,7 +1370,6 @@ document.getElementById('mode-username').onclick = () => {
     document.getElementById('search-mode-label').textContent = 'username';
     hideContactError();
 };
-
 document.getElementById('mode-email').onclick = () => {
     addContactMode = 'email';
     document.getElementById('mode-email').style.cssText += ';background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.3)';
@@ -2093,90 +1386,74 @@ document.getElementById('add-contact-btn').onclick = () => {
     document.getElementById('contact-email-input').value = '';
     hideContactError();
 };
-
-document.getElementById('cancel-add-contact').onclick = () => {
-    document.getElementById('add-contact-overlay').style.display = 'none';
-};
+document.getElementById('cancel-add-contact').onclick = () => { document.getElementById('add-contact-overlay').style.display = 'none'; };
 
 document.getElementById('confirm-add-contact').onclick = async () => {
     hideContactError();
     const btn = document.getElementById('confirm-add-contact');
-    btn.disabled = true;
-    btn.textContent = 'Searching...';
-
+    btn.disabled = true; btn.textContent = 'Searching...';
     try {
         let foundUid = null, foundData = null;
-
         if (addContactMode === 'username') {
             const raw = document.getElementById('contact-username-input').value.trim().replace(/^@/, '');
             if (!raw) { showContactError('Enter a username'); return; }
-            if (raw.toLowerCase() === myUsername.toLowerCase()) {
-                showContactError("That's your own username!"); return;
-            }
+            if (raw.toLowerCase() === myUsername.toLowerCase()) { showContactError("That's your own username!"); return; }
             const result = await findUserByUsername(raw);
             if (!result) { showContactError('No account found with that username'); return; }
-            foundUid = result.uid;
-            foundData = result.profile || {};
-
+            foundUid = result.uid; foundData = result;
         } else {
             const email = document.getElementById('contact-email-input').value.trim();
             if (!email) { showContactError('Enter an email'); return; }
-            if (email.toLowerCase() === (currentUser.email || '').toLowerCase()) {
-                showContactError("That's your own email!"); return;
-            }
+            if (email.toLowerCase() === (currentUser.email || '').toLowerCase()) { showContactError("That's your own email!"); return; }
             const result = await findUserByEmail(email);
             if (!result) { showContactError('No account found with that email'); return; }
-            foundUid = result.uid;
-            foundData = result.profile || {};
+            foundUid = result.uid; foundData = result;
         }
         if (!foundUid || foundUid === myUid) { showContactError("That's your own account!"); return; }
-
-        // Check not already a contact
         const existing = await db.ref('contacts/'+myUid+'/'+foundUid).once('value');
         if (existing.exists()) { showContactError('Already in your contacts!'); return; }
-
-        // Add mutually
         await db.ref('contacts/'+myUid+'/'+foundUid).set(true);
         await db.ref('contacts/'+foundUid+'/'+myUid).set(true);
-
         document.getElementById('add-contact-overlay').style.display = 'none';
         showNotif('Added ' + (foundData.username || 'contact') + '!');
-
-    } finally {
-        btn.disabled = false;
-        btn.textContent = 'Add Contact';
-    }
+    } finally { btn.disabled = false; btn.textContent = 'Add Contact'; }
 };
 
-// ===================== DELETE CONTACT =====================
-// Handlers moved to event delegation block at bottom of file
-
-// ===================== OPEN CHAT =====================
-
+// ─────────────────────────────────────────────
+//  OPEN CHAT
+// ─────────────────────────────────────────────
 function openChat(uid, uname) {
     activeContactUid = uid;
     activeContactName = uname;
-
-    // Sidebar mobile close
     document.getElementById('sidebar').classList.remove('mobile-open');
     document.getElementById('sidebar-backdrop').classList.remove('show');
 
-    // Update toolbar
-    document.getElementById('toolbar-avatar').style.display = 'flex';
+    // Toolbar
+    const toolbarAvatar = document.getElementById('toolbar-avatar');
+    toolbarAvatar.style.display = 'flex';
+    const c = contactsData[uid];
+    if (c && c.photoURL) {
+        toolbarAvatar.innerHTML = `<img src="${c.photoURL}" alt="${escHtml(uname)}" style="width:100%;height:100%;object-fit:cover;border-radius:11px" onerror="this.parentElement.innerHTML='<span class=avatar-initials>${getInitials(uname)}</span>'">`;
+    } else {
+        toolbarAvatar.innerHTML = `<span class="avatar-initials" id="toolbar-initials">${getInitials(uname)}</span>`;
+    }
+
     document.getElementById('toolbar-info').style.display = 'block';
     document.getElementById('toolbar-empty').style.display = 'none';
     document.getElementById('toolbar-name').textContent = uname;
-    document.getElementById('toolbar-initials').textContent = getInitials(uname);
     document.getElementById('call-btn').style.display = 'flex';
-
+    document.getElementById('clear-messages-btn').style.display = 'flex';
     updateToolbarStatus();
 
-    // Show messages area
+    // Mark as read
+    lastSeenTimestamps[uid] = Date.now();
+    unreadCounts[uid] = 0;
+
     document.getElementById('main-content').style.display = 'none';
     document.getElementById('messages-area').style.display = 'flex';
     document.getElementById('input-area').style.display = 'block';
+    loadSavedWallpaper();
 
-    // Load messages
     loadMessages(uid);
     listenTyping(uid);
     renderContactsList();
@@ -2190,95 +1467,105 @@ function updateToolbarStatus() {
     statusEl.className = 'toolbar-status' + (c.online?' online':'');
 }
 
-// ===================== MESSAGES =====================
-
-function getConvoId(uid1, uid2) {
-    return [uid1, uid2].sort().join('_');
-}
+// ─────────────────────────────────────────────
+//  MESSAGES
+// ─────────────────────────────────────────────
+function getConvoId(uid1, uid2) { return [uid1, uid2].sort().join('_'); }
 
 function loadMessages(contactUid) {
     const convoId = getConvoId(myUid, contactUid);
     const area = document.getElementById('messages-area');
     area.innerHTML = '';
 
-    // Remove old listener
     if (msgListeners[convoId]) msgListeners[convoId]();
 
     const ref = db.ref('conversations/'+convoId+'/messages');
-
-    // Auto-expire: clean on open and every 30s
     cleanExpiredMessages(convoId);
     const cleanInterval = setInterval(() => cleanExpiredMessages(convoId), 30000);
 
     let firstLoad = true;
-    // Small delay so initial messages don't trigger notifications on load
     setTimeout(() => { firstLoad = false; }, 2000);
 
     ref.orderByChild('timestamp').limitToLast(100).on('child_added', snap => {
         const msg = snap.val();
         const now = Date.now();
         const age = now - msg.timestamp;
-        const ttl = msg.ttl || 24 * 60 * 60 * 1000; // fallback 24h
-        if (age >= ttl) return; // Already expired, skip
+        const ttl = msg.ttl || 7 * 24 * 60 * 60 * 1000;
+        if (age >= ttl) return;
         renderMessage(snap.key, msg);
-        // Fire push notification for incoming messages
         if (!firstLoad && msg.senderId !== myUid && age < 10000) {
-            const body = msg.text || (msg.imageData ? '📷 Sent a photo' : msg.voiceData ? '🎤 Voice note' : msg.docData ? ('📎 ' + (msg.docName||'File')) : '');
-            showPushNotif(msg.senderName || 'New message', body);
+            const body = msg.text || (msg.imageData ? '📷 Photo' : msg.voiceData ? '🎤 Voice note' : msg.docData ? ('📎 ' + (msg.docName||'File')) : '');
+            showPushNotif(msg.senderName || 'Message', body);
         }
-        // Schedule visual removal
         const remaining = ttl - age;
         setTimeout(() => {
             const el = document.getElementById('msg-'+snap.key);
-            if (el) {
-                el.style.transition = 'opacity 0.4s, transform 0.4s';
-                el.style.opacity = '0';
-                el.style.transform = 'scale(0.9)';
-                setTimeout(() => el.remove(), 400);
-            }
+            if (el) { el.style.transition = 'opacity 0.4s, transform 0.4s'; el.style.opacity = '0'; el.style.transform = 'scale(0.9)'; setTimeout(() => el.remove(), 400); }
         }, remaining);
     });
 
-    // Listen for child_removed
-    ref.on('child_removed', snap => {
+    // Listen for edits/updates
+    ref.on('child_changed', snap => {
+        const msg = snap.val();
         const el = document.getElementById('msg-'+snap.key);
         if (el) {
-            el.style.transition = 'opacity 0.3s, transform 0.3s';
-            el.style.opacity = '0';
-            el.style.transform = 'scale(0.85)';
-            setTimeout(() => el.remove(), 300);
+            // Update the text content
+            const textDiv = el.querySelector('.msg-text-content');
+            if (textDiv && msg.text) textDiv.textContent = msg.text;
+            // Show edited indicator
+            const editedEl = el.querySelector('.msg-edited');
+            if (msg.edited && editedEl) editedEl.style.display = 'inline';
         }
+    });
+
+    ref.on('child_removed', snap => {
+        const el = document.getElementById('msg-'+snap.key);
+        if (el) { el.style.transition = 'opacity 0.3s, transform 0.3s'; el.style.opacity = '0'; el.style.transform = 'scale(0.85)'; setTimeout(() => el.remove(), 300); }
     });
 
     msgListeners[convoId] = () => { ref.off(); clearInterval(cleanInterval); };
 }
 
 async function cleanExpiredMessages(convoId) {
-    // Each message has its own ttl stored, so we can't use a single cutoff.
-    // We fetch recent messages and check individually.
-    const snap = await db.ref('conversations/'+convoId+'/messages')
-        .orderByChild('timestamp').limitToLast(200).once('value');
+    const snap = await db.ref('conversations/'+convoId+'/messages').orderByChild('timestamp').limitToLast(200).once('value');
     if (!snap.exists()) return;
     const now = Date.now();
     const updates = {};
     snap.forEach(child => {
         const msg = child.val();
-        const ttl = msg.ttl || 24 * 60 * 60 * 1000;
-        if (now - msg.timestamp >= ttl) {
-            updates[child.key] = null;
-        }
+        const ttl = msg.ttl || 7 * 24 * 60 * 60 * 1000;
+        if (now - msg.timestamp >= ttl) updates[child.key] = null;
     });
-    if (Object.keys(updates).length > 0) {
-        await db.ref('conversations/'+convoId+'/messages').update(updates);
-    }
+    if (Object.keys(updates).length > 0) await db.ref('conversations/'+convoId+'/messages').update(updates);
 }
+
+// Clear all messages in current conversation
+document.getElementById('clear-messages-btn').onclick = () => {
+    if (!activeContactUid) return;
+    document.getElementById('clear-messages-overlay').style.display = 'flex';
+};
+
+document.getElementById('clear-messages-ok').onclick = async () => {
+    document.getElementById('clear-messages-overlay').style.display = 'none';
+    if (!activeContactUid) return;
+    const convoId = getConvoId(myUid, activeContactUid);
+    try {
+        await db.ref('conversations/'+convoId+'/messages').remove();
+        document.getElementById('messages-area').innerHTML = '';
+        showNotif('Messages cleared');
+    } catch(e) { showNotif('Failed to clear messages'); }
+};
+
+document.getElementById('clear-messages-cancel').onclick = () => {
+    document.getElementById('clear-messages-overlay').style.display = 'none';
+};
 
 function renderMessage(key, msg) {
     const area = document.getElementById('messages-area');
     const isSent = msg.senderId === myUid;
     const now = Date.now();
     const age = now - msg.timestamp;
-    const ttl = msg.ttl || 24 * 60 * 60 * 1000;
+    const ttl = msg.ttl || 7 * 24 * 60 * 60 * 1000;
     const remaining = ttl - age;
     const remainSec = Math.max(0, Math.floor(remaining/1000));
 
@@ -2289,13 +1576,9 @@ function renderMessage(key, msg) {
     const initials = getInitials(msg.senderName || '?');
     const timeStr = formatTime(msg.timestamp);
 
-    // Build quote block if reply
     let quoteHtml = '';
     if (msg.replyTo) {
-        quoteHtml = `<div class="msg-quote">
-            <div class="msg-quote-author">${escHtml(msg.replyTo.senderName)}</div>
-            <div class="msg-quote-text">${escHtml(msg.replyTo.text || '📷 Image')}</div>
-        </div>`;
+        quoteHtml = `<div class="msg-quote"><div class="msg-quote-author">${escHtml(msg.replyTo.senderName)}</div><div class="msg-quote-text">${escHtml(msg.replyTo.text || '📷 Image')}</div></div>`;
     }
 
     let innerContent = quoteHtml;
@@ -2305,63 +1588,56 @@ function renderMessage(key, msg) {
     if (msg.voiceData) {
         const dur = msg.voiceDuration || 0;
         const durStr = Math.floor(dur/60) + ':' + String(dur%60).padStart(2,'0');
-        const uid = 'vn-' + key;
-        innerContent += `<div class="voice-note-player">
-            <button class="voice-play-btn" onclick="toggleVoice('${uid}','${msg.voiceData.replace(/'/g,"\\'")}',this)">▶</button>
-            <div class="voice-progress" id="vp-${uid}"><div class="voice-progress-fill" id="vpf-${uid}"></div></div>
-            <span class="voice-duration">${durStr}</span>
-        </div>`;
+        const vid = 'vn-' + key;
+        innerContent += `<div class="voice-note-player"><button class="voice-play-btn" onclick="toggleVoice('${vid}','${msg.voiceData.replace(/'/g,"\\'")}',this)">▶</button><div class="voice-progress" id="vp-${vid}"><div class="voice-progress-fill" id="vpf-${vid}"></div></div><span class="voice-duration">${durStr}</span></div>`;
     }
     if (msg.docData) {
         const sizeKB = msg.docSize ? (msg.docSize/1024).toFixed(0)+'KB' : '';
         const ext = (msg.docName||'').split('.').pop().toUpperCase();
         const icons = {PDF:'📄',DOC:'📝',DOCX:'📝',XLS:'📊',XLSX:'📊',PPT:'📋',PPTX:'📋',ZIP:'🗜️',TXT:'📃',CSV:'📊'};
-        const icon = icons[ext] || '📎';
-        innerContent += `<div class="doc-bubble">
-            <div class="doc-icon">${icon}</div>
-            <div class="doc-info">
-                <div class="doc-name">${escHtml(msg.docName||'File')}</div>
-                <div class="doc-size">${ext}${sizeKB ? ' · '+sizeKB : ''}</div>
-            </div>
-            <button class="doc-dl-btn" onclick="downloadDoc('${key}')">↓</button>
-        </div>`;
-        // Store doc data for download
+        innerContent += `<div class="doc-bubble"><div class="doc-icon">${icons[ext]||'📎'}</div><div class="doc-info"><div class="doc-name">${escHtml(msg.docName||'File')}</div><div class="doc-size">${ext}${sizeKB?' · '+sizeKB:''}</div></div><button class="doc-dl-btn" onclick="downloadDoc('${key}')">↓</button></div>`;
         window._docStore = window._docStore || {};
         window._docStore[key] = { data: msg.docData, name: msg.docName || 'file' };
     }
     if (msg.text) {
-        innerContent += `<div>${escHtml(msg.text)}</div>`;
+        innerContent += `<div class="msg-text-content">${escHtml(msg.text)}</div>`;
     }
 
     const expireMin = Math.floor(remainSec / 60);
     const expireSec = remainSec % 60;
     const expireStr = `${expireMin}:${expireSec.toString().padStart(2,'0')}`;
 
+    // Sender avatar: use profile pic if available
+    const senderUid = msg.senderId;
+    const senderPic = senderUid === myUid
+        ? (document.querySelector('#me-avatar img')?.src || null)
+        : (contactsData[senderUid]?.photoURL || null);
+
+    const avatarHtml = senderPic
+        ? `<div class="avatar" style="width:28px;height:28px;border-radius:9px"><img src="${senderPic}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=avatar-initials style=font-size:11px>${initials}</span>'"></div>`
+        : `<div class="avatar" style="width:28px;height:28px;border-radius:9px"><span class="avatar-initials" style="font-size:11px">${initials}</span></div>`;
+
     row.innerHTML = `
-        ${!isSent ? `<div class="avatar" style="width:28px;height:28px;border-radius:9px"><span class="avatar-initials" style="font-size:11px">${initials}</span></div>` : ''}
+        ${!isSent ? avatarHtml : ''}
         <div class="reply-icon">↩</div>
         <div class="msg-bubble">
             ${innerContent}
             <div class="msg-meta">
                 <span class="msg-time">${timeStr}</span>
-                <span class="msg-expires" style="font-size:10px;opacity:0.55;font-family:'Space Mono',monospace">⏱ ${expireStr}</span>
+                ${msg.edited ? '<span class="msg-edited">edited</span>' : '<span class="msg-edited" style="display:none">edited</span>'}
+                <span class="msg-expires">⏱ ${expireStr}</span>
             </div>
             <div class="timer-bar" id="timerbar-${key}" style="width:${(remaining/ttl)*100}%"></div>
         </div>
-        ${isSent ? `<div class="avatar" style="width:28px;height:28px;border-radius:9px"><span class="avatar-initials" style="font-size:11px">${getInitials(myUsername)}</span></div>` : ''}
+        ${isSent ? avatarHtml : ''}
     `;
 
     area.appendChild(row);
     area.scrollTop = area.scrollHeight;
 
-    // Animate timer bar
     const bar = document.getElementById('timerbar-'+key);
-    if (bar) {
-        bar.style.transition = `width ${remaining}ms linear`;
-        requestAnimationFrame(() => { bar.style.width = '0%'; });
-    }
+    if (bar) { bar.style.transition = `width ${remaining}ms linear`; requestAnimationFrame(() => { bar.style.width = '0%'; }); }
 
-    // Live expire countdown
     const expEl = row.querySelector('.msg-expires');
     if (expEl) {
         const iv = setInterval(() => {
@@ -2372,27 +1648,162 @@ function renderMessage(key, msg) {
         }, 1000);
     }
 
-    // Swipe to reply
     addSwipeToReply(row, key, msg);
+
+    // Triple-tap to edit (only for sent messages)
+    if (isSent && msg.text) {
+        addTripleTapEdit(row, key, msg);
+    }
 }
 
+// ─────────────────────────────────────────────
+//  TRIPLE-TAP TO EDIT
+// ─────────────────────────────────────────────
+function addTripleTapEdit(row, key, msg) {
+    const bubble = row.querySelector('.msg-bubble');
+    if (!bubble) return;
+
+    editTapCount[key] = 0;
+
+    bubble.addEventListener('click', (e) => {
+        // Don't trigger if clicking on reply quote, image, voice, doc
+        if (e.target.closest('.msg-quote') || e.target.closest('.msg-image') ||
+            e.target.closest('.voice-note-player') || e.target.closest('.doc-bubble')) return;
+
+        editTapCount[key] = (editTapCount[key] || 0) + 1;
+
+        clearTimeout(editTapTimers[key]);
+        editTapTimers[key] = setTimeout(() => { editTapCount[key] = 0; }, 600);
+
+        if (editTapCount[key] >= 3) {
+            editTapCount[key] = 0;
+            clearTimeout(editTapTimers[key]);
+            showEditMenu(row, key, msg);
+        }
+    });
+}
+
+function showEditMenu(row, key, msg) {
+    // Remove any existing menus
+    document.querySelectorAll('.edit-bubble-menu').forEach(m => m.remove());
+
+    const menu = document.createElement('div');
+    menu.className = 'edit-bubble-menu';
+
+    // Position above the bubble
+    const isSent = row.classList.contains('sent');
+    menu.style.cssText = isSent
+        ? 'right:36px;bottom:100%;margin-bottom:6px;'
+        : 'left:36px;bottom:100%;margin-bottom:6px;';
+
+    menu.innerHTML = `
+        <button class="edit-btn" data-key="${key}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Edit message
+        </button>
+        <button class="delete-btn danger" data-key="${key}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+            Delete
+        </button>
+        <button class="reply-trigger-btn" data-key="${key}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
+            Reply
+        </button>
+    `;
+
+    row.style.position = 'relative';
+    row.appendChild(menu);
+
+    menu.querySelector('.edit-btn').onclick = (e) => {
+        e.stopPropagation();
+        menu.remove();
+        startInlineEdit(row, key, msg);
+    };
+
+    menu.querySelector('.delete-btn').onclick = async (e) => {
+        e.stopPropagation();
+        menu.remove();
+        if (!activeContactUid) return;
+        const convoId = getConvoId(myUid, activeContactUid);
+        await db.ref('conversations/'+convoId+'/messages/'+key).remove();
+    };
+
+    menu.querySelector('.reply-trigger-btn').onclick = (e) => {
+        e.stopPropagation();
+        menu.remove();
+        triggerReply(key, msg);
+    };
+
+    // Close on outside click
+    setTimeout(() => {
+        document.addEventListener('click', function closeMenu(ev) {
+            if (!menu.contains(ev.target)) { menu.remove(); document.removeEventListener('click', closeMenu); }
+        });
+    }, 10);
+}
+
+function startInlineEdit(row, key, msg) {
+    const bubble = row.querySelector('.msg-bubble');
+    const textDiv = bubble.querySelector('.msg-text-content');
+    if (!textDiv) return;
+
+    const original = msg.text;
+    textDiv.style.display = 'none';
+
+    const textarea = document.createElement('textarea');
+    textarea.className = 'msg-edit-input';
+    textarea.value = original;
+    textarea.rows = Math.max(1, Math.ceil(original.length / 35));
+
+    const actions = document.createElement('div');
+    actions.className = 'edit-actions';
+    actions.innerHTML = `<button class="edit-save-btn">Save</button><button class="edit-cancel-btn">Cancel</button>`;
+
+    bubble.appendChild(textarea);
+    bubble.appendChild(actions);
+    textarea.focus();
+    textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+
+    actions.querySelector('.edit-save-btn').onclick = async () => {
+        const newText = textarea.value.trim();
+        if (!newText || newText === original) {
+            cancelEdit();
+            return;
+        }
+        if (!activeContactUid) return;
+        const convoId = getConvoId(myUid, activeContactUid);
+        await db.ref('conversations/'+convoId+'/messages/'+key).update({ text: newText, edited: true });
+        textDiv.textContent = newText;
+        msg.text = newText;
+        cancelEdit();
+        const editedEl = bubble.querySelector('.msg-edited');
+        if (editedEl) editedEl.style.display = 'inline';
+    };
+
+    actions.querySelector('.edit-cancel-btn').onclick = cancelEdit;
+
+    function cancelEdit() {
+        textarea.remove();
+        actions.remove();
+        textDiv.style.display = '';
+    }
+}
+
+// ─────────────────────────────────────────────
+//  SWIPE TO REPLY
+// ─────────────────────────────────────────────
 function addSwipeToReply(row, key, msg) {
     const bubble = row.querySelector('.msg-bubble');
     const icon = row.querySelector('.reply-icon');
     const isSent = row.classList.contains('sent');
-    let startX = 0, startY = 0, dx = 0;
-    let swiping = false;
+    let startX = 0, startY = 0, dx = 0, swiping = false;
     const THRESHOLD = 60;
 
     function onStart(e) {
         const touch = e.touches ? e.touches[0] : e;
-        startX = touch.clientX;
-        startY = touch.clientY;
-        dx = 0;
-        swiping = true;
+        startX = touch.clientX; startY = touch.clientY; dx = 0; swiping = true;
         bubble.style.transition = 'none';
     }
-
     function onMove(e) {
         if (!swiping) return;
         const touch = e.touches ? e.touches[0] : e;
@@ -2402,8 +1813,7 @@ function addSwipeToReply(row, key, msg) {
         if (isSent && diffX > 0) return;
         if (!isSent && diffX < 0) return;
         dx = diffX;
-        const maxDrag = THRESHOLD * 1.2;
-        const clamped = Math.max(-maxDrag, Math.min(maxDrag, dx));
+        const clamped = Math.max(-THRESHOLD*1.2, Math.min(THRESHOLD*1.2, dx));
         bubble.style.transform = 'translateX(' + clamped + 'px)';
         const progress = Math.min(1, Math.abs(clamped) / THRESHOLD);
         icon.style.opacity = progress;
@@ -2411,15 +1821,11 @@ function addSwipeToReply(row, key, msg) {
         if (progress >= 1) icon.classList.add('show'); else icon.classList.remove('show');
         if (e.cancelable) e.preventDefault();
     }
-
     function onEnd() {
         if (!swiping) return;
         swiping = false;
-        bubble.style.transition = 'transform 0.25s ease';
-        bubble.style.transform = '';
-        icon.style.opacity = '0';
-        icon.style.transform = 'translateY(-50%) scale(0.6)';
-        icon.classList.remove('show');
+        bubble.style.transition = 'transform 0.25s ease'; bubble.style.transform = '';
+        icon.style.opacity = '0'; icon.style.transform = 'translateY(-50%) scale(0.6)'; icon.classList.remove('show');
         if (Math.abs(dx) >= THRESHOLD) triggerReply(key, msg);
     }
 
@@ -2432,14 +1838,22 @@ function addSwipeToReply(row, key, msg) {
 }
 
 function triggerReply(key, msg) {
-    const previewText = msg.text || (msg.imageData ? '📷 Image' : msg.voiceData ? '🎤 Voice note' : msg.docData ? ('📎 ' + (msg.docName||'File')) : '');
+    const previewText = msg.text || (msg.imageData ? '📷 Image' : msg.voiceData ? '🎤 Voice note' : msg.docData ? ('📎 '+(msg.docName||'File')) : '');
     replyingTo = { key, senderName: msg.senderName || 'Unknown', text: previewText };
     document.getElementById('reply-preview-label').textContent = 'Replying to ' + replyingTo.senderName;
     document.getElementById('reply-preview-body').textContent = replyingTo.text;
     document.getElementById('reply-preview').classList.add('show');
     document.getElementById('message-input').focus();
 }
-// Send message
+
+document.getElementById('reply-cancel').onclick = () => {
+    replyingTo = null;
+    document.getElementById('reply-preview').classList.remove('show');
+};
+
+// ─────────────────────────────────────────────
+//  SEND MESSAGE
+// ─────────────────────────────────────────────
 document.getElementById('send-btn').onclick = sendMessage;
 document.getElementById('message-input').onkeydown = e => { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();} };
 
@@ -2448,7 +1862,6 @@ async function sendMessage() {
     const input = document.getElementById('message-input');
     const text = input.value.trim();
     if (!text) return;
-
     input.value = '';
     db.ref('typing/'+myUid).remove();
     clearTimeout(typingTimeout);
@@ -2460,56 +1873,18 @@ async function sendMessage() {
         ttl: selectedTTL,
         timestamp: firebase.database.ServerValue.TIMESTAMP
     };
-
     if (replyingTo) {
-        msgData.replyTo = {
-            key: replyingTo.key,
-            senderName: replyingTo.senderName,
-            text: replyingTo.text
-        };
+        msgData.replyTo = { key: replyingTo.key, senderName: replyingTo.senderName, text: replyingTo.text };
         replyingTo = null;
         document.getElementById('reply-preview').classList.remove('show');
     }
-
     const convoId = getConvoId(myUid, activeContactUid);
     await db.ref('conversations/'+convoId+'/messages').push(msgData);
 }
 
-// ── Voice note playback ──
-const _voicePlayers = {};
-function toggleVoice(uid, src, btn) {
-    if (_voicePlayers[uid]) {
-        const audio = _voicePlayers[uid];
-        if (audio.paused) { audio.play(); btn.textContent = '⏸'; }
-        else { audio.pause(); btn.textContent = '▶'; }
-        return;
-    }
-    const audio = new Audio(src);
-    _voicePlayers[uid] = audio;
-    audio.onended = () => {
-        btn.textContent = '▶';
-        const fill = document.getElementById('vpf-'+uid);
-        if (fill) fill.style.width = '0%';
-    };
-    audio.ontimeupdate = () => {
-        const fill = document.getElementById('vpf-'+uid);
-        if (fill && audio.duration) fill.style.width = (audio.currentTime/audio.duration*100)+'%';
-    };
-    audio.play();
-    btn.textContent = '⏸';
-}
-
-// ── Document download ──
-function downloadDoc(key) {
-    const doc = (window._docStore || {})[key];
-    if (!doc) return;
-    const a = document.createElement('a');
-    a.href = doc.data;
-    a.download = doc.name;
-    a.click();
-}
-
-// ── Timer chips ──
+// ─────────────────────────────────────────────
+//  TIMER CHIPS (default 1 week)
+// ─────────────────────────────────────────────
 document.getElementById('timer-chips').addEventListener('click', e => {
     const chip = e.target.closest('.timer-chip');
     if (!chip) return;
@@ -2518,44 +1893,52 @@ document.getElementById('timer-chips').addEventListener('click', e => {
     selectedTTL = parseInt(chip.dataset.mins) * 60 * 1000;
 });
 
-// ── Attach menu toggle ──
+// ─────────────────────────────────────────────
+//  ATTACH MENU
+// ─────────────────────────────────────────────
 document.getElementById('attach-menu-btn').onclick = e => {
     e.stopPropagation();
     const menu = document.getElementById('attach-menu');
     menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
     if (menu.style.display === 'flex') menu.style.flexDirection = 'column';
 };
-document.addEventListener('click', () => {
+document.addEventListener('click', (e) => {
     const menu = document.getElementById('attach-menu');
-    if (menu) menu.style.display = 'none';
+    if (menu && !e.target.closest('#attach-menu') && !e.target.closest('#attach-menu-btn')) menu.style.display = 'none';
 });
 
-// ── Image attach ──
-document.getElementById('img-attach-btn').onclick = e => {
-    e.stopPropagation();
-    document.getElementById('attach-menu').style.display = 'none';
-    document.getElementById('image-input').click();
-};
-
+// Image
+document.getElementById('img-attach-btn').onclick = e => { e.stopPropagation(); document.getElementById('attach-menu').style.display = 'none'; document.getElementById('image-input').click(); };
 document.getElementById('image-input').onchange = async e => {
     const file = e.target.files[0];
     if (!file || !activeContactUid) return;
     try {
         showNotif('Compressing image...');
-        const base64 = await compressImage(file, 480);  // auto-compress to <500KB
+        const base64 = await compressImage(file, 480);
         const convoId = getConvoId(myUid, activeContactUid);
-        await db.ref('conversations/'+convoId+'/messages').push({
-            senderId: myUid,
-            senderName: myUsername,
-            imageData: base64,
-            ttl: selectedTTL,
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
+        await db.ref('conversations/'+convoId+'/messages').push({ senderId: myUid, senderName: myUsername, imageData: base64, ttl: selectedTTL, timestamp: firebase.database.ServerValue.TIMESTAMP });
     } catch(err) { showNotif('Failed to send image'); }
     e.target.value = '';
 };
 
-// ── Auto-compress image to <500KB ──
+// Document
+document.getElementById('doc-attach-btn').onclick = e => { e.stopPropagation(); document.getElementById('attach-menu').style.display = 'none'; document.getElementById('doc-input').click(); };
+document.getElementById('doc-input').onchange = async e => {
+    const file = e.target.files[0];
+    if (!file || !activeContactUid) return;
+    if (file.size > 2 * 1024 * 1024) { showNotif('File too large (max 2MB)'); e.target.value = ''; return; }
+    try {
+        showNotif('Attaching file...');
+        const base64 = await fileToBase64(file);
+        const convoId = getConvoId(myUid, activeContactUid);
+        await db.ref('conversations/'+convoId+'/messages').push({ senderId: myUid, senderName: myUsername, docData: base64, docName: file.name, docSize: file.size, docType: file.type, ttl: selectedTTL, timestamp: firebase.database.ServerValue.TIMESTAMP });
+    } catch(err) { showNotif('Failed to send file'); }
+    e.target.value = '';
+};
+
+// ─────────────────────────────────────────────
+//  IMAGE COMPRESS & FILE UTIL
+// ─────────────────────────────────────────────
 function compressImage(file, maxDim = 1280, maxBytes = 490000) {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -2563,7 +1946,6 @@ function compressImage(file, maxDim = 1280, maxBytes = 490000) {
         img.onload = () => {
             URL.revokeObjectURL(url);
             let { width, height } = img;
-            // Scale down if needed
             if (width > maxDim || height > maxDim) {
                 if (width > height) { height = Math.round(height * maxDim / width); width = maxDim; }
                 else { width = Math.round(width * maxDim / height); height = maxDim; }
@@ -2572,14 +1954,12 @@ function compressImage(file, maxDim = 1280, maxBytes = 490000) {
             canvas.width = width; canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            // Binary search for quality that fits under maxBytes
             let lo = 0.1, hi = 0.95, best = '';
             for (let i = 0; i < 8; i++) {
                 const mid = (lo + hi) / 2;
                 const data = canvas.toDataURL('image/jpeg', mid);
                 const bytes = Math.round((data.length - 22) * 3 / 4);
-                if (bytes <= maxBytes) { best = data; lo = mid; }
-                else { hi = mid; }
+                if (bytes <= maxBytes) { best = data; lo = mid; } else { hi = mid; }
             }
             if (!best) best = canvas.toDataURL('image/jpeg', 0.1);
             resolve(best);
@@ -2589,50 +1969,13 @@ function compressImage(file, maxDim = 1280, maxBytes = 490000) {
     });
 }
 
-// ── Document attach ──
-document.getElementById('doc-attach-btn').onclick = e => {
-    e.stopPropagation();
-    document.getElementById('attach-menu').style.display = 'none';
-    document.getElementById('doc-input').click();
-};
-
-document.getElementById('doc-input').onchange = async e => {
-    const file = e.target.files[0];
-    if (!file || !activeContactUid) return;
-    const maxDocSize = 2 * 1024 * 1024; // 2MB limit for docs stored as base64
-    if (file.size > maxDocSize) {
-        showNotif('File too large (max 2MB)');
-        e.target.value = '';
-        return;
-    }
-    try {
-        showNotif('Attaching file...');
-        const base64 = await fileToBase64(file);
-        const convoId = getConvoId(myUid, activeContactUid);
-        await db.ref('conversations/'+convoId+'/messages').push({
-            senderId: myUid,
-            senderName: myUsername,
-            docData: base64,
-            docName: file.name,
-            docSize: file.size,
-            docType: file.type,
-            ttl: selectedTTL,
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
-    } catch(err) { showNotif('Failed to send file'); }
-    e.target.value = '';
-};
-
 function fileToBase64(file) {
-    return new Promise((res, rej) => {
-        const r = new FileReader();
-        r.onload = () => res(r.result);
-        r.onerror = rej;
-        r.readAsDataURL(file);
-    });
+    return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); });
 }
 
-// ── Voice notes ──
+// ─────────────────────────────────────────────
+//  VOICE RECORDING
+// ─────────────────────────────────────────────
 let mediaRecorder = null, audioChunks = [], voiceTimer = null, voiceSeconds = 0;
 
 document.getElementById('voice-btn').onmousedown = startVoiceRecording;
@@ -2641,20 +1984,17 @@ document.getElementById('voice-btn').ontouchstart = e => { e.preventDefault(); s
 async function startVoiceRecording() {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        audioChunks = [];
-        voiceSeconds = 0;
+        audioChunks = []; voiceSeconds = 0;
         mediaRecorder = new MediaRecorder(stream);
         mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
         mediaRecorder.start(100);
-
         document.getElementById('voice-btn').style.display = 'none';
         document.getElementById('voice-recording-bar').style.display = 'flex';
         document.getElementById('send-btn').style.display = 'none';
-
         voiceTimer = setInterval(() => {
             voiceSeconds++;
-            const m = Math.floor(voiceSeconds / 60), s = voiceSeconds % 60;
-            document.getElementById('voice-rec-time').textContent = m + ':' + String(s).padStart(2, '0');
+            const m = Math.floor(voiceSeconds/60), s = voiceSeconds%60;
+            document.getElementById('voice-rec-time').textContent = m+':'+String(s).padStart(2,'0');
         }, 1000);
     } catch(err) { showNotif('Microphone access denied'); }
 }
@@ -2671,46 +2011,48 @@ function stopVoiceRecording() {
 }
 
 document.getElementById('voice-cancel-btn').onclick = () => { stopVoiceRecording(); audioChunks = []; };
-
 document.getElementById('voice-send-btn').onclick = async () => {
     if (!mediaRecorder || !activeContactUid) return;
     const duration = voiceSeconds;
     stopVoiceRecording();
-    await new Promise(r => setTimeout(r, 200)); // let ondataavailable flush
+    await new Promise(r => setTimeout(r, 200));
     if (audioChunks.length === 0) return;
     const blob = new Blob(audioChunks, { type: 'audio/webm' });
-    if (blob.size > 1.5 * 1024 * 1024) { showNotif('Voice note too long (max ~3 min)'); return; }
+    if (blob.size > 1.5*1024*1024) { showNotif('Voice note too long (max ~3 min)'); return; }
     const reader = new FileReader();
     reader.onload = async () => {
         const convoId = getConvoId(myUid, activeContactUid);
-        await db.ref('conversations/'+convoId+'/messages').push({
-            senderId: myUid,
-            senderName: myUsername,
-            voiceData: reader.result,
-            voiceDuration: duration,
-            ttl: selectedTTL,
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
+        await db.ref('conversations/'+convoId+'/messages').push({ senderId: myUid, senderName: myUsername, voiceData: reader.result, voiceDuration: duration, ttl: selectedTTL, timestamp: firebase.database.ServerValue.TIMESTAMP });
     };
     reader.readAsDataURL(blob);
 };
 
-// ── Push Notifications ──
-let notifPermission = 'default';
-async function requestNotifications() {
-    if (!('Notification' in window)) return;
-    notifPermission = await Notification.requestPermission();
+// Voice playback
+const _voicePlayers = {};
+function toggleVoice(uid, src, btn) {
+    if (_voicePlayers[uid]) {
+        const audio = _voicePlayers[uid];
+        if (audio.paused) { audio.play(); btn.textContent = '⏸'; }
+        else { audio.pause(); btn.textContent = '▶'; }
+        return;
+    }
+    const audio = new Audio(src);
+    _voicePlayers[uid] = audio;
+    audio.onended = () => { btn.textContent = '▶'; const fill = document.getElementById('vpf-'+uid); if (fill) fill.style.width = '0%'; };
+    audio.ontimeupdate = () => { const fill = document.getElementById('vpf-'+uid); if (fill && audio.duration) fill.style.width = (audio.currentTime/audio.duration*100)+'%'; };
+    audio.play();
+    btn.textContent = '⏸';
 }
-requestNotifications();
 
-function showPushNotif(title, body) {
-    if (notifPermission !== 'granted') return;
-    if (document.visibilityState === 'visible') return; // only when tab is hidden
-    try { new Notification(title, { body, icon: '' }); } catch(e) {}
+function downloadDoc(key) {
+    const doc = (window._docStore || {})[key];
+    if (!doc) return;
+    const a = document.createElement('a'); a.href = doc.data; a.download = doc.name; a.click();
 }
 
-// ===================== TYPING =====================
-
+// ─────────────────────────────────────────────
+//  TYPING INDICATOR
+// ─────────────────────────────────────────────
 document.getElementById('message-input').oninput = () => {
     if (!activeContactUid) return;
     db.ref('typing/'+myUid).set({toUid: activeContactUid, username: myUsername});
@@ -2722,23 +2064,31 @@ function listenTyping(contactUid) {
     db.ref('typing/'+contactUid).on('value', snap => {
         const d = snap.val();
         const bar = document.getElementById('typing-bar');
-        if (d && d.toUid === myUid) {
-            bar.textContent = (contactsData[contactUid]?.username || 'Someone') + ' is typing...';
-        } else {
-            bar.textContent = '';
-        }
+        if (d && d.toUid === myUid) bar.textContent = (contactsData[contactUid]?.username||'Someone') + ' is typing...';
+        else bar.textContent = '';
     });
 }
 
-// ===================== VOICE CALLS (WebRTC) =====================
-
-const iceServers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+// ─────────────────────────────────────────────
+//  VOICE CALLS (WebRTC — FIXED)
+// ─────────────────────────────────────────────
+// Using multiple STUN/TURN servers for better connectivity
+const iceConfig = {
+    iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' },
+        { urls: 'stun:stun2.l.google.com:19302' },
+        { urls: 'stun:stun.cloudflare.com:3478' }
+    ],
+    iceCandidatePoolSize: 10
+};
 
 document.getElementById('call-btn').onclick = () => startCall(activeContactUid);
 document.getElementById('hangup-btn').onclick = hangup;
 document.getElementById('decline-btn').onclick = declineCall;
 document.getElementById('answer-btn').onclick = answerCall;
 document.getElementById('mute-btn').onclick = toggleMute;
+document.getElementById('speaker-btn').onclick = toggleSpeaker;
 
 async function startCall(contactUid) {
     if (!contactUid) return;
@@ -2746,75 +2096,107 @@ async function startCall(contactUid) {
     callType = 'outgoing';
 
     try {
-        localStream = await navigator.mediaDevices.getUserMedia({audio: true});
+        localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
     } catch(e) {
-        return alert('Microphone access denied. Please allow mic access to call.');
+        return showNotif('Microphone access denied');
     }
 
-    pc = new RTCPeerConnection(iceServers);
-    localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
+    pc = new RTCPeerConnection(iceConfig);
 
-    pc.onicecandidate = e => {
-        if (e.candidate) {
-            db.ref('calls/'+contactUid+'/candidates/'+myUid).push(e.candidate.toJSON());
+    // Add all local tracks
+    localStream.getTracks().forEach(track => {
+        pc.addTrack(track, localStream);
+    });
+
+    // Handle remote stream
+    pc.ontrack = (e) => {
+        console.log('[Call] ontrack event', e.streams);
+        const remoteAudio = document.getElementById('remote-audio');
+        if (e.streams && e.streams[0]) {
+            remoteAudio.srcObject = e.streams[0];
+            remoteAudio.play().catch(err => console.warn('audio play failed:', err));
         }
     };
 
-    pc.ontrack = e => {
-        document.getElementById('remote-audio').srcObject = e.streams[0];
+    // ICE candidates — buffer them until remote desc is set
+    const iceCandidateBuffer = [];
+    let remoteDescSet = false;
+
+    pc.onicecandidate = (e) => {
+        if (e.candidate) {
+            db.ref('callSignal/'+contactUid+'/ice/'+myUid).push(e.candidate.toJSON());
+        }
     };
 
-    const offer = await pc.createOffer();
+    pc.onconnectionstatechange = () => {
+        console.log('[Call] connection state:', pc.connectionState);
+        if (pc.connectionState === 'connected') {
+            document.getElementById('call-status').textContent = 'Connected';
+            startCallTimer();
+        }
+        if (pc.connectionState === 'disconnected' || pc.connectionState === 'failed') {
+            endCallUI('Call ended');
+        }
+    };
+
+    const offer = await pc.createOffer({ offerToReceiveAudio: true });
     await pc.setLocalDescription(offer);
 
     // Signal the call
-    await db.ref('calls/'+contactUid).set({
+    await db.ref('callSignal/'+contactUid).set({
         from: myUid,
         fromName: myUsername,
-        offer: {type: offer.type, sdp: offer.sdp},
+        offer: { type: offer.type, sdp: offer.sdp },
         status: 'ringing',
         timestamp: firebase.database.ServerValue.TIMESTAMP
     });
 
-    // Show calling UI
     showCallUI('outgoing', activeContactName);
 
     // Listen for answer
-    db.ref('calls/'+contactUid+'/answer').on('value', async snap => {
-        if (snap.val() && pc && !pc.remoteDescription) {
-            const answer = snap.val();
-            await pc.setRemoteDescription(new RTCSessionDescription(answer));
+    db.ref('callSignal/'+contactUid+'/answer').on('value', async snap => {
+        if (snap.val() && pc && pc.signalingState !== 'stable') {
+            try {
+                await pc.setRemoteDescription(new RTCSessionDescription(snap.val()));
+                remoteDescSet = true;
+                // Flush buffered ICE candidates
+                for (const c of iceCandidateBuffer) {
+                    try { await pc.addIceCandidate(new RTCIceCandidate(c)); } catch(e) {}
+                }
+                iceCandidateBuffer.length = 0;
+            } catch(err) { console.error('[Call] setRemoteDescription failed:', err); }
         }
     });
 
-    // Listen for ICE from other side
-    db.ref('calls/'+myUid+'/candidates/'+contactUid).on('child_added', snap => {
-        if (pc) pc.addIceCandidate(new RTCIceCandidate(snap.val()));
+    // Listen for remote ICE
+    db.ref('callSignal/'+myUid+'/ice/'+contactUid).on('child_added', async snap => {
+        const candidate = snap.val();
+        if (!candidate) return;
+        if (!remoteDescSet) { iceCandidateBuffer.push(candidate); return; }
+        try { await pc.addIceCandidate(new RTCIceCandidate(candidate)); } catch(e) {}
     });
 
-    // Watch for call end
-    db.ref('calls/'+contactUid+'/status').on('value', snap => {
-        if (snap.val() === 'ended' || snap.val() === 'declined') {
-            endCallUI('Call ended');
+    // Watch status
+    db.ref('callSignal/'+contactUid+'/status').on('value', snap => {
+        const status = snap.val();
+        if (status === 'ended' || status === 'declined') endCallUI(status === 'declined' ? 'Call declined' : 'Call ended');
+        if (status === 'answered') {
+            document.getElementById('call-status').textContent = 'Connecting...';
         }
     });
 }
 
 function listenForCalls() {
-    db.ref('calls/'+myUid).on('value', async snap => {
+    db.ref('callSignal/'+myUid).on('value', async snap => {
         const call = snap.val();
         if (!call || call.status !== 'ringing') return;
         if (call.from === myUid) return;
-        if (call.timestamp && Date.now() - call.timestamp > 60000) return; // Stale
-
-        // Show incoming call
+        if (call.timestamp && Date.now() - call.timestamp > 60000) return;
         callContactUid = call.from;
         callType = 'incoming';
         document.getElementById('incoming-name').textContent = call.fromName || 'Someone';
         document.getElementById('incoming-initials').textContent = getInitials(call.fromName || '?');
         document.getElementById('incoming-overlay').style.display = 'flex';
-
-        // Store offer for when answered
         window._pendingCall = call;
     });
 }
@@ -2825,42 +2207,63 @@ async function answerCall() {
     if (!call) return;
 
     try {
-        localStream = await navigator.mediaDevices.getUserMedia({audio: true});
-    } catch(e) {
-        return alert('Microphone access denied.');
-    }
+        localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    } catch(e) { return showNotif('Microphone access denied'); }
 
-    pc = new RTCPeerConnection(iceServers);
-    localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
+    pc = new RTCPeerConnection(iceConfig);
 
-    pc.onicecandidate = e => {
-        if (e.candidate) {
-            db.ref('calls/'+myUid+'/candidates/'+myUid).push(e.candidate.toJSON());
+    localStream.getTracks().forEach(track => {
+        pc.addTrack(track, localStream);
+    });
+
+    pc.ontrack = (e) => {
+        console.log('[Call] ontrack event (answerer)', e.streams);
+        const remoteAudio = document.getElementById('remote-audio');
+        if (e.streams && e.streams[0]) {
+            remoteAudio.srcObject = e.streams[0];
+            remoteAudio.play().catch(err => console.warn('audio play:', err));
         }
     };
 
-    pc.ontrack = e => {
-        document.getElementById('remote-audio').srcObject = e.streams[0];
+    pc.onicecandidate = (e) => {
+        if (e.candidate) {
+            db.ref('callSignal/'+myUid+'/ice/'+myUid).push(e.candidate.toJSON());
+        }
     };
 
-    await pc.setRemoteDescription(new RTCSessionDescription(call.offer));
+    pc.onconnectionstatechange = () => {
+        console.log('[Call] connection state (answerer):', pc.connectionState);
+        if (pc.connectionState === 'connected') {
+            document.getElementById('call-status').textContent = 'Connected';
+            startCallTimer();
+        }
+        if (pc.connectionState === 'disconnected' || pc.connectionState === 'failed') {
+            endCallUI('Call ended');
+        }
+    };
+
+    try {
+        await pc.setRemoteDescription(new RTCSessionDescription(call.offer));
+    } catch(err) { console.error('[Call] setRemoteDescription (offer) failed:', err); return; }
+
     const answer = await pc.createAnswer();
     await pc.setLocalDescription(answer);
 
     // Send answer
-    await db.ref('calls/'+myUid+'/answer').set({type: answer.type, sdp: answer.sdp});
-    await db.ref('calls/'+myUid+'/status').set('answered');
+    await db.ref('callSignal/'+myUid+'/answer').set({ type: answer.type, sdp: answer.sdp });
+    await db.ref('callSignal/'+myUid+'/status').set('answered');
 
     // Listen for caller's ICE
-    db.ref('calls/'+myUid+'/candidates/'+call.from).on('child_added', snap => {
-        if (pc) pc.addIceCandidate(new RTCIceCandidate(snap.val()));
+    db.ref('callSignal/'+myUid+'/ice/'+call.from).on('child_added', async snap => {
+        const candidate = snap.val();
+        if (!candidate) return;
+        try { await pc.addIceCandidate(new RTCIceCandidate(candidate)); } catch(e) {}
     });
 
     const contactName = contactsData[call.from]?.username || call.fromName || 'Caller';
     showCallUI('incoming', contactName);
 
-    // Watch for hangup
-    db.ref('calls/'+myUid+'/status').on('value', snap => {
+    db.ref('callSignal/'+myUid+'/status').on('value', snap => {
         if (snap.val() === 'ended') endCallUI('Call ended');
     });
 }
@@ -2868,26 +2271,40 @@ async function answerCall() {
 function declineCall() {
     document.getElementById('incoming-overlay').style.display = 'none';
     if (window._pendingCall) {
-        db.ref('calls/'+myUid+'/status').set('declined');
+        db.ref('callSignal/'+myUid+'/status').set('declined');
     }
     window._pendingCall = null;
 }
 
 function hangup() {
     if (callContactUid) {
-        db.ref('calls/'+callContactUid+'/status').set('ended');
-        db.ref('calls/'+myUid+'/status').set('ended');
+        db.ref('callSignal/'+callContactUid+'/status').set('ended');
+        db.ref('callSignal/'+myUid+'/status').set('ended');
     }
     endCallUI('Call ended');
 }
 
 function endCallUI(reason) {
+    stopCallTimer();
     if (localStream) { localStream.getTracks().forEach(t => t.stop()); localStream = null; }
-    if (pc) { pc.close(); pc = null; }
+    if (pc) {
+        // Clean up all listeners before closing
+        try { pc.ontrack = null; pc.onicecandidate = null; pc.onconnectionstatechange = null; } catch(e) {}
+        pc.close(); pc = null;
+    }
     document.getElementById('call-overlay').classList.remove('active');
-    document.getElementById('remote-audio').srcObject = null;
+    const remoteAudio = document.getElementById('remote-audio');
+    remoteAudio.srcObject = null;
+    // Clean up signal data
+    if (callContactUid) {
+        db.ref('callSignal/'+callContactUid).off();
+        db.ref('callSignal/'+myUid+'/ice').off();
+    }
     callContactUid = null;
-    db.ref('calls/'+myUid).off();
+    isMuted = false;
+    isSpeaker = false;
+    document.getElementById('mute-btn').classList.remove('active');
+    document.getElementById('speaker-btn').classList.remove('active');
     showNotif(reason);
 }
 
@@ -2895,81 +2312,90 @@ function showCallUI(type, name) {
     document.getElementById('call-overlay').classList.add('active');
     document.getElementById('call-name').textContent = name;
     document.getElementById('call-initials').textContent = getInitials(name);
-    document.getElementById('call-status').textContent = type === 'outgoing' ? 'Calling...' : 'Connected';
-    if (type === 'incoming') {
-        setTimeout(() => {
-            const s = document.getElementById('call-status');
-            if (s) s.textContent = 'Connected';
-        }, 100);
-    }
+    document.getElementById('call-status').textContent = type === 'outgoing' ? 'Calling...' : 'Connecting...';
+    document.getElementById('call-timer').style.display = 'none';
+    document.getElementById('call-timer').textContent = '0:00';
+}
+
+function startCallTimer() {
+    callStartTime = Date.now();
+    document.getElementById('call-timer').style.display = 'block';
+    callTimerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - callStartTime) / 1000);
+        const m = Math.floor(elapsed / 60), s = elapsed % 60;
+        document.getElementById('call-timer').textContent = m + ':' + String(s).padStart(2,'0');
+    }, 1000);
+}
+
+function stopCallTimer() {
+    if (callTimerInterval) { clearInterval(callTimerInterval); callTimerInterval = null; }
+    callStartTime = null;
 }
 
 function toggleMute() {
     isMuted = !isMuted;
-    if (localStream) {
-        localStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
-    }
+    if (localStream) localStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
     const btn = document.getElementById('mute-btn');
-    btn.textContent = isMuted ? '🔇' : '🎤';
     btn.classList.toggle('active', isMuted);
+    btn.querySelector('span').textContent = isMuted ? 'Unmute' : 'Mute';
 }
 
-// ===================== UI HELPERS =====================
+function toggleSpeaker() {
+    isSpeaker = !isSpeaker;
+    const btn = document.getElementById('speaker-btn');
+    btn.classList.toggle('active', isSpeaker);
+    btn.querySelector('span').textContent = isSpeaker ? 'Earpiece' : 'Speaker';
+    // On mobile, attempt to route audio
+    try {
+        const remoteAudio = document.getElementById('remote-audio');
+        if (remoteAudio.setSinkId) {
+            remoteAudio.setSinkId(isSpeaker ? 'default' : '');
+        }
+    } catch(e) {}
+}
 
+// ─────────────────────────────────────────────
+//  NOTIFICATIONS
+// ─────────────────────────────────────────────
+let notifPermission = 'default';
+async function requestNotifications() {
+    if (!('Notification' in window)) return;
+    try { notifPermission = await Notification.requestPermission(); } catch(e) {}
+}
+requestNotifications();
+
+function showPushNotif(title, body) {
+    if (notifPermission !== 'granted') return;
+    if (document.visibilityState === 'visible') return;
+    try { new Notification(title, { body, icon: document.getElementById('logo-img')?.src || '' }); } catch(e) {}
+}
+
+// ─────────────────────────────────────────────
+//  UI HELPERS
+// ─────────────────────────────────────────────
 document.getElementById('mobile-back').onclick = () => {
     document.getElementById('sidebar').classList.toggle('mobile-open');
     document.getElementById('sidebar-backdrop').classList.toggle('show');
 };
-
 document.getElementById('sidebar-backdrop').onclick = () => {
     document.getElementById('sidebar').classList.remove('mobile-open');
     document.getElementById('sidebar-backdrop').classList.remove('show');
 };
+document.getElementById('img-preview-close').onclick = () => { document.getElementById('img-preview').classList.remove('show'); };
+window.showImgPreview = (src) => { document.getElementById('img-preview-src').src = src; document.getElementById('img-preview').classList.add('show'); };
 
-document.getElementById('img-preview-close').onclick = () => {
-    document.getElementById('img-preview').classList.remove('show');
-};
-
-window.showImgPreview = (src) => {
-    document.getElementById('img-preview-src').src = src;
-    document.getElementById('img-preview').classList.add('show');
-};
-
-function getInitials(name) {
-    if (!name) return '?';
-    return name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-}
-
-function escHtml(t) {
-    const d = document.createElement('div');
-    d.textContent = t;
-    return d.innerHTML;
-}
-
-function formatTime(ts) {
-    if (!ts) return '';
-    return new Date(ts).toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
-}
+function getInitials(name) { if (!name) return '?'; return name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(); }
+function escHtml(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+function formatTime(ts) { if (!ts) return ''; return new Date(ts).toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'}); }
 
 function showNotif(msg) {
-    const n = document.createElement('div');
-    n.className = 'notif';
-    n.textContent = msg;
-    document.body.appendChild(n);
-    setTimeout(() => n.remove(), 3500);
+    const n = document.createElement('div'); n.className = 'notif'; n.textContent = msg; document.body.appendChild(n);
+    setTimeout(() => { n.style.opacity = '0'; n.style.transform = 'translateY(10px)'; n.style.transition = 'opacity 0.3s, transform 0.3s'; setTimeout(() => n.remove(), 300); }, 3200);
 }
 
-function showAuthError(msg) {
-    const el = document.getElementById('auth-error');
-    el.textContent = msg;
-    el.classList.add('show');
-}
+function showAuthError(msg) { const el = document.getElementById('auth-error'); el.textContent = msg; el.classList.add('show'); }
 function hideAuthError() { document.getElementById('auth-error').classList.remove('show'); }
-function showContactError(msg) {
-    const el = document.getElementById('contact-error');
-    el.textContent = msg;
-    el.classList.add('show');
-}
+function showContactError(msg) { const el = document.getElementById('contact-error'); el.textContent = msg; el.classList.add('show'); }
 function hideContactError() { document.getElementById('contact-error').classList.remove('show'); }
 
 function firebaseErrMsg(code) {
@@ -2989,68 +2415,51 @@ function firebaseErrMsg(code) {
 }
 </script>
 
-
 <script>
-// ── Modal event delegation (runs after DOM is complete) ──
+// ── Event delegation for modals ──
 document.addEventListener('click', function(e) {
-    // Logout modal
-    if (e.target.id === 'logout-cancel' || (e.target.closest && e.target.closest('#logout-cancel'))) {
-        document.getElementById('logout-overlay').style.display = 'none';
-    }
-    if (e.target.id === 'logout-confirm' || (e.target.closest && e.target.closest('#logout-confirm'))) {
-        document.getElementById('logout-overlay').style.display = 'none';
-        auth.signOut();
-    }
-    // Delete contact modal
-    if (e.target.id === 'confirm-delete-cancel' || (e.target.closest && e.target.closest('#confirm-delete-cancel'))) {
-        document.getElementById('confirm-delete-overlay').style.display = 'none';
-        pendingDeleteUid = null;
-    }
-    if (e.target.id === 'confirm-delete-ok' || (e.target.closest && e.target.closest('#confirm-delete-ok'))) {
+    if (e.target.id === 'logout-cancel' || e.target.closest?.('#logout-cancel')) document.getElementById('logout-overlay').style.display = 'none';
+    if (e.target.id === 'logout-confirm' || e.target.closest?.('#logout-confirm')) { document.getElementById('logout-overlay').style.display = 'none'; auth.signOut(); }
+    if (e.target.id === 'confirm-delete-cancel' || e.target.closest?.('#confirm-delete-cancel')) { document.getElementById('confirm-delete-overlay').style.display = 'none'; pendingDeleteUid = null; }
+    if (e.target.id === 'confirm-delete-ok' || e.target.closest?.('#confirm-delete-ok')) {
         const uid = pendingDeleteUid;
         if (!uid) return;
         pendingDeleteUid = null;
         document.getElementById('confirm-delete-overlay').style.display = 'none';
-        // Remove from both sides
-        Promise.all([
-            db.ref('contacts/'+myUid+'/'+uid).remove(),
-            db.ref('contacts/'+uid+'/'+myUid).remove()
-        ]).then(() => {
-            // If this was the active chat, close it
+        Promise.all([db.ref('contacts/'+myUid+'/'+uid).remove(), db.ref('contacts/'+uid+'/'+myUid).remove()]).then(() => {
             if (activeContactUid === uid) {
-                activeContactUid = null;
-                activeContactName = '';
+                activeContactUid = null; activeContactName = '';
                 document.getElementById('toolbar-avatar').style.display = 'none';
                 document.getElementById('toolbar-info').style.display = 'none';
                 document.getElementById('toolbar-empty').style.display = '';
                 document.getElementById('call-btn').style.display = 'none';
+                document.getElementById('clear-messages-btn').style.display = 'none';
                 document.getElementById('messages-area').style.display = 'none';
                 document.getElementById('input-area').style.display = 'none';
                 document.getElementById('main-content').style.display = 'flex';
             }
             delete contactsData[uid];
+            delete unreadCounts[uid];
             renderContactsList();
             showNotif('Contact removed');
         });
     }
-    // Overlay backdrop clicks
-    if (e.target.id === 'logout-overlay') {
-        document.getElementById('logout-overlay').style.display = 'none';
-    }
-    if (e.target.id === 'confirm-delete-overlay') {
-        document.getElementById('confirm-delete-overlay').style.display = 'none';
-        pendingDeleteUid = null;
-    }
+    // Overlay backdrop close
+    if (e.target.id === 'logout-overlay') document.getElementById('logout-overlay').style.display = 'none';
+    if (e.target.id === 'confirm-delete-overlay') { document.getElementById('confirm-delete-overlay').style.display = 'none'; pendingDeleteUid = null; }
+    if (e.target.id === 'settings-overlay') document.getElementById('settings-overlay').style.display = 'none';
+    if (e.target.id === 'migration-overlay') document.getElementById('migration-overlay').style.display = 'none';
+    if (e.target.id === 'add-contact-overlay') document.getElementById('add-contact-overlay').style.display = 'none';
+    if (e.target.id === 'clear-messages-overlay') document.getElementById('clear-messages-overlay').style.display = 'none';
+    if (e.target.id === 'incoming-overlay') { /* don't close on backdrop, must use buttons */ }
 });
 </script>
 
 <script>
 // Mobile keyboard / viewport fix
-// When virtual keyboard opens, shrink the layout to fit visual viewport
 if (window.visualViewport) {
     function handleViewport() {
         const vv = window.visualViewport;
-        // Set app height to actual visible area
         document.documentElement.style.setProperty('--app-height', vv.height + 'px');
     }
     window.visualViewport.addEventListener('resize', handleViewport);
